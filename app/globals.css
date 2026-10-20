@@ -1,26 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Hind+Siliguri:wght@400;500;600&display=swap');
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --text-primary:    #1a1a1a;
+  --text-secondary:  #666666;
+  --text-disabled:   #a3a3a3;
+  --text-on-inverse: #ffffff;
+
+  --bg-default: #ffffff;
+  --bg-subtle:  #f7f7f7;
+
+  --surface-default: #ffffff;
+  --surface-inverse: #1a1a1a;
+
+  --border-default: #dadada;
+  --border-strong:  #1a1a1a;
+
+  --tile-off:        #ededed;
+  --tile-on:         #1a1a1a;
+  --tile-on-content: #ffffff;
+
+  --gray-0:   #ffffff;
+  --gray-100: #ededed;
+  --gray-300: #c2c2c2;
+  --gray-400: #a3a3a3;
+  --gray-500: #858585;
+  --gray-700: #4a4a4a;
+  --gray-800: #2e2e2e;
+  --gray-900: #1a1a1a;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Ensure everything stretches full width */
+html, body {
+  width: 100%;
+  min-width: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-default);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* All block-level page elements fill width */
+header, main, footer, section {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Centered inner container pattern */
+.container-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .container-inner {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+}
+
+/* Section vertical padding — mobile: 64px, desktop: 112px */
+.section-py {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+@media (min-width: 1024px) {
+  .section-py {
+    padding-top: 112px;
+    padding-bottom: 112px;
+  }
+}
+
+/* Input focus */
+input:focus,
+textarea:focus {
+  border-color: var(--border-strong) !important;
+  box-shadow: 0 0 0 3px rgba(26,26,26,0.08);
 }
