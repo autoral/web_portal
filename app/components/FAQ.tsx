@@ -2,87 +2,184 @@
 import Image from "next/image";
 import { useState } from "react";
 
-// Figma: bg-default px-120 py-112, gap-80 between intro and accordion
-// Left: w-400. Overline 12/600. H2 44/600/52/tracking-[-1px]
-// Help card: p-24 rounded-[20px] bg-subtle gap-12, icon 28×28
-//   Card title: 18/600/26. Card body: 16/400/26. Button: border-[1.5px] px-20 py-11 rounded-[999px] 15/500/22
-// Accordion items: border-t + border-b (first item), border-b (rest), py-24
-//   Question: 18/600/26. Answer: 16/400/26. Chevron: 28×28
-
 const faqs = [
-  { q: "Will my normal wall switches still work?",  a: "Yes. The hub works alongside your switches, and the app updates when someone uses a switch on the wall." },
-  { q: "What happens during load-shedding?",        a: "The hub remembers the last state of every device. As soon as power returns, everything restores automatically." },
-  { q: "Do I need internet for Autoral Home?",      a: "No. The app controls your home over your home Wi-Fi. Internet is only needed when you want remote access from outside." },
-  { q: "Who installs the hub?",                     a: "A trained Autoral installer comes to your home and fits the hub behind your switchboard in about 30 minutes." },
-  { q: "Is my home data safe?",                     a: "Yes. All local commands stay on your home Wi-Fi. Remote access uses end-to-end encryption. We never sell your data." },
+  {
+    q: "Will my normal wall switches still work?",
+    a: "Yes. The device works alongside your switches, and the app updates when someone uses a switch on the wall.",
+  },
+  {
+    q: "What happens during load-shedding?",
+    a: "The hub remembers every channel. When power comes back, each device returns to the state it was in.",
+  },
+  {
+    q: "Do I need internet for Autoral Home?",
+    a: "No. At home everything runs on your Wi-Fi. Internet is only needed to control your home from outside.",
+  },
+  {
+    q: "Who installs the device?",
+    a: "A trained Autoral installer fits and tests it behind your switchboard, usually in about 30 minutes.",
+  },
+  {
+    q: "Is my home data safe?",
+    a: "Control at home stays on your local network, and remote access is encrypted end to end.",
+  },
 ];
 
-function FAQItem({ q, a, first }: { q: string; a: string; first?: boolean }) {
-  const [open, setOpen] = useState(first ?? false);
-  return (
-    <div className={`border-b ${first ? "border-t" : ""}`} style={{ borderColor: "var(--border-default)" }}>
-      <button
-        className="flex items-center justify-between w-full text-left"
-        style={{ gap: 16, paddingBlock: 24 }}
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-      >
-        <span style={{ fontSize: 18, fontWeight: 600, lineHeight: "26px", color: "var(--text-primary)" }}>
-          {q}
-        </span>
-        <span className="shrink-0 transition-transform duration-200"
-          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", display: "inline-flex" }}>
-          <Image src="/icons/icon-arrow-down.svg" alt="" width={28} height={28} />
-        </span>
-      </button>
-      {open && (
-        <p style={{ fontSize: 16, lineHeight: "26px", color: "var(--text-secondary)", paddingBottom: 24 }}>
-          {a}
-        </p>
-      )}
-    </div>
-  );
-}
-
 export default function FAQ() {
-  return (
-    <section id="faq" style={{ width: "100%", display: "block", background: "var(--bg-default)" }}
-      aria-labelledby="faq-heading">
-      <div className="container-inner flex flex-col lg:flex-row items-start gap-12 lg:gap-[80px] section-py">
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-        {/* Left intro — Figma: w-400 gap-24 */}
-        <div className="flex flex-col w-full lg:w-[400px] shrink-0" style={{ gap: 24 }}>
-          <div className="flex flex-col" style={{ gap: 16 }}>
-            <p className="uppercase" style={{ fontSize: 12, fontWeight: 600, lineHeight: "16px", letterSpacing: "0.96px", color: "var(--text-secondary)" }}>
+  const toggle = (idx: number) => {
+    setOpenIndex(openIndex === idx ? null : idx);
+  };
+
+  return (
+    <section
+      id="faq"
+      className="w-full"
+      style={{ background: "#ffffff" }}
+      aria-labelledby="faq-heading"
+    >
+      <div className="container-inner flex flex-col lg:flex-row items-start justify-between section-py gap-12 lg:gap-20">
+        {/* Left Intro Column (Figma: w-400, gap-32) */}
+        <div className="flex flex-col w-full lg:w-[400px] shrink-0" style={{ gap: 32 }}>
+          <div className="flex flex-col gap-4">
+            <p
+              className="uppercase tracking-widest font-semibold"
+              style={{ fontSize: 12, lineHeight: "16px", color: "var(--primary)" }}
+            >
               FAQ
             </p>
-            <h2 id="faq-heading" style={{ fontSize: 44, fontWeight: 600, lineHeight: "52px", letterSpacing: "-1px", color: "var(--text-primary)" }}>
+            <h2
+              id="faq-heading"
+              className="text-3xl sm:text-4xl lg:text-[44px]"
+              style={{
+                fontWeight: 600,
+                lineHeight: "52px",
+                letterSpacing: "-1px",
+                color: "var(--text-primary)",
+              }}
+            >
               Questions people ask before buying
             </h2>
           </div>
 
-          {/* Help card — Figma: p-24 rounded-[20px] bg-subtle gap-12 */}
-          <div className="flex flex-col" style={{ gap: 12, padding: 24, borderRadius: 20, background: "var(--bg-subtle)" }}>
-            <Image src="/icons/icon-chat.svg" alt="" width={28} height={28} />
-            <p style={{ fontSize: 18, fontWeight: 600, lineHeight: "26px", color: "var(--text-primary)" }}>
+          {/* Help Card in #eaf3ff */}
+          <div
+            className="flex flex-col rounded-[24px] p-7 gap-3.5"
+            style={{ background: "var(--primary-subtle)" }}
+          >
+            <div
+              className="flex items-center justify-center w-10 h-10 rounded-full"
+              style={{ background: "rgba(0, 102, 219, 0.12)" }}
+            >
+              <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7 21L3.82083 24.1792C3.54861 24.4514 3.2375 24.5097 2.8875 24.3542C2.51806 24.2181 2.33333 23.9556 2.33333 23.5667V4.08333C2.33333 3.61667 2.50833 3.20833 2.85833 2.85833C3.20833 2.50833 3.61667 2.33333 4.08333 2.33333H23.9167C24.3833 2.33333 24.7917 2.50833 25.1417 2.85833C25.4917 3.20833 25.6667 3.61667 25.6667 4.08333V19.25C25.6667 19.7167 25.4917 20.125 25.1417 20.475C24.7917 20.825 24.3833 21 23.9167 21H7ZM6.24167 19.25H23.9167V4.08333H4.08333V21.5833L6.24167 19.25ZM7.875 16.3625H15.2542C15.5069 16.3625 15.7111 16.275 15.8667 16.1C16.0417 15.9444 16.1292 15.7403 16.1292 15.4875C16.1292 15.2347 16.0417 15.0208 15.8667 14.8458C15.6917 14.6708 15.4875 14.5931 15.2542 14.6125H7.875C7.62222 14.6125 7.41806 14.7 7.2625 14.875C7.0875 15.0306 7 15.2347 7 15.4875C7 15.7403 7.0875 15.9542 7.2625 16.1292C7.4375 16.3042 7.64167 16.3819 7.875 16.3625ZM7.875 12.5708H20.125C20.3778 12.5708 20.5819 12.4833 20.7375 12.3083C20.9125 12.1528 21 11.9486 21 11.6958C21 11.4431 20.9125 11.2389 20.7375 11.0833C20.5819 10.9083 20.3778 10.8208 20.125 10.8208H7.875C7.62222 10.8208 7.41806 10.9083 7.2625 11.0833C7.0875 11.2389 7 11.4431 7 11.6958C7 11.9486 7.0875 12.1528 7.2625 12.3083C7.4375 12.4833 7.62222 12.5708 7.875 12.5708ZM7.875 8.77917H20.125C20.3778 8.77917 20.5819 8.69167 20.7375 8.51667C20.9125 8.36111 21 8.15694 21 7.90417C21 7.65139 20.9125 7.44722 20.7375 7.29167C20.5819 7.11667 20.3778 7.02917 20.125 7.02917H7.875C7.62222 7.02917 7.41806 7.11667 7.2625 7.29167C7.0875 7.44722 7 7.65139 7 7.90417C7 8.15694 7.0875 8.36111 7.2625 8.51667C7.41806 8.69167 7.62222 8.77917 7.875 8.77917Z"
+                  fill="#0066DB"
+                />
+              </svg>
+            </div>
+            <span
+              style={{
+                fontSize: 18,
+                fontWeight: 600,
+                lineHeight: "26px",
+                color: "var(--primary-hover)",
+              }}
+            >
               Still have a question?
-            </p>
+            </span>
             <p style={{ fontSize: 16, lineHeight: "26px", color: "var(--text-secondary)" }}>
-              Message us on WhatsApp and an Autoral expert will reply.
+              Call, WhatsApp or Messenger. An Autoral expert will reply.
             </p>
-            <a href="https://wa.me/8801000000000" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center border-[1.5px] rounded-full w-fit transition-opacity hover:opacity-70"
-              style={{ padding: "11px 20px", fontSize: 15, fontWeight: 500, lineHeight: "22px", borderColor: "var(--border-strong)", color: "var(--text-primary)" }}>
-              Chat on WhatsApp
+            <a
+              href="https://wa.me/8801770066585"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full font-semibold text-white mt-1 transition-opacity hover:opacity-90 w-fit"
+              style={{
+                height: 48,
+                paddingLeft: 24,
+                paddingRight: 24,
+                background: "var(--primary)",
+                fontSize: 16,
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
+              }}
+            >
+              <Image src="/icons/icon-whatsapp.svg" alt="" width={18} height={18} className="brightness-0 invert" />
+              <span>Chat on WhatsApp</span>
             </a>
           </div>
         </div>
 
-        {/* Accordion — Figma: flex-1 */}
-        <div className="flex flex-col flex-1 w-full">
-          {faqs.map((faq, i) => (
-            <FAQItem key={faq.q} q={faq.q} a={faq.a} first={i === 0} />
-          ))}
+        {/* Right Accordion Column (Figma: w-720, gap-12) */}
+        <div className="flex flex-col flex-1 w-full lg:max-w-[720px] gap-3">
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={faq.q}
+                className="flex flex-col rounded-[20px] border transition-all"
+                style={{
+                  background: "#ffffff",
+                  borderColor: isOpen ? "var(--primary)" : "var(--border-default)",
+                  padding: "22px 24px",
+                  boxShadow: isOpen ? "0 4px 16px rgba(0, 102, 219, 0.08)" : "none",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => toggle(i)}
+                  className="flex items-center justify-between text-left w-full gap-4 cursor-pointer"
+                  aria-expanded={isOpen}
+                >
+                  <span
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 600,
+                      lineHeight: "26px",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    {faq.q}
+                  </span>
+                  <div
+                    className="flex items-center justify-center shrink-0 w-9 h-9 rounded-full transition-colors"
+                    style={{
+                      background: isOpen ? "var(--primary)" : "var(--bg-subtle)",
+                    }}
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke={isOpen ? "#ffffff" : "#0e1726"}
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <p
+                    className="pt-3"
+                    style={{
+                      fontSize: 16,
+                      lineHeight: "26px",
+                      color: "var(--text-secondary)",
+                    }}
+                  >
+                    {faq.a}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
