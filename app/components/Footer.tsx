@@ -1,88 +1,112 @@
 import Image from "next/image";
 
-// Figma: bg-surface-inverse, px-120 pt-72 pb-32, top stack gap-64, bottom-bar pt-24 border-t
-// Brand col: w-360 gap-16. Logo mark: 36×36 rounded-[10px] bg-white icon 22×22
-//   Wordmark: 18/600/26 gray-0. Tagline: 16/400/26 gray-400
-//   Social icons: gap-10, each 44×44 rounded-[22px] border-gray-700, icon 20×20
-// Link cols: gap-36 between cols. Col header: 15/500/22 gray-0. Links: 14/400/20 gray-400 gap-14
-// Bottom bar: 14/400/20. Copyright: gray-500. Lang: gray-400
-
 const links = {
-  Product: ["Features", "Autoral Hub", "How it works", "Download the app"],
-  Company: ["About us", "Partner with us", "Contact"],
-  Support: ["FAQ", "Installation guide", "Privacy policy", "Terms of use"],
-};
-
-const hrefs: Record<string, string> = {
-  "Features": "#features", "Autoral Hub": "#hub", "How it works": "#how-it-works",
-  "Download the app": "#download", "About us": "#about", "Contact": "#contact", "FAQ": "#faq",
+  Product: [
+    { label: "Features", href: "#features" },
+    { label: "Autoral device", href: "#device" },
+    { label: "How it works", href: "#how-it-works" },
+    { label: "Download the app", href: "#download" },
+  ],
+  Company: [
+    { label: "About us", href: "#about" },
+    { label: "Partner with us", href: "#contact" },
+    { label: "Contact", href: "#contact" },
+  ],
+  Support: [
+    { label: "FAQ", href: "#faq" },
+    { label: "Installation guide", href: "#how-it-works" },
+    { label: "Privacy policy", href: "#" },
+    { label: "Terms of use", href: "#" },
+  ],
 };
 
 const socials = [
-  { icon: "/icons/icon-facebook.svg",       href: "#", label: "Facebook" },
-  { icon: "/icons/icon-youtube.svg",        href: "#", label: "YouTube" },
-  { icon: "/icons/icon-whatsapp-footer.svg",href: "#", label: "WhatsApp" },
+  { icon: "/icons/icon-facebook.svg", href: "#", label: "Facebook" },
+  { icon: "/icons/icon-messenger.svg", href: "#", label: "Messenger" },
+  { icon: "/icons/icon-youtube.svg", href: "#", label: "YouTube" },
+  { icon: "/icons/icon-whatsapp-footer.svg", href: "https://wa.me/8801770066585", label: "WhatsApp" },
 ];
 
 export default function Footer() {
   return (
-    <footer style={{ width: "100%", display: "block", background: "var(--surface-inverse)" }} aria-label="Site footer">
-      <div className="container-inner flex flex-col" style={{ paddingTop: 56, paddingBottom: 32, gap: 48 }}>
-
-        {/* Top row — Figma: gap-64 */}
-        <div className="flex flex-col lg:flex-row" style={{ gap: 64 }}>
-
-          {/* Brand — Figma: w-360 gap-16 */}
-          <div className="flex flex-col lg:w-[360px] shrink-0" style={{ gap: 16 }}>
-            <div className="flex items-center" style={{ gap: 10 }}>
-              <div className="flex items-center justify-center shrink-0"
-                style={{ width: 36, height: 36, borderRadius: 10, background: "white" }}>
-                <Image src="/icons/icon-home-footer.svg" alt="" width={22} height={22} />
+    <footer
+      className="w-full text-white"
+      style={{
+        background: "var(--surface-dark)",
+      }}
+      aria-label="Site footer"
+    >
+      <div className="container-inner pt-20 pb-10 flex flex-col gap-14">
+        {/* Top Grid */}
+        <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-16">
+          {/* Brand Stack (Figma: w-360) */}
+          <div className="flex flex-col w-full lg:w-[360px] shrink-0 gap-5">
+            <div className="flex items-center gap-2.5">
+              <div
+                className="flex items-center justify-center shrink-0 w-10 h-10 rounded-[12px]"
+                style={{ background: "var(--primary)" }}
+              >
+                <Image src="/icons/icon-home.svg" alt="" width={22} height={22} className="brightness-0 invert" />
               </div>
-              <span className="whitespace-nowrap" style={{ fontSize: 18, fontWeight: 600, lineHeight: "26px", color: "white" }}>
-                Autoral Home
-              </span>
+              <span className="font-semibold text-lg text-white">Autoral Home</span>
             </div>
-            <p style={{ fontSize: 16, lineHeight: "26px", color: "var(--gray-400)" }}>
+
+            <p style={{ fontSize: 16, lineHeight: "26px", color: "rgba(255, 255, 255, 0.85)" }}>
               Your whole home, one tap away. Smart home automation designed for Bangladesh.
             </p>
-            <div className="flex items-center" style={{ gap: 10 }}>
-              {socials.map(s => (
-                <a key={s.label} href={s.href} aria-label={s.label}
-                  className="flex items-center justify-center border transition-opacity hover:opacity-70"
-                  style={{ width: 44, height: 44, borderRadius: 22, borderColor: "var(--gray-700)" }}>
-                  <Image src={s.icon} alt="" width={20} height={20} />
+
+            {/* Social Icons (4 circles) */}
+            <div className="flex items-center gap-3 pt-1">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  aria-label={s.label}
+                  target={s.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-11 h-11 rounded-full border transition-all hover:bg-white/10"
+                  style={{ borderColor: "rgba(255, 255, 255, 0.2)" }}
+                >
+                  <Image src={s.icon} alt="" width={18} height={18} className="brightness-0 invert" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Link columns */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 flex-1" style={{ gap: 36 }}>
-            {(Object.entries(links) as [string, string[]][]).map(([group, items]) => (
-              <div key={group} className="flex flex-col" style={{ gap: 14 }}>
-                <p style={{ fontSize: 15, fontWeight: 500, lineHeight: "22px", color: "white" }}>{group}</p>
-                {items.map(item => (
-                  <a key={item} href={hrefs[item] ?? "#"}
-                    className="transition-opacity hover:opacity-70"
-                    style={{ fontSize: 14, lineHeight: "20px", color: "var(--gray-400)" }}>
-                    {item}
-                  </a>
-                ))}
+          {/* Links Columns */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-14 flex-1 max-w-[680px]">
+            {Object.entries(links).map(([category, items]) => (
+              <div key={category} className="flex flex-col gap-4">
+                <span style={{ fontSize: 15, fontWeight: 500, color: "#ffffff" }}>
+                  {category}
+                </span>
+                <div className="flex flex-col gap-3">
+                  {items.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className="text-sm transition-opacity hover:opacity-100 opacity-80"
+                      style={{ color: "#ffffff" }}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Bottom bar — Figma: border-t gray-800 pt-24 */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-t"
-          style={{ paddingTop: 24, borderColor: "var(--gray-800)", gap: 8 }}>
-          <p style={{ fontSize: 14, lineHeight: "20px", color: "var(--gray-500)" }}>
+        {/* Bottom Bar */}
+        <div
+          className="flex flex-col sm:flex-row sm:items-center justify-between pt-6 border-t gap-3"
+          style={{ borderColor: "rgba(255, 255, 255, 0.12)" }}
+        >
+          <p style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.6)" }}>
             © 2026 Autoral Home Automation. All rights reserved.
           </p>
-          <p style={{ fontSize: 14, lineHeight: "20px", color: "var(--gray-400)" }}>
-            English ·{" "}
-            <span style={{ fontFamily: "'Hind Siliguri', sans-serif" }}>বাংলা</span>
+          <p style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.75)" }}>
+            English · <span style={{ fontFamily: "'Hind Siliguri', sans-serif" }}>বাংলা</span>
           </p>
         </div>
       </div>

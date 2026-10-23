@@ -3,148 +3,231 @@ import Image from "next/image";
 import { useState } from "react";
 
 const navLinks = [
-  { label: "Features",     href: "#features" },
-  { label: "Autoral Hub",  href: "#hub" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Download",     href: "#download" },
-  { label: "About",        href: "#about" },
-  { label: "Contact",      href: "#contact" },
+  { label: "Features",       href: "#features" },
+  { label: "Autoral device", href: "#device" },
+  { label: "How it works",   href: "#how-it-works" },
+  { label: "Download",       href: "#download" },
+  { label: "About",          href: "#about" },
+  { label: "Contact",        href: "#contact" },
 ];
 
 export default function Header() {
-  const [lang, setLang]         = useState<"EN" | "BN">("EN");
-  const [mobileOpen, setMobile] = useState(false);
+  const [lang, setLang] = useState<"EN" | "BN">("EN");
+  const [activeNav, setActiveNav] = useState("Features");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <header
-      style={{ position: "sticky", top: 0, zIndex: 50, width: "100%", display: "block", background: "var(--bg-default)", borderBottom: "1px solid var(--border-default)" }}
+      className="sticky top-0 z-50 w-full transition-all"
+      style={{
+        background: "rgba(255, 255, 255, 0.85)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        borderBottom: "1px solid var(--border-default)",
+      }}
     >
-      {/* ── Desktop / wide nav ── */}
-      <div className="container-inner" style={{ height: 80, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-
+      <div className="container-inner flex items-center justify-between" style={{ height: 85 }}>
         {/* Logo */}
-        <a href="/" className="flex items-center gap-[10px] shrink-0">
+        <a href="/" className="flex items-center gap-[10px] shrink-0" aria-label="Autoral Home">
           <div
-            className="flex items-center justify-center rounded-[10px] shrink-0"
-            style={{ background: "var(--surface-inverse)", width: 36, height: 36 }}
-          >
-            <Image src="/icons/icon-home.svg" alt="" width={22} height={22} />
-          </div>
-          <div className="flex flex-col overflow-hidden whitespace-nowrap">
-            <span
-              className="font-semibold"
-              style={{ fontSize: 18, lineHeight: "26px", color: "var(--text-primary)" }}
-            >
-              Autoral Home
-            </span>
-            <span
-              style={{
-                fontFamily: "'Hind Siliguri', sans-serif",
-                fontSize: 11,
-                lineHeight: "normal",
-                color: "var(--text-secondary)",
-              }}
-            >
-              অটোরাল হোম
-            </span>
-          </div>
-        </a>
-
-        {/* Nav — hidden on mobile */}
-        <nav className="hidden lg:flex items-center" style={{ gap: 36 }} aria-label="Main navigation">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="transition-opacity hover:opacity-60 whitespace-nowrap"
-              style={{ fontSize: 15, fontWeight: 500, lineHeight: "22px", color: "var(--text-secondary)" }}
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* Actions */}
-        <div className="hidden lg:flex items-center" style={{ gap: 16 }}>
-          {/* Language toggle — Figma: border, p-[4px], inner px-[12px] py-[6px], text 14px */}
-          <div
-            className="flex items-start rounded-full border"
-            style={{ padding: 4, borderColor: "var(--border-default)" }}
-          >
-            {(["EN", "BN"] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className="rounded-full transition-colors"
-                style={{
-                  padding: "6px 12px",
-                  fontSize: 14,
-                  lineHeight: "20px",
-                  fontFamily: l === "BN" ? "'Hind Siliguri', sans-serif" : "inherit",
-                  background: lang === l ? "var(--tile-off)" : "transparent",
-                  color: lang === l ? "var(--text-primary)" : "var(--text-secondary)",
-                }}
-              >
-                {l === "EN" ? "EN" : "বাংলা"}
-              </button>
-            ))}
-          </div>
-
-          {/* Primary CTA — Figma: px-[20px] py-[11px] rounded-[999px] text-15 Medium */}
-          <a
-            href="#download"
-            className="flex items-center gap-2 rounded-full transition-opacity hover:opacity-80 whitespace-nowrap"
+            className="flex items-center justify-center shrink-0"
             style={{
-              padding: "11px 20px",
-              fontSize: 15,
-              fontWeight: 500,
-              lineHeight: "22px",
-              background: "var(--surface-inverse)",
-              color: "var(--text-on-inverse)",
+              width: 40,
+              height: 40,
+              borderRadius: 12,
+              background: "var(--primary)",
             }}
           >
-            Get the app
+            <Image src="/icons/icon-home.svg" alt="" width={22} height={22} className="brightness-0 invert" />
+          </div>
+          <span
+            style={{
+              fontSize: 18,
+              fontWeight: 600,
+              lineHeight: "26px",
+              color: "var(--text-primary)",
+              letterSpacing: "0px",
+            }}
+          >
+            Autoral Home
+          </span>
+        </a>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center" style={{ gap: 36 }} aria-label="Main navigation">
+          {navLinks.map((item) => {
+            const isActive = activeNav === item.label;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setActiveNav(item.label)}
+                className="relative flex flex-col items-center py-1 transition-colors hover:text-[#0066db]"
+                style={{
+                  fontSize: 15,
+                  fontWeight: 500,
+                  lineHeight: "22px",
+                  color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
+                }}
+              >
+                <span>{item.label}</span>
+                {isActive && (
+                  <span
+                    className="absolute -bottom-1 w-full"
+                    style={{
+                      height: 2,
+                      borderRadius: 1,
+                      background: "var(--primary)",
+                    }}
+                  />
+                )}
+              </a>
+            );
+          })}
+        </nav>
+
+        {/* Desktop Actions */}
+        <div className="hidden lg:flex items-center" style={{ gap: 16 }}>
+          {/* Language Toggle */}
+          <div
+            className="flex items-center border"
+            style={{
+              padding: 4,
+              gap: 2,
+              borderRadius: 999,
+              background: "var(--bg-subtle)",
+              borderColor: "var(--border-default)",
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setLang("EN")}
+              className="transition-colors cursor-pointer"
+              style={{
+                padding: "6px 14px",
+                borderRadius: 999,
+                fontSize: 15,
+                fontWeight: 500,
+                lineHeight: "22px",
+                background: lang === "EN" ? "var(--text-primary)" : "transparent",
+                color: lang === "EN" ? "var(--text-white)" : "var(--text-secondary)",
+              }}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              onClick={() => setLang("BN")}
+              className="transition-colors cursor-pointer"
+              style={{
+                padding: "6px 14px",
+                borderRadius: 999,
+                fontFamily: "'Hind Siliguri', sans-serif",
+                fontSize: 15,
+                fontWeight: 500,
+                lineHeight: "22px",
+                background: lang === "BN" ? "var(--text-primary)" : "transparent",
+                color: lang === "BN" ? "var(--text-white)" : "var(--text-secondary)",
+              }}
+            >
+              বাংলা
+            </button>
+          </div>
+
+          {/* Primary CTA */}
+          <a
+            href="#download"
+            className="inline-flex items-center gap-2 transition-transform active:scale-[0.98] hover:opacity-95"
+            style={{
+              height: 48,
+              paddingLeft: 24,
+              paddingRight: 24,
+              borderRadius: 24,
+              background: "var(--primary)",
+              color: "var(--text-white)",
+              fontSize: 16,
+              fontWeight: 600,
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span>Get the app</span>
           </a>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile menu button */}
         <button
-          className="lg:hidden p-2 -mr-2"
-          onClick={() => setMobile(!mobileOpen)}
-          aria-label="Toggle menu"
-          aria-expanded={mobileOpen}
+          type="button"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100"
+          aria-label="Toggle navigation menu"
         >
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            {mobileOpen
-              ? <><line x1="4" y1="4" x2="18" y2="18"/><line x1="18" y1="4" x2="4" y2="18"/></>
-              : <><line x1="2" y1="5" x2="20" y2="5"/><line x1="2" y1="11" x2="20" y2="11"/><line x1="2" y1="17" x2="20" y2="17"/></>
-            }
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            {mobileOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            )}
           </svg>
         </button>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="container-inner" style={{ borderTop: "1px solid var(--border-default)", display: "flex", flexDirection: "column", gap: 4, paddingTop: 16, paddingBottom: 16 }}>
-          {navLinks.map((l) => (
+        <div className="lg:hidden border-t px-6 py-6 flex flex-col gap-4 bg-white" style={{ borderColor: "var(--border-default)" }}>
+          {navLinks.map((item) => (
             <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setMobile(false)}
-              className="py-3 border-b last:border-0 font-medium"
-              style={{ fontSize: 15, color: "var(--text-primary)", borderColor: "var(--border-default)" }}
+              key={item.href}
+              href={item.href}
+              onClick={() => {
+                setActiveNav(item.label);
+                setMobileOpen(false);
+              }}
+              className="text-base font-medium py-1"
+              style={{ color: "var(--text-primary)" }}
             >
-              {l.label}
+              {item.label}
             </a>
           ))}
-          <a
-            href="#download"
-            onClick={() => setMobile(false)}
-            className="mt-3 flex items-center justify-center py-3 rounded-full font-medium"
-            style={{ fontSize: 15, background: "var(--surface-inverse)", color: "var(--text-on-inverse)" }}
-          >
-            Get the app
-          </a>
+          <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: "var(--border-default)" }}>
+            <div className="flex border rounded-full p-1" style={{ borderColor: "var(--border-default)" }}>
+              <button
+                type="button"
+                onClick={() => setLang("EN")}
+                className="px-4 py-1 rounded-full text-sm font-medium"
+                style={{
+                  background: lang === "EN" ? "var(--text-primary)" : "transparent",
+                  color: lang === "EN" ? "white" : "var(--text-secondary)",
+                }}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLang("BN")}
+                className="px-4 py-1 rounded-full text-sm font-medium"
+                style={{
+                  fontFamily: "'Hind Siliguri', sans-serif",
+                  background: lang === "BN" ? "var(--text-primary)" : "transparent",
+                  color: lang === "BN" ? "white" : "var(--text-secondary)",
+                }}
+              >
+                বাংলা
+              </button>
+            </div>
+            <a
+              href="#download"
+              onClick={() => setMobileOpen(false)}
+              className="px-5 py-2.5 rounded-full text-sm font-semibold text-white"
+              style={{ background: "var(--primary)" }}
+            >
+              Get the app
+            </a>
+          </div>
         </div>
       )}
     </header>
