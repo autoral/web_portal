@@ -86,8 +86,9 @@ export default function MollaHub() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
             {/* MH-4 (Figma 4239:1133: 301x140, pad 20, rounded 20, 1px border #D8E1EC, bg-white) */}
             <div
-              className="flex flex-col rounded-[20px] border h-[140px] bg-white"
+              className="flex flex-col rounded-[20px] border h-[140px]"
               style={{
+                background: "var(--bg-white)",
                 borderColor: "var(--border-default)",
                 padding: 20,
                 gap: 4,

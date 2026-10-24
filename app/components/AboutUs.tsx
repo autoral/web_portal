@@ -97,8 +97,9 @@ export default function AboutUs() {
           {values.map((v) => (
             <div
               key={v.title}
-              className="flex items-start p-6 rounded-[20px] border figma-card-shadow transition-transform hover:-translate-y-0.5 bg-white"
+              className="flex items-start p-6 rounded-[20px] border figma-card-shadow transition-transform hover:-translate-y-0.5"
               style={{
+                background: "var(--bg-white)",
                 borderColor: "var(--border-default)",
                 gap: 20,
               }}
@@ -110,11 +111,11 @@ export default function AboutUs() {
                   width: 56,
                   height: 56,
                   borderRadius: 16,
-                  background: "#EAF3FF",
+                  background: "var(--primary-subtle)",
                 }}
               >
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d={v.path} fill="#0052B3" />
+                  <path d={v.path} fill="var(--primary)" />
                 </svg>
               </div>
 

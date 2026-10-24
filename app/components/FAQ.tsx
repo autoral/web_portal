@@ -36,7 +36,7 @@ export default function FAQ() {
     <section
       id="faq"
       className="w-full"
-      style={{ background: "#ffffff" }}
+      style={{ background: "var(--bg-white)" }}
       aria-labelledby="faq-heading"
     >
       <div className="container-inner flex flex-col lg:flex-row items-start justify-between section-py gap-12 lg:gap-20">
@@ -121,7 +121,7 @@ export default function FAQ() {
                 key={faq.q}
                 className="flex flex-col rounded-[20px] border transition-all"
                 style={{
-                  background: "#ffffff",
+                  background: "var(--bg-white)",
                   borderColor: isOpen ? "var(--primary)" : "var(--border-default)",
                   padding: "22px 24px",
                   boxShadow: isOpen ? "0 4px 16px rgba(0, 102, 219, 0.08)" : "none",
@@ -154,7 +154,7 @@ export default function FAQ() {
                       height="14"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke={isOpen ? "#ffffff" : "#0e1726"}
+                      stroke={isOpen ? "#ffffff" : "var(--text-primary)"}
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"

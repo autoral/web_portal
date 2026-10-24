@@ -92,8 +92,9 @@ export default function WhatYouCanControl() {
           {categories.map((cat) => (
             <div
               key={cat.title}
-              className="flex flex-col rounded-[24px] border figma-card-shadow transition-transform hover:-translate-y-1 bg-white"
+              className="flex flex-col rounded-[24px] border figma-card-shadow transition-transform hover:-translate-y-1"
               style={{
+                background: "var(--bg-white)",
                 borderColor: "var(--border-default)",
                 padding: 28,
                 gap: 28,

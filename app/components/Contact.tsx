@@ -149,8 +149,9 @@ export default function Contact() {
 
         {/* Right Contact Form Card (Figma: w-656, rounded-32, p-10) */}
         <div
-          className="flex flex-1 flex-col w-full lg:max-w-[656px] bg-white rounded-[32px] border figma-card-shadow"
+          className="flex flex-1 flex-col w-full lg:max-w-[656px] rounded-[32px] border figma-card-shadow"
           style={{
+            background: "var(--bg-white)",
             padding: 40,
             borderColor: "var(--border-default)",
             gap: 24,

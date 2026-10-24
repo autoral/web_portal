@@ -2,7 +2,8 @@
 
 @import "tailwindcss";
 
-:root {
+:root,
+html[data-theme="light"] {
   /* Brand colors */
   --primary:         #0066db;
   --primary-hover:   #0052b3;
@@ -21,6 +22,16 @@
   --bg-white:        #ffffff;
   --bg-subtle:       #edf2f8;
   --surface-dark:    #0e1726;
+
+  /* Gradients & Special Surfaces */
+  --header-bg:          rgba(255, 255, 255, 0.85);
+  --hero-bg-gradient:   linear-gradient(180deg, #eaf3ff 0%, rgba(234, 243, 255, 0.7) 35%, rgba(245, 248, 252, 0) 100%);
+  --hero-btn-bg:        rgba(255, 255, 255, 0.72);
+  --lang-active-bg:     #0e1726;
+  --lang-active-color:  #ffffff;
+  --download-banner-bg: #0066db;
+  --download-qr-bg:     rgba(255, 255, 255, 0.28);
+  --download-qr-border: rgba(255, 255, 255, 0.9);
 
   /* Borders & Strokes */
   --border-default:  #d8e1ec;
@@ -43,6 +54,77 @@
   --cat-power-text:      #243d0b;
   --cat-security-bg:     #dee1fb;
   --cat-security-text:   #1c2360;
+}
+
+html.dark,
+:root.dark,
+[data-theme="dark"] {
+  /* Brand colors */
+  --primary:         #1e80f0;
+  --primary-hover:   #3b93f6;
+  --primary-subtle:  #142540;
+  --primary-ice:     #0f1d33;
+
+  /* Text colors */
+  --text-primary:    #f5f8fc;
+  --text-secondary:  #9aa8ba;
+  --text-muted:      #687990;
+  --text-disabled:   #465468;
+  --text-white:      #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --bg-page:         #0b111c;
+  --bg-white:        #131c2d;
+  --bg-subtle:       #1a263c;
+  --surface-dark:    #070c16;
+
+  /* Gradients & Special Surfaces */
+  --header-bg:          rgba(11, 17, 28, 0.85);
+  --hero-bg-gradient:   linear-gradient(180deg, rgba(30, 128, 240, 0.16) 0%, rgba(15, 29, 51, 0.6) 35%, rgba(11, 17, 28, 0) 100%);
+  --hero-btn-bg:        rgba(26, 38, 60, 0.72);
+  --lang-active-bg:     #f5f8fc;
+  --lang-active-color:  #0e1726;
+  --download-banner-bg: #0052b3;
+  --download-qr-bg:     rgba(11, 17, 28, 0.45);
+  --download-qr-border: rgba(255, 255, 255, 0.22);
+
+  /* Borders & Strokes */
+  --border-default:  #1e2d44;
+  --border-focus:    #1e80f0;
+
+  /* Status */
+  --status-green:      #2ecc71;
+  --status-green-bg:   rgba(46, 204, 113, 0.16);
+
+  /* Category colors */
+  --cat-lighting-bg:     rgba(255, 179, 0, 0.16);
+  --cat-lighting-text:   #ffd066;
+  --cat-cooling-bg:      rgba(6, 182, 212, 0.16);
+  --cat-cooling-text:    #67e8f9;
+  --cat-water-bg:        rgba(249, 115, 22, 0.16);
+  --cat-water-text:      #fdba74;
+  --cat-ent-bg:          rgba(236, 72, 153, 0.16);
+  --cat-ent-text:        #f472b6;
+  --cat-power-bg:        rgba(132, 204, 22, 0.16);
+  --cat-power-text:      #bef264;
+  --cat-security-bg:     rgba(99, 102, 241, 0.16);
+  --cat-security-text:   #a5b4fc;
+}
+
+/* Dark mode utility adaptions */
+html.dark .bg-white,
+[data-theme="dark"] .bg-white {
+  background-color: var(--bg-white) !important;
+}
+
+html.dark header,
+[data-theme="dark"] header {
+  background: rgba(11, 17, 28, 0.85) !important;
+}
+
+html.dark .figma-card-shadow,
+[data-theme="dark"] .figma-card-shadow {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 @layer base {

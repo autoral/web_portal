@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useTheme } from "./ThemeProvider";
 
 function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
   const isGoogle = store === "Google Play";
@@ -33,12 +34,15 @@ function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
 }
 
 export default function Hero() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <section
       aria-label="Hero"
       className="relative w-full overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, #eaf3ff 0%, rgba(234, 243, 255, 0.7) 35%, rgba(245, 248, 252, 0) 100%)",
+        background: "var(--hero-bg-gradient)",
       }}
     >
       <div className="container-inner pt-12 pb-16 lg:pt-[72px] lg:pb-[88px] flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-12">
@@ -46,10 +50,11 @@ export default function Hero() {
         <div className="flex flex-col w-full lg:w-[600px] shrink-0" style={{ gap: 28 }}>
           {/* Eyebrow badge */}
           <div
-            className="inline-flex items-center self-start border rounded-full bg-white shadow-xs"
+            className="inline-flex items-center self-start border rounded-full shadow-xs"
             style={{
               gap: 8,
               padding: "8px 16px 8px 12px",
+              background: "var(--bg-white)",
               borderColor: "var(--border-default)",
             }}
           >
@@ -98,12 +103,12 @@ export default function Hero() {
           <div className="flex flex-wrap items-center gap-6 pt-1">
             <a
               href="#how-it-works"
-              className="inline-flex items-center gap-2 border rounded-full transition-all hover:bg-white"
+              className="inline-flex items-center gap-2 border rounded-full transition-all hover:opacity-90"
               style={{
                 height: 48,
                 paddingLeft: 24,
                 paddingRight: 24,
-                background: "rgba(255, 255, 255, 0.72)",
+                background: "var(--hero-btn-bg)",
                 borderColor: "var(--border-default)",
                 backdropFilter: "blur(24px)",
                 boxShadow: "0 8px 32px rgba(10, 42, 92, 0.08)",
@@ -132,13 +137,27 @@ export default function Hero() {
 
         {/* Right Visual Column (Figma: 540x680 exact exported high-res render) */}
         <div className="relative shrink-0 flex items-center justify-center w-full lg:w-[540px]">
+          {/* Light Theme Phone Mockup */}
           <Image
-            src="/images/hero-visual.png"
+            src="/images/hero-visual.svg"
             alt="Autoral Home app interface with phone and smart device controls"
-            width={540}
-            height={680}
+            width={750}
+            height={900}
             priority
-            className="w-full h-auto object-contain max-w-[540px]"
+            className={`w-full h-auto object-contain max-w-[540px] transition-opacity duration-300 ${
+              isDark ? "opacity-0 absolute pointer-events-none" : "opacity-100"
+            }`}
+          />
+          {/* Dark Theme Phone Mockup (Figma node 4438:94698) */}
+          <Image
+            src="/images/hero-visual-dark.svg"
+            alt="Autoral Home app interface with phone and smart device controls (Dark mode)"
+            width={750}
+            height={900}
+            priority
+            className={`w-full h-auto object-contain max-w-[540px] transition-opacity duration-300 ${
+              isDark ? "opacity-100" : "opacity-0 absolute pointer-events-none"
+            }`}
           />
         </div>
       </div>

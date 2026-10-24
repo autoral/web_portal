@@ -42,7 +42,7 @@ export default function AppFeatures() {
     <section
       id="app-features"
       className="w-full"
-      style={{ background: "#ffffff" }}
+      style={{ background: "var(--bg-white)" }}
       aria-labelledby="features-heading"
     >
       <div className="container-inner flex flex-col items-center section-py gap-14">
@@ -91,11 +91,11 @@ export default function AppFeatures() {
                   width: 56,
                   height: 56,
                   borderRadius: 16,
-                  background: "#EAF3FF",
+                  background: "var(--primary-subtle)",
                 }}
               >
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d={feat.path} fill="#0052B3" />
+                  <path d={feat.path} fill="var(--primary)" />
                 </svg>
               </div>
 

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { label: "Features",       href: "#features" },
@@ -20,7 +21,7 @@ export default function Header() {
     <header
       className="sticky top-0 z-50 w-full transition-all"
       style={{
-        background: "rgba(255, 255, 255, 0.85)",
+        background: "var(--header-bg)",
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
         borderBottom: "1px solid var(--border-default)",
@@ -87,7 +88,10 @@ export default function Header() {
         </nav>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center" style={{ gap: 16 }}>
+        <div className="hidden lg:flex items-center" style={{ gap: 14 }}>
+          {/* Theme Toggle Button */}
+          <ThemeToggle />
+
           {/* Language Toggle */}
           <div
             className="flex items-center border"
@@ -109,8 +113,8 @@ export default function Header() {
                 fontSize: 15,
                 fontWeight: 500,
                 lineHeight: "22px",
-                background: lang === "EN" ? "var(--text-primary)" : "transparent",
-                color: lang === "EN" ? "var(--text-white)" : "var(--text-secondary)",
+                background: lang === "EN" ? "var(--lang-active-bg)" : "transparent",
+                color: lang === "EN" ? "var(--lang-active-color)" : "var(--text-secondary)",
               }}
             >
               EN
@@ -126,8 +130,8 @@ export default function Header() {
                 fontSize: 15,
                 fontWeight: 500,
                 lineHeight: "22px",
-                background: lang === "BN" ? "var(--text-primary)" : "transparent",
-                color: lang === "BN" ? "var(--text-white)" : "var(--text-secondary)",
+                background: lang === "BN" ? "var(--lang-active-bg)" : "transparent",
+                color: lang === "BN" ? "var(--lang-active-color)" : "var(--text-secondary)",
               }}
             >
               বাংলা
@@ -163,7 +167,8 @@ export default function Header() {
         <button
           type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100"
+          className="lg:hidden p-2 rounded-lg transition-colors hover:bg-[var(--bg-subtle)]"
+          style={{ color: "var(--text-primary)" }}
           aria-label="Toggle navigation menu"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -178,7 +183,7 @@ export default function Header() {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="lg:hidden border-t px-6 py-6 flex flex-col gap-4 bg-white" style={{ borderColor: "var(--border-default)" }}>
+        <div className="lg:hidden border-t px-6 py-6 flex flex-col gap-4 bg-[var(--bg-white)]" style={{ borderColor: "var(--border-default)" }}>
           {navLinks.map((item) => (
             <a
               key={item.href}
@@ -193,36 +198,39 @@ export default function Header() {
               {item.label}
             </a>
           ))}
-          <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: "var(--border-default)" }}>
-            <div className="flex border rounded-full p-1" style={{ borderColor: "var(--border-default)" }}>
-              <button
-                type="button"
-                onClick={() => setLang("EN")}
-                className="px-4 py-1 rounded-full text-sm font-medium"
-                style={{
-                  background: lang === "EN" ? "var(--text-primary)" : "transparent",
-                  color: lang === "EN" ? "white" : "var(--text-secondary)",
-                }}
-              >
-                EN
-              </button>
-              <button
-                type="button"
-                onClick={() => setLang("BN")}
-                className="px-4 py-1 rounded-full text-sm font-medium"
-                style={{
-                  fontFamily: "'Hind Siliguri', sans-serif",
-                  background: lang === "BN" ? "var(--text-primary)" : "transparent",
-                  color: lang === "BN" ? "white" : "var(--text-secondary)",
-                }}
-              >
-                বাংলা
-              </button>
+          <div className="flex items-center justify-between pt-4 border-t gap-3" style={{ borderColor: "var(--border-default)" }}>
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <div className="flex border rounded-full p-1" style={{ borderColor: "var(--border-default)", background: "var(--bg-subtle)" }}>
+                <button
+                  type="button"
+                  onClick={() => setLang("EN")}
+                  className="px-4 py-1 rounded-full text-sm font-medium"
+                  style={{
+                    background: lang === "EN" ? "var(--lang-active-bg)" : "transparent",
+                    color: lang === "EN" ? "var(--lang-active-color)" : "var(--text-secondary)",
+                  }}
+                >
+                  EN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLang("BN")}
+                  className="px-4 py-1 rounded-full text-sm font-medium"
+                  style={{
+                    fontFamily: "'Hind Siliguri', sans-serif",
+                    background: lang === "BN" ? "var(--lang-active-bg)" : "transparent",
+                    color: lang === "BN" ? "var(--lang-active-color)" : "var(--text-secondary)",
+                  }}
+                >
+                  বাংলা
+                </button>
+              </div>
             </div>
             <a
               href="#download"
               onClick={() => setMobileOpen(false)}
-              className="px-5 py-2.5 rounded-full text-sm font-semibold text-white"
+              className="px-5 py-2.5 rounded-full text-sm font-semibold text-white shrink-0"
               style={{ background: "var(--primary)" }}
             >
               Get the app

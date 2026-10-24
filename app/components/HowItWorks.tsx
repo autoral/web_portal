@@ -31,7 +31,7 @@ export default function HowItWorks() {
     <section
       id="how-it-works"
       className="w-full"
-      style={{ background: "#ffffff" }}
+      style={{ background: "var(--bg-white)" }}
       aria-labelledby="how-heading"
     >
       <div className="container-inner flex flex-col items-center section-py gap-14">

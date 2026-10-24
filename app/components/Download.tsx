@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useTheme } from "./ThemeProvider";
 
 function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
   const isGoogle = store === "Google Play";
@@ -34,14 +37,17 @@ function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
 }
 
 export default function Download() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <section id="download" className="w-full" aria-labelledby="download-heading">
       <div className="container-inner section-py">
-        {/* Main Blue Download Banner (Figma 4239:1198: 1200x564 in #0066db, radius 40px, overflow-hidden) */}
+        {/* Main Blue Download Banner (Figma 4239:1198 / 4438:94813: 1200x564, radius 40px, overflow-hidden) */}
         <div
-          className="relative w-full rounded-[40px] overflow-hidden flex flex-col lg:flex-row items-center"
+          className="relative w-full rounded-[40px] overflow-hidden flex flex-col lg:flex-row items-center transition-colors duration-300"
           style={{
-            background: "var(--primary)",
+            background: "var(--download-banner-bg)",
             minHeight: 564,
           }}
         >
@@ -77,18 +83,23 @@ export default function Download() {
               <StoreBadge store="App Store" />
             </div>
 
-            {/* QR Card (Figma 4239:1216) */}
+            {/* QR Card (Figma 4239:1216 / 4438:94813) */}
             <div
-              className="flex items-center rounded-[24px] border border-white/90"
+              className="flex items-center rounded-[24px] border transition-colors duration-300"
               style={{
-                background: "rgba(255, 255, 255, 0.28)",
+                background: "var(--download-qr-bg)",
+                borderColor: "var(--download-qr-border)",
                 backdropFilter: "blur(16px)",
                 padding: "12px 24px 12px 12px",
                 gap: 20,
                 maxWidth: 420,
               }}
             >
-              <div className="flex items-center justify-center shrink-0 w-24 h-24 rounded-[16px] bg-white p-2 shadow-sm">
+              {/* QR Code container: keep crisp white surface so QR code is clear and scannable in both themes */}
+              <div
+                className="flex items-center justify-center shrink-0 w-24 h-24 rounded-[16px] p-2 shadow-sm"
+                style={{ background: "#ffffff" }}
+              >
                 <Image src="/icons/icon-qrcode.svg" alt="Scan QR code" width={76} height={76} />
               </div>
               <div className="flex flex-col gap-1 text-white">
@@ -107,7 +118,7 @@ export default function Download() {
             </p>
           </div>
 
-          {/* Right Phone Visual (Figma 4239:1224: 440px wide at right: 0, 54px space on right, bottom clipped) */}
+          {/* Right Phone Visual (Figma 4239:1224 / 4438:94813: 440px wide at right: 0, 54px space on right, bottom clipped) */}
           <div
             className="hidden lg:block absolute pointer-events-none select-none z-10"
             style={{
@@ -116,12 +127,26 @@ export default function Download() {
               width: 440,
             }}
           >
+            {/* Light Mode Phone Visual */}
             <Image
               src="/images/download-visual.png"
               alt="Autoral Home App Splash Screen on iPhone"
               width={440}
               height={733}
-              className="w-full h-auto object-contain"
+              className={`w-full h-auto object-contain transition-opacity duration-300 ${
+                isDark ? "opacity-0 absolute pointer-events-none" : "opacity-100"
+              }`}
+              priority
+            />
+            {/* Dark Mode Phone Visual (Figma node 4438:94813) */}
+            <Image
+              src="/images/download-visual-dark.png"
+              alt="Autoral Home App Splash Screen on iPhone (Dark theme)"
+              width={440}
+              height={733}
+              className={`w-full h-auto object-contain transition-opacity duration-300 ${
+                isDark ? "opacity-100" : "opacity-0 absolute pointer-events-none"
+              }`}
               priority
             />
           </div>
