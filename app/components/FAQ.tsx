@@ -39,8 +39,8 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-20 lg:py-28 bg-white border-y border-[#d8e1ec]">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[120px]">
+    <section className="py-14 sm:py-16 lg:py-20 bg-white border-y border-[#d8e1ec]">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-16">
           {/* Left Intro & WhatsApp Help Card */}
           <div className="w-full lg:w-[400px] flex flex-col gap-8 shrink-0">

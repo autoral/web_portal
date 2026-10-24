@@ -9,11 +9,11 @@ import {
 
 export default function Download() {
   return (
-    <section id="download" className="py-20 lg:py-28 bg-[#f5f8fc]">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[120px]">
+    <section id="download" className="py-14 sm:py-16 lg:py-20 bg-[#f5f8fc]">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Blue Banner Container */}
         <div className="bg-[#0066db] rounded-[36px] overflow-hidden text-white shadow-[0px_24px_60px_rgba(0,102,219,0.25)] relative">
-          <div className="flex flex-col lg:flex-row items-center justify-between p-8 sm:p-12 lg:p-16 gap-12 lg:gap-8 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center justify-between p-8 sm:p-10 lg:p-12 gap-10 lg:gap-8 relative z-10">
             {/* Left Content */}
             <div className="w-full lg:w-[600px] flex flex-col items-start gap-6">
               <span className="text-[12px] font-bold text-white/80 tracking-[1px] uppercase">

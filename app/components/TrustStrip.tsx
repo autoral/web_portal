@@ -26,8 +26,8 @@ export default function TrustStrip() {
   ];
 
   return (
-    <section className="border-y border-[#d8e1ec] bg-white/60 backdrop-blur-xs py-7">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[120px]">
+    <section className="border-y border-[#d8e1ec] bg-white/60 backdrop-blur-xs py-6 sm:py-7">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 items-center">
           {trustItems.map((item, idx) => (
             <div

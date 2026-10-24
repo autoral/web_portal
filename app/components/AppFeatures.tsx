@@ -43,8 +43,8 @@ export default function AppFeatures() {
   ];
 
   return (
-    <section className="py-20 lg:py-28 bg-[#f5f8fc]">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[120px]">
+    <section className="py-14 sm:py-16 lg:py-20 bg-[#f5f8fc]">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-[760px] mx-auto mb-14 lg:mb-16">
           <div className="text-[12px] font-semibold text-[#0066db] tracking-[0.96px] uppercase mb-3">

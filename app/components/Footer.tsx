@@ -10,8 +10,8 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0e1726] text-white pt-16 sm:pt-20 pb-12">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[120px]">
+    <footer className="bg-[#0e1726] text-white pt-14 sm:pt-16 pb-10">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 pb-14 border-b border-neutral-800">
           {/* Brand Col */}

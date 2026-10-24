@@ -37,8 +37,8 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#eaf3ff] via-[#eaf3ff]/70 via-[35%] to-[#f5f8fc]/0 pt-12 md:pt-16 lg:pt-[72px] pb-16 md:pb-20 lg:pb-[88px]">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[120px] flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#eaf3ff] via-[#eaf3ff]/70 via-[35%] to-[#f5f8fc]/0 pt-8 sm:pt-12 lg:pt-16 pb-12 sm:pb-16 lg:pb-20">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-8">
         {/* Left Copy */}
         <div className="w-full lg:w-[600px] flex flex-col items-start gap-7">
           {/* Eyebrow badge */}
