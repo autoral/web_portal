@@ -36,7 +36,14 @@ function IconEntertainment({ className = "w-7 h-7" }: { className?: string }) {
 function IconPower({ className = "w-7 h-7" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 28 28" fill="currentColor">
-      <path d="M12.8917 22.75H15.1083V20.3583L19.25 15.8083V10.2375H8.75V15.8083L12.8917 20.3583V22.75ZM11.1417 23.625V21.0583L7.46667 17.0042C7.31111 16.8486 7.19444 16.6736 7.11667 16.4792C7.03889 16.2653 7 16.0514 7 15.8375V10.2375C7 9.75139 7.175 9.34306 7.525 9.0125C7.85556 8.6625 8.26389 8.4875 8.75 8.4875H10.85L9.975 9.3625V4.375C9.975 4.12222 10.0625 3.91806 10.2375 3.7625C10.3931 3.5875 10.5972 3.5 10.85 3.5C11.1028 3.5 11.3167 3.5875 11.4917 3.7625C11.6667 3.9375 11.7444 4.14167 11.725 4.375V8.4875H16.275V4.375C16.275 4.12222 16.3625 3.91806 16.5375 3.7625C16.6931 3.5875 16.8972 3.5 17.15 3.5C17.4028 3.5 17.6069 3.5875 17.7625 3.7625C17.9375 3.91806 18.025 4.12222 18.025 4.375V9.3625L17.15 8.4875H19.25C19.7361 8.4875 20.1444 8.6625 20.475 9.0125C20.825 9.34306 21 9.75139 21 10.2375V15.8375C21 16.0514 20.9611 16.2653 20.8833 16.4792C20.8056 16.6736 20.6889 16.8486 20.5333 17.0042L16.8583 21.0583V23.625C16.8583 23.8778 16.7708 24.0819 16.5958 24.2375C16.4403 24.4125 16.2361 24.5 15.9833 24.5H12.0167C11.7639 24.5 11.5597 24.4125 11.4042 24.2375C11.2292 24.0819 11.1417 23.8778 11.1417 23.625Z" />
+      <path
+        d="M7 3.5H21C21.9283 3.5 22.8185 3.86875 23.4749 4.52513C24.1313 5.1815 24.5 6.07174 24.5 7V21C24.5 21.9283 24.1313 22.8185 23.4749 23.4749C22.8185 24.5 21.9283 24.5 21 24.5H7C6.07174 24.5 5.1815 24.1313 4.52513 23.4749C3.86875 22.8185 3.5 21.9283 3.5 21V7C3.5 6.07174 3.86875 5.1815 4.52513 4.52513C5.1815 3.86875 6.07174 3.5 7 3.5ZM7 5.83333C6.69058 5.83333 6.39384 5.95625 6.17504 6.17504C5.95625 6.39384 5.83333 6.69058 5.83333 7V21C5.83333 21.3094 5.95625 21.6062 6.17504 21.825C6.39384 22.0438 6.69058 22.1667 7 22.1667H21C21.3094 22.1667 21.6062 22.0438 21.825 21.825C22.0438 21.6062 22.1667 21.3094 22.1667 21V7C22.1667 6.69058 22.0438 6.39384 21.825 6.17504C21.6062 5.95625 21.3094 5.83333 21 5.83333H7Z"
+        fillRule="evenodd"
+        clipRule="evenodd"
+      />
+      <path d="M12.25 9.91667C12.25 9.27234 11.7277 8.75 11.0833 8.75C10.439 8.75 9.91667 9.27234 9.91667 9.91667V13.4167C9.91667 14.061 10.439 14.5833 11.0833 14.5833C11.7277 14.5833 12.25 14.061 12.25 13.4167V9.91667Z" />
+      <path d="M18.0833 9.91667C18.0833 9.27234 17.561 8.75 16.9167 8.75C16.2723 8.75 15.75 9.27234 15.75 9.91667V13.4167C15.75 14.061 16.2723 14.5833 16.9167 14.5833C17.561 14.5833 18.0833 14.061 18.0833 13.4167V9.91667Z" />
+      <path d="M14 20.1833C14.9665 20.1833 15.75 19.3998 15.75 18.4333C15.75 17.4668 14.9665 16.6833 14 16.6833C13.0335 16.6833 12.25 17.4668 12.25 18.4333C12.25 19.3998 13.0335 20.1833 14 20.1833Z" />
     </svg>
   );
 }
@@ -67,17 +74,17 @@ function CategoryCard({
   tag,
 }: CategoryCardProps) {
   return (
-    <div className="card-interactive bg-white border border-[#d8e1ec] rounded-[24px] p-[28px] flex flex-col justify-between min-h-[206px] group cursor-default">
+    <div className="bg-white border border-[#d8e1ec] rounded-[24px] p-[28px] flex flex-col justify-between min-h-[206px] group cursor-default transition-all duration-300 hover:-translate-y-1 hover:shadow-[0px_8px_24px_rgba(10,42,92,0.08)] shadow-[0px_2px_6px_rgba(10,42,92,0.06)] relative">
       {/* Top Row: 56x56 Squircle Badge & Optional Tag */}
       <div className="flex items-center justify-between mb-7">
         <div
-          className={`w-[56px] h-[56px] rounded-[16px] ${containerBg} ${iconColor} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 shadow-xs`}
+          className={`w-[56px] h-[56px] rounded-[16px] ${containerBg} ${iconColor} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-xs`}
         >
           {icon}
         </div>
         {tag && (
-          <div className="bg-[#edf2f8] border border-[#d8e1ec] rounded-full px-[12px] py-[6px] transition-colors duration-200 group-hover:bg-[#eaf3ff] group-hover:border-[#0066db]/30">
-            <span className="text-[12px] font-normal leading-[16px] text-[#4a5a70] group-hover:text-[#0052b3] transition-colors duration-200 whitespace-nowrap">
+          <div className="bg-[#edf2f8] border border-[#d8e1ec] rounded-full px-[12px] py-[6px] shrink-0">
+            <span className="text-[12px] font-normal leading-[16px] text-[#4a5a70] whitespace-nowrap">
               {tag}
             </span>
           </div>
@@ -93,6 +100,7 @@ function CategoryCard({
           {body}
         </p>
       </div>
+      <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.6)]" />
     </div>
   );
 }
@@ -145,8 +153,8 @@ export default function WhatYouCanControl() {
   ];
 
   return (
-    <section id="features" aria-label="What you can control" className="py-16 sm:py-20 lg:py-28 bg-[#f5f8fc]">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-14">
+    <section id="features" aria-label="What you can control" className="py-16 sm:py-20 lg:py-[112px] bg-[#f5f8fc]">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-[56px]">
         {/* Section Heading (WebSectionHead) */}
         <div className="flex flex-col gap-4 items-center text-center max-w-[760px] mx-auto">
           <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
@@ -155,7 +163,7 @@ export default function WhatYouCanControl() {
           <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] sm:leading-[52px] text-[#0e1726] tracking-[-1px]">
             One app for every room
           </h2>
-          <p className="text-base sm:text-lg text-[#4a5a70] leading-[28px]">
+          <p className="text-base sm:text-lg lg:text-[18px] text-[#4a5a70] leading-[28px]">
             Autoral Home brings every switch in your home into one place,
             grouped by room the way your family lives.
           </p>
@@ -176,3 +184,4 @@ export default function WhatYouCanControl() {
     </section>
   );
 }
+

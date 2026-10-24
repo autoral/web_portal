@@ -69,8 +69,8 @@ export default function TrustStrip() {
               key={idx}
               className="group flex items-center gap-[14px] p-2.5 rounded-[16px] transition-all duration-200 hover:bg-[#f5f8fc] hover:-translate-y-0.5 cursor-default"
             >
-              {/* Badge: 44x44, rounded-[12px], bg-[#eaf3ff] */}
-              <div className="w-[44px] h-[44px] rounded-[12px] bg-[#eaf3ff] text-[#0066db] flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-[#0066db] group-hover:text-white group-hover:shadow-[0px_4px_12px_rgba(0,102,219,0.25)] transition-all duration-200">
+              {/* Badge: 44x44, rounded-[12px], bg-[#eaf3ff], text-[#0052b3] */}
+              <div className="w-[44px] h-[44px] rounded-[12px] bg-[#eaf3ff] text-[#0052b3] flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-[#0066db] group-hover:text-white group-hover:shadow-[0px_4px_12px_rgba(0,102,219,0.25)] transition-all duration-200">
                 {item.icon}
               </div>
 

@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
-import { IconGooglePlay, IconApple, IconHomeFill } from "./Icons";
+import Image from "next/image";
+import { IconHomeFill, IconWifi } from "./Icons";
 
 // High-fidelity QR Code Icon matching Figma 76x76 size
 function IconQrCodeDetailed({ className = "size-full" }: { className?: string }) {
@@ -75,12 +78,12 @@ export default function Download() {
       data-node-id="4239:1197"
     >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Blue Banner Card */}
-        <div className="bg-[#0066db] rounded-[40px] overflow-hidden text-white relative flex flex-col lg:flex-row items-center justify-between pl-6 sm:pl-10 lg:pl-[72px] pr-6 sm:pr-10 lg:pr-0 shadow-[0px_20px_50px_rgba(0,102,219,0.22)]">
-          {/* Left: Copy & Actions */}
-          <div className="flex flex-col gap-6 items-start py-10 sm:py-14 lg:py-[72px] w-full lg:max-w-[580px] z-10">
+        {/* Main Blue Banner Card (Figma 4239:1198: 1200x564, rounded-[40px], bg-[#0066db]) */}
+        <div className="bg-[#0066db] rounded-[40px] overflow-hidden text-white relative flex flex-col lg:flex-row items-center justify-between pl-6 sm:pl-10 lg:pl-[72px] pr-6 sm:pr-10 lg:pr-0 shadow-[0px_20px_50px_rgba(0,102,219,0.22)] lg:h-[564px]">
+          {/* Left: Copy & Actions (Figma 4239:1199: w-648, py-72) */}
+          <div className="flex flex-col gap-6 items-start py-10 sm:py-14 lg:py-0 w-full lg:max-w-[580px] z-10">
             {/* Overline */}
-            <p className="text-[12px] font-semibold leading-[16px] tracking-[0.96px] uppercase text-white/90">
+            <p className="text-[12px] font-semibold leading-[16px] tracking-[0.96px] uppercase text-white">
               DOWNLOAD
             </p>
 
@@ -90,23 +93,29 @@ export default function Download() {
             </h2>
 
             {/* Body */}
-            <p className="text-[16px] sm:text-[18px] font-normal leading-[28px] text-white/90">
+            <p className="text-[16px] sm:text-[18px] font-normal leading-[28px] text-white/95">
               Free on Android and iPhone. Setup takes about 5 minutes.
             </p>
 
-            {/* Store Badges */}
+            {/* Store Badges - Official Black Pill Buttons from Figma */}
             <div className="flex flex-wrap items-center gap-3 pt-1">
               {/* Google Play */}
               <a
                 href="#download"
-                className="store-badge rounded-[14px] pl-[14px] pr-[16px] py-[10px] flex items-center gap-[10px] shrink-0 cursor-pointer"
+                className="bg-black hover:bg-neutral-800 active:scale-98 transition-all duration-200 rounded-[14px] pl-[14px] pr-[16px] py-[10px] flex items-center gap-[10px] shrink-0 text-white shadow-md hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
                 aria-label="Get it on Google Play"
               >
                 <div className="size-6 shrink-0 flex items-center justify-center">
-                  <IconGooglePlay className="size-6 text-white" />
+                  <Image
+                    src="/icons/icon-googleplay.svg"
+                    alt="Google Play"
+                    width={24}
+                    height={24}
+                    className="size-6"
+                  />
                 </div>
                 <div className="flex flex-col items-start text-left">
-                  <span className="text-[12px] font-normal leading-[16px] text-white/80">
+                  <span className="text-[12px] font-normal leading-[16px] text-white">
                     GET IT ON
                   </span>
                   <span className="text-[18px] font-semibold leading-[26px] text-white">
@@ -118,14 +127,20 @@ export default function Download() {
               {/* App Store */}
               <a
                 href="#download"
-                className="store-badge rounded-[14px] pl-[14px] pr-[16px] py-[10px] flex items-center gap-[10px] shrink-0 cursor-pointer"
+                className="bg-black hover:bg-neutral-800 active:scale-98 transition-all duration-200 rounded-[14px] pl-[14px] pr-[16px] py-[10px] flex items-center gap-[10px] shrink-0 text-white shadow-md hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
                 aria-label="Download on the App Store"
               >
                 <div className="size-6 shrink-0 flex items-center justify-center">
-                  <IconApple className="size-6 text-white" />
+                  <Image
+                    src="/icons/icon-apple.svg"
+                    alt="App Store"
+                    width={24}
+                    height={24}
+                    className="size-6"
+                  />
                 </div>
                 <div className="flex flex-col items-start text-left">
-                  <span className="text-[12px] font-normal leading-[16px] text-white/80">
+                  <span className="text-[12px] font-normal leading-[16px] text-white">
                     Download on the
                   </span>
                   <span className="text-[18px] font-semibold leading-[26px] text-white">
@@ -135,7 +150,7 @@ export default function Download() {
               </a>
             </div>
 
-            {/* QR Code Container */}
+            {/* QR Code Container (Figma 4239:1216) */}
             <div className="bg-white/[0.28] hover:bg-white/[0.36] border border-white/90 backdrop-blur-md rounded-[24px] pl-[12px] pr-[24px] py-[12px] flex items-center gap-[20px] shadow-[0px_4px_20px_rgba(0,0,0,0.06)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 w-full max-w-[396px] group cursor-pointer">
               <div className="size-[96px] rounded-[16px] bg-white flex items-center justify-center shrink-0 p-2 shadow-xs transition-transform duration-300 group-hover:scale-105">
                 <div className="size-[76px] flex items-center justify-center">
@@ -158,78 +173,76 @@ export default function Download() {
             </p>
           </div>
 
-          {/* Right: iPhone Mockup with Ambient Halo */}
-          <div className="w-full lg:w-[440px] h-[480px] sm:h-[520px] lg:h-[560px] relative shrink-0 flex items-end justify-center overflow-hidden">
-            {/* Ambient Halo Circle */}
-            <div
-              className="absolute size-[440px] rounded-full pointer-events-none top-[80px] left-[10px] lg:left-0 opacity-80"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 70%)",
-              }}
-            />
+          {/* Right: iPhone Mockup with Ambient Halo (Figma 4239:1224: w-440, h-560) */}
+          <div className="w-full lg:w-[440px] h-[520px] lg:h-[564px] relative shrink-0 overflow-hidden">
+            {/* Ambient Halo Circle (Figma 4239:1225: smooth circular halo wrapping phone) */}
+            <div className="absolute left-1/2 -translate-x-1/2 lg:left-[-30px] lg:translate-x-0 top-1/2 -translate-y-1/2 size-[520px] rounded-full bg-white/[0.18] pointer-events-none" />
 
-            {/* iPhone 17 Pro Silver Chassis */}
-            <div className="relative z-10 w-[297px] h-[647px] top-[40px] lg:top-[79px] shrink-0">
-              {/* Outer Metallic Bezel */}
-              <div className="w-full h-full rounded-[44px] bg-[#1a2230] p-[3px] shadow-[0px_20px_60px_rgba(10,42,92,0.45)] ring-1 ring-white/30 border border-[#8fa0b5]/40 flex flex-col overflow-hidden">
-                {/* Screen Content - Light Splash Screen */}
-                <div className="w-full h-full bg-[#f5f8fc] rounded-[41px] overflow-hidden flex flex-col justify-between relative px-4 pt-3 pb-3">
-                  {/* Status Bar */}
-                  <div className="flex items-center justify-between w-full px-2 pt-1 z-20">
-                    <span className="text-[14px] font-semibold tracking-tight text-[#0e1726]">
+            {/* iPhone 17 Pro Silver Titanium Chassis (Figma 4271:13498: left 71px, top 79px, width 297.48px x 646.76px) */}
+            <div className="absolute left-1/2 -translate-x-1/2 lg:left-[71px] lg:translate-x-0 top-[79px] z-10">
+              {/* Outer Metallic Silver Titanium Bezel */}
+              <div className="relative rounded-[48px] p-[5px] bg-gradient-to-b from-[#ffffff] via-[#d6dce6] to-[#9aa4b4] shadow-[0px_20px_50px_rgba(10,42,92,0.2),0px_0px_0px_1px_rgba(255,255,255,0.95)_inset,0px_1px_3px_rgba(0,0,0,0.18)] ring-1 ring-black/15">
+                {/* Hardware buttons simulation on Silver Titanium */}
+                <div className="absolute -left-[2.5px] top-24 w-[2.5px] h-6 bg-gradient-to-b from-[#f5f7fa] to-[#b8c0cc] border border-[#c4ccd8] rounded-l-xs shadow-xs" />
+                <div className="absolute -left-[2.5px] top-36 w-[2.5px] h-11 bg-gradient-to-b from-[#f5f7fa] to-[#b8c0cc] border border-[#c4ccd8] rounded-l-xs shadow-xs" />
+                <div className="absolute -left-[2.5px] top-52 w-[2.5px] h-11 bg-gradient-to-b from-[#f5f7fa] to-[#b8c0cc] border border-[#c4ccd8] rounded-l-xs shadow-xs" />
+                <div className="absolute -right-[2.5px] top-40 w-[2.5px] h-14 bg-gradient-to-b from-[#f5f7fa] to-[#b8c0cc] border border-[#c4ccd8] rounded-r-xs shadow-xs" />
+
+                {/* iPhone Inner Glass Screen */}
+                <div className="relative w-[298px] h-[648px] rounded-[43px] overflow-hidden bg-[#f5f8fc] border-[2.5px] border-[#0c1017] flex flex-col justify-between isolate">
+                  {/* Status Bar (Figma 4438:28568) */}
+                  <div className="h-[44px] px-4 flex items-center justify-between z-30 pointer-events-none text-[#0e1726] pt-1 bg-[#f5f8fc]">
+                    {/* Time */}
+                    <div className="w-12 text-[13px] font-semibold tracking-tight text-center">
                       9:41
-                    </span>
-
-                    {/* Dynamic Island */}
-                    <div className="w-[102px] h-[28px] bg-black rounded-full flex items-center justify-end px-2.5 shadow-xs">
-                      <div className="size-2.5 rounded-full bg-[#1c1c1e] ring-1 ring-neutral-800" />
                     </div>
 
-                    {/* Trailing Icons: Cellular, Wifi, Battery */}
-                    <div className="flex items-center gap-1.5 text-[#0e1726]">
-                      {/* Cellular 4 bars */}
-                      <svg width="15" height="10" viewBox="0 0 16 10" fill="currentColor">
-                        <rect x="0" y="7" width="2.5" height="3" rx="0.5" />
-                        <rect x="4.5" y="5" width="2.5" height="5" rx="0.5" />
-                        <rect x="9" y="3" width="2.5" height="7" rx="0.5" />
-                        <rect x="13.5" y="1" width="2.5" height="9" rx="0.5" />
-                      </svg>
-                      {/* Wi-Fi */}
-                      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor">
-                        <path d="M7 1.5C9.5 1.5 11.7 2.4 13.4 3.9L7 10 0.6 3.9C2.3 2.4 4.5 1.5 7 1.5Z" />
-                      </svg>
-                      {/* Battery */}
-                      <div className="w-[21px] h-[11px] rounded-[3px] border border-[#0e1726] p-[1.5px] flex items-center relative">
-                        <div className="w-[14px] h-full bg-[#0e1726] rounded-[1.5px]" />
-                        <div className="absolute -right-[3px] top-[3px] w-[1.5px] h-[3px] bg-[#0e1726] rounded-r-xs" />
+                    {/* Dynamic Island */}
+                    <div className="w-[96px] h-[26px] bg-black rounded-full flex items-center justify-between px-2.5 shadow-xs">
+                      <div className="size-2.5 rounded-full bg-[#181a20] border border-neutral-800" />
+                      <div className="size-2 rounded-full bg-[#0a1128] border border-blue-950/60" />
+                    </div>
+
+                    {/* Trailing: Cellular, Wi-Fi, Battery */}
+                    <div className="w-12 flex items-center justify-end gap-1.5">
+                      <div className="flex items-end gap-[1px] h-2.5">
+                        <span className="w-[2px] h-1 bg-[#0e1726] rounded-2xs" />
+                        <span className="w-[2px] h-1.5 bg-[#0e1726] rounded-2xs" />
+                        <span className="w-[2px] h-2 bg-[#0e1726] rounded-2xs" />
+                        <span className="w-[2px] h-2.5 bg-[#0e1726] rounded-2xs" />
+                      </div>
+                      <IconWifi className="w-3.5 h-3.5 text-[#0e1726]" />
+                      <div className="w-[18px] h-[9px] rounded-[3px] border border-[#0e1726] p-[1px] flex items-center relative">
+                        <div className="w-full h-full bg-[#0e1726] rounded-2xs" />
+                        <div className="w-[1px] h-[3px] bg-[#0e1726] rounded-r-2xs absolute -right-[2px] top-[2px]" />
                       </div>
                     </div>
                   </div>
 
-                  {/* Centered Splash Lockup */}
-                  <div className="flex flex-col items-center justify-center my-auto">
-                    {/* App Mark Squircle */}
-                    <div className="size-[80px] rounded-[28px] bg-[#0066db] flex items-center justify-center text-white shadow-xl shadow-blue-500/25 mb-3.5 transition-transform hover:scale-105">
-                      <IconHomeFill className="size-[46px] text-white" />
+                  {/* Splash Screen Body (Figma Node 4438:28569 / 4438:28570: starts on Splash) */}
+                  <div className="flex flex-col items-center justify-center my-auto w-full px-4 py-8">
+                    {/* App Logo Mark Tile */}
+                    <div className="w-[80px] h-[80px] rounded-[28px] bg-[#0066db] flex items-center justify-center text-white shadow-[0px_12px_28px_rgba(0,102,219,0.35)] transition-transform duration-300 hover:scale-105">
+                      <IconHomeFill className="w-[46px] h-[46px] text-white" />
                     </div>
 
-                    {/* Brand Name */}
-                    <h3 className="text-[23px] font-semibold leading-[30px] text-[#0e1726] tracking-tight">
+                    {/* Title */}
+                    <h3 className="text-[23px] font-semibold leading-[30px] text-[#0e1726] text-center mt-3 tracking-tight">
                       Autoral Home
                     </h3>
 
-                    {/* Bengali Tagline */}
-                    <p className="text-[12px] font-normal leading-[17px] text-[#4a5a70] font-bengali mt-1">
+                    {/* Bengali Subtitle */}
+                    <p className="text-[12px] font-medium leading-[17px] text-[#4a5a70] text-center mt-1 font-bengali">
                       অটোরাল হোম অটোমেশন
                     </p>
                   </div>
 
-                  {/* Splash Footer: Version & Home Indicator */}
-                  <div className="flex flex-col items-center gap-2 w-full pb-1 z-20">
-                    <span className="text-[10px] font-normal text-[#4a5a70]">
+                  {/* Footer & Version Info (Figma 4438:28575) */}
+                  <div className="flex flex-col items-center gap-2 w-full pb-2 z-20">
+                    <p className="text-[10px] font-normal leading-[13px] text-[#4a5a70]">
                       Version 1.0.0
-                    </span>
+                    </p>
+                    {/* Home Gesture Bar */}
                     <div className="w-[100px] h-[3.5px] bg-[#0e1726] rounded-full" />
                   </div>
                 </div>
