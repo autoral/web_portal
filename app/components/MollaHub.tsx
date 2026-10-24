@@ -1,14 +1,11 @@
+"use client";
 import Image from "next/image";
-
-const checkItems = [
-  "Your wall switches keep working as normal",
-  "Wi-Fi 2.4 GHz with easy Bluetooth setup",
-  "Remembers every state after a power cut",
-  "Local control first, encrypted remote access",
-  "Add more devices any time as your home grows",
-];
+import { useLanguage } from "../i18n/LanguageContext";
 
 export default function MollaHub() {
+  const { lang, t } = useLanguage();
+  const isBn = lang === "BN";
+
   return (
     <section id="device" className="w-full" aria-labelledby="device-heading">
       <div className="container-inner flex flex-col lg:flex-row items-center section-py gap-12 lg:gap-20">
@@ -31,7 +28,7 @@ export default function MollaHub() {
               className="uppercase font-semibold tracking-[0.08em]"
               style={{ fontSize: 12, lineHeight: "16px", color: "var(--primary)" }}
             >
-              AUTORAL DEVICE
+              {t.device.eyebrow}
             </p>
             <h2
               id="device-heading"
@@ -43,16 +40,16 @@ export default function MollaHub() {
                 color: "var(--text-primary)",
               }}
             >
-              The small box that makes your home smart
+              {t.device.title}
             </h2>
             <p style={{ fontSize: 18, lineHeight: "28px", color: "var(--text-secondary)" }}>
-              The Autoral device sits behind the switchboard you already have. Your electrician connects it in about 30 minutes, with no new wiring in the walls.
+              {t.device.description}
             </p>
           </div>
 
           {/* Checklist (Figma 4239:1111: gap-3.5 / 14px) */}
           <div className="flex flex-col gap-[14px]">
-            {checkItems.map((item) => (
+            {t.device.checklist.map((item) => (
               <div key={item} className="flex items-center gap-3">
                 <svg
                   width="22"
@@ -103,7 +100,7 @@ export default function MollaHub() {
                     color: "var(--text-primary)",
                   }}
                 >
-                  Autoral MH-4
+                  {t.device.mh4Title}
                 </span>
               </div>
               <span
@@ -114,7 +111,7 @@ export default function MollaHub() {
                   color: "var(--primary)",
                 }}
               >
-                4 channels
+                {t.device.mh4Channels}
               </span>
               <p
                 style={{
@@ -124,7 +121,7 @@ export default function MollaHub() {
                   color: "var(--text-secondary)",
                 }}
               >
-                For a bedroom or a small flat
+                {t.device.mh4Desc}
               </p>
             </div>
 
@@ -147,7 +144,7 @@ export default function MollaHub() {
                     color: "var(--text-primary)",
                   }}
                 >
-                  Autoral MH-8
+                  {t.device.mh8Title}
                 </span>
                 <span
                   className="inline-flex items-center justify-center rounded-full text-white"
@@ -161,7 +158,7 @@ export default function MollaHub() {
                     fontWeight: 500,
                   }}
                 >
-                  Popular
+                  {t.device.mh8Popular}
                 </span>
               </div>
               <span
@@ -172,7 +169,7 @@ export default function MollaHub() {
                   color: "var(--primary)",
                 }}
               >
-                8 channels
+                {t.device.mh8Channels}
               </span>
               <p
                 style={{
@@ -182,7 +179,7 @@ export default function MollaHub() {
                   color: "var(--text-secondary)",
                 }}
               >
-                For living rooms and busy switchboards
+                {t.device.mh8Desc}
               </p>
             </div>
           </div>
@@ -214,7 +211,7 @@ export default function MollaHub() {
               >
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
-              <span>Ask for a price</span>
+              <span>{isBn ? "মূল্য জানতে চান?" : "Ask for a price"}</span>
             </a>
 
             <a
@@ -245,13 +242,13 @@ export default function MollaHub() {
               >
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
               </svg>
-              <span>Book installation</span>
+              <span>{isBn ? "ইনস্টলেশন বুক করুন" : "Book installation"}</span>
             </a>
           </div>
 
           {/* Disclaimer (Figma 4239:1160: 14/20px, #5E6E84) */}
           <p style={{ fontSize: 14, lineHeight: "20px", color: "var(--text-muted)" }}>
-            Specifications are indicative and may change before launch.
+            {isBn ? "স্পেসিফিকেশন পরিবর্তনশীল হতে পারে।" : "Specifications are indicative and may change before launch."}
           </p>
         </div>
       </div>

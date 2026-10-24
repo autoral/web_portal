@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
+import { useLanguage } from "../i18n/LanguageContext";
 
-function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
+function StoreBadge({ store, getLabel, downloadLabel }: { store: "Google Play" | "App Store"; getLabel: string; downloadLabel: string }) {
   const isGoogle = store === "Google Play";
   return (
     <a
@@ -28,7 +29,7 @@ function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
       />
       <div className="flex flex-col overflow-hidden whitespace-nowrap text-left text-white">
         <span style={{ fontSize: 11, fontWeight: 400, letterSpacing: "0px", lineHeight: "14px" }}>
-          {isGoogle ? "GET IT ON" : "Download on the"}
+          {isGoogle ? getLabel : downloadLabel}
         </span>
         <span style={{ fontSize: 18, fontWeight: 600, lineHeight: "24px" }}>{store}</span>
       </div>
@@ -38,6 +39,7 @@ function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
 
 export default function Download() {
   const { theme } = useTheme();
+  const { t } = useLanguage();
   const isDark = theme === "dark";
 
   return (
@@ -60,7 +62,7 @@ export default function Download() {
               className="uppercase tracking-widest font-semibold"
               style={{ fontSize: 12, lineHeight: "16px", color: "rgba(255,255,255,0.85)" }}
             >
-              DOWNLOAD
+              {t.download.eyebrow}
             </p>
             <h2
               id="download-heading"
@@ -71,16 +73,16 @@ export default function Download() {
                 letterSpacing: "-1px",
               }}
             >
-              Get the Autoral Home app
+              {t.download.title}
             </h2>
             <p style={{ fontSize: 18, lineHeight: "28px", color: "rgba(255,255,255,0.9)" }}>
-              Free on Android and iPhone. Setup takes about 5 minutes.
+              {t.download.description}
             </p>
 
             {/* Store Badges (Figma 4239:1203) */}
             <div className="flex flex-wrap items-center gap-3">
-              <StoreBadge store="Google Play" />
-              <StoreBadge store="App Store" />
+              <StoreBadge store="Google Play" getLabel={t.hero.getItOn} downloadLabel={t.hero.downloadOn} />
+              <StoreBadge store="App Store" getLabel={t.hero.getItOn} downloadLabel={t.hero.downloadOn} />
             </div>
 
             {/* QR Card (Figma 4239:1216 / 4438:94813) */}
@@ -104,17 +106,17 @@ export default function Download() {
               </div>
               <div className="flex flex-col gap-1 text-white">
                 <span style={{ fontSize: 18, fontWeight: 600, lineHeight: "26px" }}>
-                  Scan to download
+                  {t.download.scanTitle}
                 </span>
                 <span style={{ fontSize: 14, lineHeight: "20px", color: "rgba(255,255,255,0.9)" }}>
-                  Opens the right store for your phone
+                  {t.download.scanDesc}
                 </span>
               </div>
             </div>
 
             {/* Requirements (Figma 4239:1223) */}
             <p style={{ fontSize: 14, lineHeight: "20px", color: "rgba(255,255,255,0.85)" }}>
-              Android 8 or later · iOS 15 or later
+              {t.download.requirements}
             </p>
           </div>
 

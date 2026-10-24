@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { LanguageProvider } from "./i18n/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Autoral Home – Smart Home Automation for Bangladesh",
@@ -39,12 +40,14 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem("autoral-theme");if(s==="dark"){document.documentElement.classList.add("dark");document.documentElement.setAttribute("data-theme","dark");}else{document.documentElement.classList.remove("dark");document.documentElement.setAttribute("data-theme","light");}}catch(e){}})();`,
+            __html: `(function(){try{var s=localStorage.getItem("autoral-theme");if(s==="dark"){document.documentElement.classList.add("dark");document.documentElement.setAttribute("data-theme","dark");}else{document.documentElement.classList.remove("dark");document.documentElement.setAttribute("data-theme","light");}var l=localStorage.getItem("autoral-lang");if(l==="BN"){document.documentElement.lang="bn";}else{document.documentElement.lang="en";}}catch(e){}})();`,
           }}
         />
       </head>
       <body style={{ width: "100%", margin: 0 }}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <LanguageProvider>{children}</LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

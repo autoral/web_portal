@@ -1,50 +1,50 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-
-const contactItems = [
-  {
-    icon: "/icons/icon-call.svg",
-    label: "Phone",
-    value: "01770-066585",
-    href: "tel:01770066585",
-  },
-  {
-    icon: "/icons/icon-whatsapp-dark.svg",
-    label: "WhatsApp",
-    value: "01770-066585",
-    href: "https://wa.me/8801770066585",
-  },
-  {
-    icon: "/icons/icon-messenger-contact.svg",
-    label: "Messenger",
-    value: "Autoral Home on Facebook",
-    href: "https://m.me/autoralhome",
-  },
-  {
-    icon: "/icons/icon-mail.svg",
-    label: "Email",
-    value: "molla.ux@gmail.com",
-    href: "mailto:molla.ux@gmail.com",
-  },
-  {
-    icon: "/icons/icon-location.svg",
-    label: "Office",
-    value: "Dhaka, Bangladesh",
-  },
-  {
-    icon: "/icons/icon-schedule.svg",
-    label: "Hours",
-    value: "Sat–Thu, 10:00 AM – 7:00 PM",
-  },
-];
-
-const interests = ["Buying a device", "Installation", "Partnership", "Other"];
+import { useLanguage } from "../i18n/LanguageContext";
 
 export default function Contact() {
-  const [selectedInterest, setSelectedInterest] = useState("Buying a device");
+  const { t } = useLanguage();
+  const [selectedInterestIndex, setSelectedInterestIndex] = useState(0);
   const [form, setForm] = useState({ name: "", phone: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+
+  const contactItems = [
+    {
+      icon: "/icons/icon-call.svg",
+      label: t.contact.labels.phone,
+      value: "01770-066585",
+      href: "tel:01770066585",
+    },
+    {
+      icon: "/icons/icon-whatsapp-dark.svg",
+      label: t.contact.labels.whatsapp,
+      value: "01770-066585",
+      href: "https://wa.me/8801770066585",
+    },
+    {
+      icon: "/icons/icon-messenger-contact.svg",
+      label: t.contact.labels.messenger,
+      value: "Autoral Home on Facebook",
+      href: "https://m.me/autoralhome",
+    },
+    {
+      icon: "/icons/icon-mail.svg",
+      label: t.contact.labels.email,
+      value: "molla.ux@gmail.com",
+      href: "mailto:molla.ux@gmail.com",
+    },
+    {
+      icon: "/icons/icon-location.svg",
+      label: t.contact.labels.office,
+      value: t.contact.labels.officeCity,
+    },
+    {
+      icon: "/icons/icon-schedule.svg",
+      label: t.contact.labels.hours,
+      value: t.contact.labels.hoursTime,
+    },
+  ];
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -61,7 +61,7 @@ export default function Contact() {
               className="uppercase tracking-widest font-semibold"
               style={{ fontSize: 12, lineHeight: "16px", color: "var(--primary)" }}
             >
-              CONTACT
+              {t.contact.eyebrow}
             </p>
             <h2
               id="contact-heading"
@@ -73,10 +73,10 @@ export default function Contact() {
                 color: "var(--text-primary)",
               }}
             >
-              Talk to an Autoral expert
+              {t.contact.title}
             </h2>
             <p style={{ fontSize: 18, lineHeight: "28px", color: "var(--text-secondary)" }}>
-              Ask for a price, book an installation or become a partner installer.
+              {t.contact.description}
             </p>
           </div>
 
@@ -142,7 +142,7 @@ export default function Contact() {
                 color: "var(--primary-hover)",
               }}
             >
-              Office map · Dhaka
+              {t.contact.labels.officeMap}
             </span>
           </div>
         </div>
@@ -168,10 +168,10 @@ export default function Contact() {
                 </svg>
               </div>
               <h3 style={{ fontSize: 24, fontWeight: 600, color: "var(--text-primary)" }}>
-                Message sent!
+                {t.contact.successTitle}
               </h3>
               <p style={{ fontSize: 16, color: "var(--text-secondary)" }}>
-                We&apos;ll call you back within 1 working day.
+                {t.contact.successDesc}
               </p>
             </div>
           ) : (
@@ -185,10 +185,10 @@ export default function Contact() {
                     color: "var(--text-primary)",
                   }}
                 >
-                  Send us a message
+                  {t.contact.formTitle}
                 </h3>
                 <p style={{ fontSize: 16, color: "var(--text-secondary)" }}>
-                  We usually call back within 1 working day.
+                  {t.contact.formDesc}
                 </p>
               </div>
 
@@ -196,13 +196,13 @@ export default function Contact() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="name" style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                    Your name
+                    {t.contact.nameLabel}
                   </label>
                   <input
                     id="name"
                     type="text"
                     required
-                    placeholder="e.g. Nusrat Jahan"
+                    placeholder={t.contact.namePlaceholder}
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     className="w-full px-4 rounded-[12px] border transition-colors text-base"
@@ -217,7 +217,7 @@ export default function Contact() {
 
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="phone" style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                    Phone number
+                    {t.contact.phoneLabel}
                   </label>
                   <div
                     className="flex items-center rounded-[12px] border overflow-hidden"
@@ -250,7 +250,7 @@ export default function Contact() {
               {/* Row 2: Email */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="email" style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                  Email address
+                  {t.contact.emailLabel}
                 </label>
                 <input
                   id="email"
@@ -271,16 +271,16 @@ export default function Contact() {
               {/* Interest Chips */}
               <div className="flex flex-col gap-2">
                 <label style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                  What are you interested in?
+                  {t.contact.interestLabel}
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {interests.map((int) => {
-                    const isSelected = selectedInterest === int;
+                  {t.contact.interests.map((int, idx) => {
+                    const isSelected = selectedInterestIndex === idx;
                     return (
                       <button
-                        key={int}
+                        key={idx}
                         type="button"
-                        onClick={() => setSelectedInterest(int)}
+                        onClick={() => setSelectedInterestIndex(idx)}
                         className="px-4 py-2 rounded-full border text-sm font-medium transition-colors cursor-pointer"
                         style={{
                           background: isSelected ? "var(--primary)" : "var(--bg-page)",
@@ -298,12 +298,12 @@ export default function Contact() {
               {/* Message Textarea */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="message" style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                  Message (optional)
+                  {t.contact.messageLabel}
                 </label>
                 <textarea
                   id="message"
                   rows={4}
-                  placeholder="Tell us about your rooms or ask any questions..."
+                  placeholder={t.contact.messagePlaceholder}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                   className="w-full p-4 rounded-[12px] border transition-colors text-base resize-none"
@@ -326,7 +326,7 @@ export default function Contact() {
                   boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
                 }}
               >
-                Send message
+                {t.contact.submitBtn}
               </button>
             </form>
           )}

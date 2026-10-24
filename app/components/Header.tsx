@@ -2,20 +2,21 @@
 import Image from "next/image";
 import { useState } from "react";
 import ThemeToggle from "./ThemeToggle";
-
-const navLinks = [
-  { label: "Features",       href: "#features" },
-  { label: "Autoral device", href: "#device" },
-  { label: "How it works",   href: "#how-it-works" },
-  { label: "Download",       href: "#download" },
-  { label: "About",          href: "#about" },
-  { label: "Contact",        href: "#contact" },
-];
+import { useLanguage } from "../i18n/LanguageContext";
 
 export default function Header() {
-  const [lang, setLang] = useState<"EN" | "BN">("EN");
-  const [activeNav, setActiveNav] = useState("Features");
+  const { lang, setLang, t } = useLanguage();
+  const [activeNav, setActiveNav] = useState("#features");
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { label: t.nav.features,   href: "#features" },
+    { label: t.nav.device,     href: "#device" },
+    { label: t.nav.howItWorks, href: "#how-it-works" },
+    { label: t.nav.download,   href: "#download" },
+    { label: t.nav.about,      href: "#about" },
+    { label: t.nav.contact,    href: "#contact" },
+  ];
 
   return (
     <header
@@ -57,12 +58,12 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center" style={{ gap: 36 }} aria-label="Main navigation">
           {navLinks.map((item) => {
-            const isActive = activeNav === item.label;
+            const isActive = activeNav === item.href;
             return (
               <a
                 key={item.href}
                 href={item.href}
-                onClick={() => setActiveNav(item.label)}
+                onClick={() => setActiveNav(item.href)}
                 className="relative flex flex-col items-center py-1 transition-colors hover:text-[#0066db]"
                 style={{
                   fontSize: 15,
@@ -159,7 +160,7 @@ export default function Header() {
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            <span>Get the app</span>
+            <span>{t.nav.getApp}</span>
           </a>
         </div>
 
@@ -189,7 +190,7 @@ export default function Header() {
               key={item.href}
               href={item.href}
               onClick={() => {
-                setActiveNav(item.label);
+                setActiveNav(item.href);
                 setMobileOpen(false);
               }}
               className="text-base font-medium py-1"
@@ -233,7 +234,7 @@ export default function Header() {
               className="px-5 py-2.5 rounded-full text-sm font-semibold text-white shrink-0"
               style={{ background: "var(--primary)" }}
             >
-              Get the app
+              {t.nav.getApp}
             </a>
           </div>
         </div>

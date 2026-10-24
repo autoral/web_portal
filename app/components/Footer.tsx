@@ -1,24 +1,6 @@
+"use client";
 import Image from "next/image";
-
-const links = {
-  Product: [
-    { label: "Features", href: "#features" },
-    { label: "Autoral device", href: "#device" },
-    { label: "How it works", href: "#how-it-works" },
-    { label: "Download the app", href: "#download" },
-  ],
-  Company: [
-    { label: "About us", href: "#about" },
-    { label: "Partner with us", href: "#contact" },
-    { label: "Contact", href: "#contact" },
-  ],
-  Support: [
-    { label: "FAQ", href: "#faq" },
-    { label: "Installation guide", href: "#how-it-works" },
-    { label: "Privacy policy", href: "#" },
-    { label: "Terms of use", href: "#" },
-  ],
-};
+import { useLanguage } from "../i18n/LanguageContext";
 
 const socials = [
   { icon: "/icons/icon-facebook.svg", href: "#", label: "Facebook" },
@@ -28,6 +10,37 @@ const socials = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
+
+  const linkColumns = [
+    {
+      category: t.footer.columns.product,
+      items: [
+        { label: t.footer.links.features, href: "#features" },
+        { label: t.footer.links.device, href: "#device" },
+        { label: t.footer.links.howItWorks, href: "#how-it-works" },
+        { label: t.footer.links.downloadApp, href: "#download" },
+      ],
+    },
+    {
+      category: t.footer.columns.company,
+      items: [
+        { label: t.footer.links.aboutUs, href: "#about" },
+        { label: t.footer.links.partner, href: "#contact" },
+        { label: t.footer.links.contact, href: "#contact" },
+      ],
+    },
+    {
+      category: t.footer.columns.support,
+      items: [
+        { label: t.footer.links.faq, href: "#faq" },
+        { label: t.footer.links.installationGuide, href: "#how-it-works" },
+        { label: t.footer.links.privacyPolicy, href: "#" },
+        { label: t.footer.links.termsOfUse, href: "#" },
+      ],
+    },
+  ];
+
   return (
     <footer
       className="w-full text-white"
@@ -52,7 +65,7 @@ export default function Footer() {
             </div>
 
             <p style={{ fontSize: 16, lineHeight: "26px", color: "rgba(255, 255, 255, 0.85)" }}>
-              Your whole home, one tap away. Smart home automation designed for Bangladesh.
+              {t.footer.brandDesc}
             </p>
 
             {/* Social Icons (4 circles) */}
@@ -75,13 +88,13 @@ export default function Footer() {
 
           {/* Links Columns */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-14 flex-1 max-w-[680px]">
-            {Object.entries(links).map(([category, items]) => (
-              <div key={category} className="flex flex-col gap-4">
+            {linkColumns.map((col) => (
+              <div key={col.category} className="flex flex-col gap-4">
                 <span style={{ fontSize: 15, fontWeight: 500, color: "#ffffff" }}>
-                  {category}
+                  {col.category}
                 </span>
                 <div className="flex flex-col gap-3">
-                  {items.map((item) => (
+                  {col.items.map((item) => (
                     <a
                       key={item.label}
                       href={item.href}
@@ -103,10 +116,10 @@ export default function Footer() {
           style={{ borderColor: "rgba(255, 255, 255, 0.12)" }}
         >
           <p style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.6)" }}>
-            © 2026 Autoral Home Automation. All rights reserved.
+            {t.footer.copyright}
           </p>
           <p style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.75)" }}>
-            English · <span style={{ fontFamily: "'Hind Siliguri', sans-serif" }}>বাংলা</span>
+            {t.footer.builtWithPride}
           </p>
         </div>
       </div>

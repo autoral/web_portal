@@ -1,4 +1,8 @@
+"use client";
+import { useLanguage } from "../i18n/LanguageContext";
+
 export default function TrustStrip() {
+  const { t } = useLanguage();
   return (
     <section
       className="w-full border-b"
@@ -38,7 +42,7 @@ export default function TrustStrip() {
                   color: "var(--text-primary)",
                 }}
               >
-                Works without internet
+                {t.trust.item1Title}
               </span>
               <span
                 style={{
@@ -48,7 +52,7 @@ export default function TrustStrip() {
                   color: "var(--text-secondary)",
                 }}
               >
-                Control at home on Wi-Fi
+                {t.trust.item1Desc}
               </span>
             </div>
           </div>
@@ -80,7 +84,7 @@ export default function TrustStrip() {
                   color: "var(--text-primary)",
                 }}
               >
-                Wall switches still work
+                {t.trust.item2Title}
               </span>
               <span
                 style={{
@@ -90,7 +94,7 @@ export default function TrustStrip() {
                   color: "var(--text-secondary)",
                 }}
               >
-                No need to change habits
+                {t.trust.item2Desc}
               </span>
             </div>
           </div>
@@ -122,7 +126,7 @@ export default function TrustStrip() {
                   color: "var(--text-primary)",
                 }}
               >
-                Ready for load-shedding
+                {t.trust.item3Title}
               </span>
               <span
                 style={{
@@ -132,7 +136,7 @@ export default function TrustStrip() {
                   color: "var(--text-secondary)",
                 }}
               >
-                Restores the last state
+                {t.trust.item3Desc}
               </span>
             </div>
           </div>
@@ -164,7 +168,7 @@ export default function TrustStrip() {
                   color: "var(--text-primary)",
                 }}
               >
-                Local installation
+                {t.trust.item4Title}
               </span>
               <span
                 style={{
@@ -174,7 +178,7 @@ export default function TrustStrip() {
                   color: "var(--text-secondary)",
                 }}
               >
-                Trained Autoral installers
+                {t.trust.item4Desc}
               </span>
             </div>
           </div>

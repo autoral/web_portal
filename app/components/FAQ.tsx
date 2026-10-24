@@ -1,31 +1,10 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-
-const faqs = [
-  {
-    q: "Will my normal wall switches still work?",
-    a: "Yes. The device works alongside your switches, and the app updates when someone uses a switch on the wall.",
-  },
-  {
-    q: "What happens during load-shedding?",
-    a: "The hub remembers every channel. When power comes back, each device returns to the state it was in.",
-  },
-  {
-    q: "Do I need internet for Autoral Home?",
-    a: "No. At home everything runs on your Wi-Fi. Internet is only needed to control your home from outside.",
-  },
-  {
-    q: "Who installs the device?",
-    a: "A trained Autoral installer fits and tests it behind your switchboard, usually in about 30 minutes.",
-  },
-  {
-    q: "Is my home data safe?",
-    a: "Control at home stays on your local network, and remote access is encrypted end to end.",
-  },
-];
+import { useLanguage } from "../i18n/LanguageContext";
 
 export default function FAQ() {
+  const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggle = (idx: number) => {
@@ -47,7 +26,7 @@ export default function FAQ() {
               className="uppercase tracking-widest font-semibold"
               style={{ fontSize: 12, lineHeight: "16px", color: "var(--primary)" }}
             >
-              FAQ
+              {t.faq.eyebrow}
             </p>
             <h2
               id="faq-heading"
@@ -59,7 +38,7 @@ export default function FAQ() {
                 color: "var(--text-primary)",
               }}
             >
-              Questions people ask before buying
+              {t.faq.title}
             </h2>
           </div>
 
@@ -87,10 +66,10 @@ export default function FAQ() {
                 color: "var(--primary-hover)",
               }}
             >
-              Still have a question?
+              {t.faq.helpTitle}
             </span>
             <p style={{ fontSize: 16, lineHeight: "26px", color: "var(--text-secondary)" }}>
-              Call, WhatsApp or Messenger. An Autoral expert will reply.
+              {t.faq.helpDesc}
             </p>
             <a
               href="https://wa.me/8801770066585"
@@ -107,18 +86,18 @@ export default function FAQ() {
               }}
             >
               <Image src="/icons/icon-whatsapp.svg" alt="" width={18} height={18} className="brightness-0 invert" />
-              <span>Chat on WhatsApp</span>
+              <span>{t.faq.chatWhatsApp}</span>
             </a>
           </div>
         </div>
 
         {/* Right Accordion Column (Figma: w-720, gap-12) */}
         <div className="flex flex-col flex-1 w-full lg:max-w-[720px] gap-3">
-          {faqs.map((faq, i) => {
+          {t.faq.items.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
               <div
-                key={faq.q}
+                key={i}
                 className="flex flex-col rounded-[20px] border transition-all"
                 style={{
                   background: "var(--bg-white)",

@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
+import { useLanguage } from "../i18n/LanguageContext";
 
-function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
+function StoreBadge({ store, getLabel, downloadLabel }: { store: "Google Play" | "App Store"; getLabel: string; downloadLabel: string }) {
   const isGoogle = store === "Google Play";
   return (
     <a
@@ -25,7 +26,7 @@ function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
       />
       <div className="flex flex-col overflow-hidden whitespace-nowrap text-left text-white">
         <span style={{ fontSize: 11, fontWeight: 400, letterSpacing: "0px", lineHeight: "14px" }}>
-          {isGoogle ? "GET IT ON" : "Download on the"}
+          {isGoogle ? getLabel : downloadLabel}
         </span>
         <span style={{ fontSize: 18, fontWeight: 600, lineHeight: "24px" }}>{store}</span>
       </div>
@@ -35,6 +36,7 @@ function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
 
 export default function Hero() {
   const { theme } = useTheme();
+  const { t } = useLanguage();
   const isDark = theme === "dark";
 
   return (
@@ -66,7 +68,7 @@ export default function Hero() {
               className="uppercase tracking-wider font-semibold"
               style={{ fontSize: 12, lineHeight: "16px", color: "var(--primary-hover)" }}
             >
-              Smart home for Bangladesh
+              {t.hero.eyebrow}
             </span>
           </div>
 
@@ -79,7 +81,7 @@ export default function Hero() {
               color: "var(--text-primary)",
             }}
           >
-            Your whole home,<br />one tap away.
+            {t.hero.headlinePart1}<br />{t.hero.headlinePart2}
           </h1>
 
           {/* Lead Paragraph */}
@@ -90,13 +92,13 @@ export default function Hero() {
               color: "var(--text-secondary)",
             }}
           >
-            Control lights, fans, AC, TV, water pump and more from one app. It works on your home Wi-Fi, even when the internet is down.
+            {t.hero.description}
           </p>
 
           {/* Store Badges */}
           <div className="flex flex-wrap items-center gap-3">
-            <StoreBadge store="Google Play" />
-            <StoreBadge store="App Store" />
+            <StoreBadge store="Google Play" getLabel={t.hero.getItOn} downloadLabel={t.hero.downloadOn} />
+            <StoreBadge store="App Store" getLabel={t.hero.getItOn} downloadLabel={t.hero.downloadOn} />
           </div>
 
           {/* Secondary Actions Row */}
@@ -120,7 +122,7 @@ export default function Hero() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
-              <span>See how it works</span>
+              <span>{t.hero.seeHowItWorks}</span>
             </a>
 
             <div className="inline-flex items-center gap-2">
@@ -129,7 +131,7 @@ export default function Hero() {
                 <polyline points="22 4 12 14.01 9 11.01" />
               </svg>
               <span style={{ fontSize: 14, lineHeight: "20px", color: "var(--text-secondary)" }}>
-                Free app · English &amp; <span style={{ fontFamily: "'Hind Siliguri', sans-serif" }}>বাংলা</span>
+                {t.hero.freeAppLabel}
               </span>
             </div>
           </div>
