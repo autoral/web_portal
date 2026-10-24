@@ -1,140 +1,164 @@
-interface ValueItem {
-  title: string;
-  desc: string;
-  path: string;
+import React from "react";
+
+// Exact vector icons from Figma (28x28 viewBox 0 0 28 28)
+function IconWifiValue({ className = "size-7" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 28 28"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5.5 13.5a13 13 0 0 1 17 0" />
+      <path d="M2 9.5a18.5 18.5 0 0 1 24 0" />
+      <path d="M9.5 17.5a7.5 7.5 0 0 1 9 0" />
+      <circle cx="14" cy="22" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
 }
 
-const values: ValueItem[] = [
-  {
-    title: "Local first",
-    desc: "Your home works on your own Wi-Fi. Internet is only needed when you are away.",
-    path: "M14 23.3625C16.5861 21.0097 18.5014 18.8806 19.7458 16.975C20.9903 15.0694 21.6028 13.3778 21.5833 11.9C21.5833 9.60556 20.8542 7.72917 19.3958 6.27083C17.9375 4.8125 16.1389 4.08333 14 4.08333C11.8611 4.08333 10.0722 4.8125 8.63333 6.27083C7.19444 7.72917 6.45556 9.60556 6.41667 11.9C6.41667 13.3583 7.04861 15.05 8.3125 16.975C9.57639 18.9 11.4722 21.0292 14 23.3625ZM13.3875 24.9958C13.1736 24.9181 12.9889 24.8014 12.8333 24.6458C12.0167 23.9069 11.1319 23.0611 10.1792 22.1083C9.22639 21.1556 8.34167 20.1153 7.525 18.9875C6.70833 17.8597 6.02778 16.7028 5.48333 15.5167C4.93889 14.3306 4.66667 13.125 4.66667 11.9C4.66667 8.98333 5.60972 6.65972 7.49583 4.92917C9.38194 3.19861 11.55 2.33333 14 2.33333C16.45 2.33333 18.6278 3.19861 20.5333 4.92917C22.4389 6.65972 23.3722 8.98333 23.3333 11.9C23.3333 13.1056 23.0611 14.3111 22.5167 15.5167C21.9722 16.7222 21.2917 17.8792 20.475 18.9875C19.6583 20.0958 18.7736 21.1361 17.8208 22.1083C16.8681 23.0806 15.9833 23.9264 15.1667 24.6458C15.0111 24.8014 14.8361 24.9181 14.6417 24.9958C14.4472 25.0736 14.2333 25.1028 14 25.0833C13.7667 25.0639 13.5625 25.0347 13.3875 24.9958ZM15.4583 13.125C15.8472 12.7167 16.0417 12.2306 16.0417 11.6667C16.0417 11.1028 15.8472 10.6264 15.4583 10.2375C15.0694 9.84861 14.5833 9.64444 14 9.625C13.4167 9.60556 12.9403 9.80972 12.5708 10.2375C12.2014 10.6653 11.9972 11.1417 11.9583 11.6667C11.9194 12.1917 12.1236 12.6778 12.5708 13.125C13.0181 13.5722 13.4944 13.7667 14 13.7083C14.5056 13.65 14.9917 13.4556 15.4583 13.125Z",
-  },
-  {
-    title: "Made for families",
-    desc: "Big tiles, clear words and full Bangla, so everyone at home can use it.",
-    path: "M0.875 21C0.622222 21 0.418056 20.9125 0.2625 20.7375C0.0875 20.5819 0 20.3778 0 20.125V19.4542C0 18.6958 0.408333 18.0833 1.225 17.6167C2.02222 17.15 3.07222 16.9167 4.375 16.9167L5.075 16.9458L5.71667 17.0042C5.56111 17.3347 5.44444 17.675 5.36667 18.025C5.28889 18.375 5.25 18.7347 5.25 19.1042V21H0.875ZM7.875 21C7.62222 21 7.41806 20.9125 7.2625 20.7375C7.0875 20.5819 7 20.3778 7 20.125V19.1042C7 18.4819 7.175 17.9181 7.525 17.4125C7.875 16.9069 8.35139 16.45 8.95417 16.0417C9.55694 15.6333 10.3056 15.3417 11.2 15.1667C12.0944 14.9917 13.0278 14.8944 14 14.875C15.0306 14.875 15.9833 14.9722 16.8583 15.1667C17.7333 15.3611 18.4722 15.6528 19.075 16.0417C19.6778 16.4306 20.1542 16.8875 20.5042 17.4125C20.8542 17.9375 21.0194 18.5014 21 19.1042V20.125C21 20.3778 20.9125 20.5819 20.7375 20.7375C20.5819 20.9125 20.3778 21 20.125 21H7.875ZM22.75 21V19.1042C22.75 18.7153 22.7208 18.3556 22.6625 18.025C22.6042 17.6944 22.4875 17.3542 22.3125 17.0042L22.9542 16.9458L23.625 16.9167C24.9472 16.9167 26.0069 17.15 26.8042 17.6167C27.6014 18.0833 28 18.6958 28 19.4542V20.125C28 20.3778 27.9125 20.5819 27.7375 20.7375C27.5819 20.9125 27.3778 21 27.125 21H22.75ZM8.75 19.25H19.25V19.075C19.25 18.3556 18.7639 17.7722 17.7917 17.325C16.8194 16.8778 15.5556 16.6444 14 16.625C12.4444 16.6056 11.1903 16.8389 10.2375 17.325C9.28472 17.8111 8.78889 18.4042 8.75 19.1042V19.25ZM4.375 16.0417C3.81111 16.0417 3.325 15.8375 2.91667 15.4292C2.52778 15.0403 2.33333 14.5639 2.33333 14C2.33333 13.4361 2.5375 12.9597 2.94583 12.5708C3.33472 12.1625 3.81111 11.9583 4.375 11.9583C4.93889 11.9583 5.425 12.1625 5.83333 12.5708C6.24167 12.9792 6.43611 13.4556 6.41667 14C6.39722 14.5444 6.20278 15.0306 5.83333 15.4583C5.46389 15.8861 4.97778 16.0806 4.375 16.0417ZM23.625 16.0417C23.0611 16.0417 22.575 15.8375 22.1667 15.4292C21.7778 15.0403 21.5833 14.5639 21.5833 14C21.5833 13.4361 21.7875 12.9597 22.1958 12.5708C22.5847 12.1625 23.0611 11.9583 23.625 11.9583C24.1889 11.9583 24.675 12.1625 25.0833 12.5708C25.4917 12.9792 25.6861 13.4556 25.6667 14C25.6472 14.5444 25.4528 15.0306 25.0833 15.4583C24.7139 15.8861 24.2278 16.0806 23.625 16.0417ZM14 14C13.0278 14 12.2014 13.6597 11.5208 12.9792C10.8403 12.2986 10.5 11.4722 10.5 10.5C10.5 9.50833 10.8403 8.68194 11.5208 8.02083C12.2014 7.35972 13.0278 7.01944 14 7C14.9917 7 15.8278 7.34028 16.5083 8.02083C17.1889 8.70139 17.5194 9.52778 17.5 10.5C17.5 11.4722 17.1694 12.2986 16.5083 12.9792C15.8472 13.6597 15.0111 14 14 14ZM14 12.25C14.5056 12.25 14.9236 12.0847 15.2542 11.7542C15.5847 11.4236 15.75 11.0056 15.75 10.5C15.75 9.99444 15.5847 9.57639 15.2542 9.24583C14.9236 8.91528 14.5056 8.75 14 8.75C13.4944 8.75 13.0861 8.91528 12.775 9.24583C12.4639 9.57639 12.2889 9.99444 12.25 10.5C12.2111 11.0056 12.3764 11.4139 12.7458 11.725C13.1153 12.0361 13.5333 12.2111 14 12.25Z",
-  },
-  {
-    title: "Honest support",
-    desc: "Real people on the phone, WhatsApp and Messenger, and installers who come to your home.",
-    path: "M5.25 23.5083C4.78333 23.5083 4.375 23.3333 4.025 22.9833C3.675 22.6333 3.5 22.225 3.5 21.7583V12.8917C3.5 11.4333 3.78194 10.0625 4.34583 8.77917C4.89028 7.49583 5.63889 6.36806 6.59167 5.39583C7.54444 4.44306 8.6625 3.69444 9.94583 3.15C11.2292 2.58611 12.6 2.30417 14.0583 2.30417C15.5167 2.30417 16.8875 2.58611 18.1708 3.15C19.4542 3.71389 20.5528 4.4625 21.4667 5.39583C22.3806 6.32917 23.1194 7.45694 23.6833 8.77917C24.2472 10.1014 24.5194 11.4722 24.5 12.8917V25.0833C24.5 25.55 24.325 25.9583 23.975 26.3083C23.625 26.6583 23.2167 26.8333 22.75 26.8333H14.9333C14.6806 26.8333 14.4764 26.7458 14.3208 26.5708C14.1458 26.4153 14.0583 26.2111 14.0583 25.9583C14.0583 25.7056 14.1458 25.4917 14.3208 25.3167C14.4958 25.1417 14.7 25.0639 14.9333 25.0833H22.75V23.5083H20.1833C19.6972 23.5083 19.2889 23.3333 18.9583 22.9833C18.6083 22.6528 18.4333 22.2444 18.4333 21.7583V16.625C18.4333 16.1389 18.6083 15.7306 18.9583 15.4C19.2889 15.05 19.6972 14.875 20.1833 14.875H22.75V12.8917C22.75 10.4806 21.9042 8.40972 20.2125 6.67917C18.5208 4.94861 16.4694 4.07361 14.0583 4.05417C11.6472 4.03472 9.57639 4.90972 7.84583 6.67917C6.11528 8.44861 5.25 10.5194 5.25 12.8917V14.875H7.81667C8.30278 14.875 8.71111 15.05 9.04167 15.4C9.39167 15.7306 9.56667 16.1389 9.56667 16.625V21.7583C9.56667 22.2444 9.39167 22.6528 9.04167 22.9833C8.71111 23.3333 8.30278 23.5083 7.81667 23.5083H5.25ZM5.25 21.7583H7.81667V16.625H5.25V21.7583ZM20.1833 21.7583H22.75V16.625H20.1833V21.7583Z",
-  },
-];
+function IconGroupsValue({ className = "size-7" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 28 28"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {/* Center Person */}
+      <circle cx="14" cy="8" r="3.5" />
+      <path d="M8.5 21v-1.5a5.5 5.5 0 0 1 11 0V21" />
+      {/* Left Person */}
+      <circle cx="6" cy="11.5" r="2.5" />
+      <path d="M2 21v-1a4 4 0 0 1 4.5-3.8" />
+      {/* Right Person */}
+      <circle cx="22" cy="11.5" r="2.5" />
+      <path d="M21.5 16.2a4 4 0 0 1 4.5 3.8v1" />
+    </svg>
+  );
+}
+
+function IconSupportValue({ className = "size-7" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 28 28"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 14.5v-2a10 10 0 0 1 20 0v2" />
+      <rect x="3" y="14.5" width="4" height="6.5" rx="2" fill="currentColor" />
+      <rect x="21" y="14.5" width="4" height="6.5" rx="2" fill="currentColor" />
+      <path d="M23 21v1.5a3.5 3.5 0 0 1-3.5 3.5H16" />
+      <circle cx="14" cy="26" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
 export default function AboutUs() {
+  const values = [
+    {
+      title: "Local first",
+      desc: "Your home works on your own Wi-Fi. Internet is only needed when you are away.",
+      icon: <IconWifiValue className="size-7" />,
+    },
+    {
+      title: "Made for families",
+      desc: "Big tiles, clear words and full Bangla, so everyone at home can use it.",
+      icon: <IconGroupsValue className="size-7" />,
+    },
+    {
+      title: "Honest support",
+      desc: "Real people on the phone, WhatsApp and Messenger, and installers who come to your home.",
+      icon: <IconSupportValue className="size-7" />,
+    },
+  ];
+
   return (
-    <section id="about" className="w-full" aria-labelledby="about-heading">
-      <div className="container-inner flex flex-col lg:flex-row items-start justify-between section-py gap-12 lg:gap-20">
-        {/* Left Copy Column (Figma: w-520, gap-24) */}
-        <div className="flex flex-col w-full lg:w-[520px] shrink-0" style={{ gap: 24 }}>
-          <div className="flex flex-col gap-4">
-            <p
-              className="uppercase tracking-widest font-semibold"
-              style={{ fontSize: 12, lineHeight: "16px", color: "var(--primary)" }}
-            >
-              ABOUT US
-            </p>
-            <h2
-              id="about-heading"
-              className="text-3xl sm:text-4xl lg:text-[44px]"
-              style={{
-                fontWeight: 600,
-                lineHeight: "52px",
-                letterSpacing: "-1px",
-                color: "var(--text-primary)",
-              }}
-            >
-              Built for homes in Bangladesh
-            </h2>
-            <p style={{ fontSize: 18, lineHeight: "28px", color: "var(--text-secondary)" }}>
-              Autoral Home Automation started with a simple idea: a smart home shouldn’t need new wiring, strong internet or English.
-            </p>
-          </div>
-
-          <p style={{ fontSize: 16, lineHeight: "26px", color: "var(--text-secondary)" }}>
-            We design our device and app around the switchboards, power cuts and families of Bangladesh, and we support every customer with a local team.
-          </p>
-
-          {/* Mission Card (Figma: #eaf3ff with #0066db vertical bar) */}
-          <div
-            className="flex items-start rounded-[20px] p-6"
-            style={{
-              background: "var(--primary-subtle)",
-              gap: 20,
-            }}
-          >
-            <div
-              className="w-1 shrink-0 self-stretch rounded-full"
-              style={{ background: "var(--primary)", minHeight: 60 }}
-            />
-            <div className="flex flex-col gap-1.5">
-              <span
-                style={{
-                  fontSize: 18,
-                  fontWeight: 600,
-                  lineHeight: "26px",
-                  color: "var(--primary-hover)",
-                }}
-              >
-                Our mission
-              </span>
-              <p
-                style={{
-                  fontSize: 16,
-                  lineHeight: "26px",
-                  color: "var(--primary-hover)",
-                }}
-              >
-                Make every home in Bangladesh easier and safer to run, one switch at a time.
+    <section
+      id="about"
+      className="w-full bg-white py-16 sm:py-20 lg:py-[112px]"
+      data-node-id="4239:1242"
+    >
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-[80px]">
+          {/* Left Column: Copy & Mission */}
+          <div className="w-full lg:w-[520px] flex flex-col gap-6 items-start shrink-0">
+            {/* Header */}
+            <div className="flex flex-col gap-4 items-start w-full">
+              <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
+                ABOUT US
+              </p>
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726]">
+                Built for homes in Bangladesh
+              </h2>
+              <p className="text-[18px] font-normal leading-[28px] text-[#4a5a70]">
+                Autoral Home Automation started with a simple idea: a smart home
+                shouldn’t need new wiring, strong internet or English.
               </p>
             </div>
-          </div>
-        </div>
 
-        {/* Right Value Cards Column (Figma: w-600, gap-16) */}
-        <div className="flex flex-col flex-1 w-full lg:max-w-[600px] gap-4">
-          {values.map((v) => (
-            <div
-              key={v.title}
-              className="flex items-start p-6 rounded-[20px] border figma-card-shadow transition-transform hover:-translate-y-0.5 bg-white"
-              style={{
-                borderColor: "var(--border-default)",
-                gap: 20,
-              }}
-            >
-              {/* Badge: 56x56 in #eaf3ff with clean vector icon */}
-              <div
-                className="flex items-center justify-center shrink-0"
-                style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: 16,
-                  background: "#EAF3FF",
-                }}
-              >
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d={v.path} fill="#0052B3" />
-                </svg>
-              </div>
+            {/* Paragraph 2 */}
+            <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">
+              We design our device and app around the switchboards, power cuts and
+              families of Bangladesh, and we support every customer with a local
+              team.
+            </p>
 
-              <div className="flex flex-col gap-1.5">
-                <h3
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 600,
-                    lineHeight: "26px",
-                    color: "var(--text-primary)",
-                  }}
-                >
-                  {v.title}
-                </h3>
-                <p style={{ fontSize: 16, lineHeight: "26px", color: "var(--text-secondary)" }}>
-                  {v.desc}
+            {/* Mission Box */}
+            <div className="w-full bg-[#eaf3ff] border border-transparent hover:border-[#0066db]/25 hover:shadow-md rounded-[20px] p-6 flex gap-5 items-start mt-2 transition-all duration-300">
+              <div className="w-1 self-stretch rounded-[2px] bg-[#0066db] shrink-0" />
+              <div className="flex flex-col gap-1.5 items-start leading-[26px] text-[#0052b3]">
+                <p className="text-[18px] font-semibold leading-[26px]">
+                  Our mission
+                </p>
+                <p className="text-[16px] font-normal leading-[26px]">
+                  Make every home in Bangladesh easier and safer to run, one
+                  switch at a time.
                 </p>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Right Column: 3 Value Cards */}
+          <div className="flex flex-col gap-4 items-start w-full flex-1 min-w-0">
+            {values.map((val, idx) => (
+              <div
+                key={idx}
+                className="card-interactive group relative bg-white rounded-[20px] border border-[#d8e1ec] p-6 flex gap-5 items-start w-full cursor-default"
+              >
+                {/* Badge */}
+                <div className="size-[56px] rounded-[16px] bg-[#eaf3ff] text-[#0066db] flex items-center justify-center shrink-0 shadow-xs transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0066db] group-hover:text-white group-hover:shadow-[0px_6px_20px_rgba(0,102,219,0.3)]">
+                  {val.icon}
+                </div>
+
+                {/* Text */}
+                <div className="flex flex-col gap-1.5 items-start leading-[26px] text-left">
+                  <h3 className="text-[18px] font-semibold text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200">
+                    {val.title}
+                  </h3>
+                  <p className="text-[16px] font-normal text-[#4a5a70]">
+                    {val.desc}
+                  </p>
+                </div>
+
+                {/* Subtle top inner light border */}
+                <div className="absolute inset-0 pointer-events-none rounded-[20px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,334 +1,317 @@
 "use client";
-import Image from "next/image";
-import { useState } from "react";
 
-const contactItems = [
-  {
-    icon: "/icons/icon-call.svg",
-    label: "Phone",
-    value: "01770-066585",
-    href: "tel:01770066585",
-  },
-  {
-    icon: "/icons/icon-whatsapp-dark.svg",
-    label: "WhatsApp",
-    value: "01770-066585",
-    href: "https://wa.me/8801770066585",
-  },
-  {
-    icon: "/icons/icon-messenger-contact.svg",
-    label: "Messenger",
-    value: "Autoral Home on Facebook",
-    href: "https://m.me/autoralhome",
-  },
-  {
-    icon: "/icons/icon-mail.svg",
-    label: "Email",
-    value: "molla.ux@gmail.com",
-    href: "mailto:molla.ux@gmail.com",
-  },
-  {
-    icon: "/icons/icon-location.svg",
-    label: "Office",
-    value: "Dhaka, Bangladesh",
-  },
-  {
-    icon: "/icons/icon-schedule.svg",
-    label: "Hours",
-    value: "Sat–Thu, 10:00 AM – 7:00 PM",
-  },
-];
-
-const interests = ["Buying a device", "Installation", "Partnership", "Other"];
+import React, { useState } from "react";
+import {
+  IconPhone,
+  IconWhatsApp,
+  IconMessenger,
+  IconMail,
+  IconLocation,
+  IconClock,
+  IconCheckCircle,
+} from "./Icons";
 
 export default function Contact() {
-  const [selectedInterest, setSelectedInterest] = useState("Buying a device");
-  const [form, setForm] = useState({ name: "", phone: "", email: "", message: "" });
+  const [selectedInterest, setSelectedInterest] =
+    useState<string>("Buying a device");
   const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
 
-  function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-  }
+  };
+
+  const contactItems = [
+    {
+      label: "Phone",
+      val: "01770-066585",
+      href: "tel:01770066585",
+      icon: <IconPhone className="size-[22px]" />,
+    },
+    {
+      label: "WhatsApp",
+      val: "01770-066585",
+      href: "https://wa.me/8801770066585",
+      icon: <IconWhatsApp className="size-[22px]" />,
+    },
+    {
+      label: "Messenger",
+      val: "Autoral Home on Facebook",
+      href: "https://m.me",
+      icon: <IconMessenger className="size-[22px]" />,
+    },
+    {
+      label: "Email",
+      val: "molla.ux@gmail.com",
+      href: "mailto:molla.ux@gmail.com",
+      icon: <IconMail className="size-[22px]" />,
+    },
+    {
+      label: "Office",
+      val: "Dhaka, Bangladesh",
+      icon: <IconLocation className="size-[22px]" />,
+    },
+    {
+      label: "Hours",
+      val: "Sat–Thu, 10:00 AM – 7:00 PM",
+      icon: <IconClock className="size-[22px]" />,
+    },
+  ];
+
+  const chips = ["Buying a device", "Installation", "Partnership", "Other"];
 
   return (
-    <section id="contact" className="w-full" aria-labelledby="contact-heading">
-      <div className="container-inner flex flex-col lg:flex-row items-start justify-between section-py gap-12 lg:gap-16">
-        {/* Left Contact Info Column (Figma: w-480, gap-32) */}
-        <div className="flex flex-col w-full lg:w-[480px] shrink-0" style={{ gap: 32 }}>
-          <div className="flex flex-col gap-4">
-            <p
-              className="uppercase tracking-widest font-semibold"
-              style={{ fontSize: 12, lineHeight: "16px", color: "var(--primary)" }}
-            >
-              CONTACT
-            </p>
-            <h2
-              id="contact-heading"
-              className="text-3xl sm:text-4xl lg:text-[44px]"
-              style={{
-                fontWeight: 600,
-                lineHeight: "52px",
-                letterSpacing: "-1px",
-                color: "var(--text-primary)",
-              }}
-            >
-              Talk to an Autoral expert
-            </h2>
-            <p style={{ fontSize: 18, lineHeight: "28px", color: "var(--text-secondary)" }}>
-              Ask for a price, book an installation or become a partner installer.
-            </p>
-          </div>
-
-          {/* Contact List */}
-          <div className="flex flex-col gap-5">
-            {contactItems.map((item) => (
-              <div key={item.label} className="flex items-center gap-4">
-                <div
-                  className="flex items-center justify-center shrink-0 w-12 h-12 rounded-full"
-                  style={{ background: "var(--primary-subtle)" }}
-                >
-                  <Image
-                    src={item.icon}
-                    alt=""
-                    width={22}
-                    height={22}
-                    style={{ filter: "invert(24%) sepia(91%) saturate(2335%) hue-rotate(203deg) brightness(94%) contrast(102%)" }}
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span style={{ fontSize: 14, color: "var(--text-secondary)" }}>{item.label}</span>
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      target={item.href.startsWith("http") ? "_blank" : undefined}
-                      rel="noopener noreferrer"
-                      className="font-medium text-[15px] hover:underline"
-                      style={{ color: "var(--text-primary)" }}
-                    >
-                      {item.value}
-                    </a>
-                  ) : (
-                    <span className="font-medium text-[15px]" style={{ color: "var(--text-primary)" }}>
-                      {item.value}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Office Map Card (Figma: #eaf3ff card with location icon) */}
-          <div
-            className="flex flex-col items-center justify-center rounded-[24px] border p-8"
-            style={{
-              height: 180,
-              background: "var(--primary-subtle)",
-              borderColor: "var(--border-default)",
-              gap: 8,
-            }}
-          >
-            <Image
-              src="/icons/icon-location-pin.svg"
-              alt=""
-              width={32}
-              height={32}
-              style={{ filter: "invert(24%) sepia(91%) saturate(2335%) hue-rotate(203deg) brightness(94%) contrast(102%)" }}
-            />
-            <span
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                color: "var(--primary-hover)",
-              }}
-            >
-              Office map · Dhaka
-            </span>
-          </div>
-        </div>
-
-        {/* Right Contact Form Card (Figma: w-656, rounded-32, p-10) */}
-        <div
-          className="flex flex-1 flex-col w-full lg:max-w-[656px] bg-white rounded-[32px] border figma-card-shadow"
-          style={{
-            padding: 40,
-            borderColor: "var(--border-default)",
-            gap: 24,
-          }}
-        >
-          {submitted ? (
-            <div className="flex flex-col items-center justify-center text-center py-16 gap-4">
-              <div
-                className="flex items-center justify-center w-16 h-16 rounded-full"
-                style={{ background: "var(--status-green-bg)" }}
-              >
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--status-green)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <h3 style={{ fontSize: 24, fontWeight: 600, color: "var(--text-primary)" }}>
-                Message sent!
-              </h3>
-              <p style={{ fontSize: 16, color: "var(--text-secondary)" }}>
-                We&apos;ll call you back within 1 working day.
+    <section
+      id="contact"
+      className="w-full bg-[#f5f8fc] py-16 sm:py-20 lg:py-[112px]"
+      data-node-id="4239:1331"
+    >
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-[64px]">
+          {/* Left Column: Contact Info & Office Map */}
+          <div className="w-full lg:w-[480px] flex flex-col gap-8 shrink-0">
+            {/* Header */}
+            <div className="flex flex-col gap-4 items-start w-full">
+              <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
+                CONTACT
+              </p>
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726]">
+                Talk to an Autoral expert
+              </h2>
+              <p className="text-[18px] font-normal leading-[28px] text-[#4a5a70]">
+                Ask for a price, book an installation or become a partner
+                installer.
               </p>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1.5">
-                <h3
-                  style={{
-                    fontSize: 24,
-                    fontWeight: 600,
-                    lineHeight: "32px",
-                    color: "var(--text-primary)",
-                  }}
+
+            {/* Contact Rows List */}
+            <div className="flex flex-col gap-4 w-full">
+              {contactItems.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="group flex items-center gap-4 p-2 -m-2 rounded-[16px] hover:bg-white hover:shadow-xs transition-all duration-200 cursor-default"
                 >
-                  Send us a message
-                </h3>
-                <p style={{ fontSize: 16, color: "var(--text-secondary)" }}>
-                  We usually call back within 1 working day.
-                </p>
-              </div>
-
-              {/* Row 1: Name & Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name" style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                    Your name
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    required
-                    placeholder="e.g. Nusrat Jahan"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full px-4 rounded-[12px] border transition-colors text-base"
-                    style={{
-                      height: 52,
-                      borderColor: "var(--border-default)",
-                      background: "var(--bg-page)",
-                      color: "var(--text-primary)",
-                    }}
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="phone" style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                    Phone number
-                  </label>
-                  <div
-                    className="flex items-center rounded-[12px] border overflow-hidden"
-                    style={{
-                      height: 52,
-                      borderColor: "var(--border-default)",
-                      background: "var(--bg-page)",
-                    }}
-                  >
-                    <span
-                      className="px-3.5 text-sm font-medium border-r"
-                      style={{ color: "var(--text-secondary)", borderColor: "var(--border-default)" }}
-                    >
-                      +880
+                  {/* Circular Badge */}
+                  <div className="size-[48px] rounded-full bg-[#eaf3ff] text-[#0066db] flex items-center justify-center shrink-0 group-hover:bg-[#0066db] group-hover:text-white group-hover:scale-105 transition-all duration-200 shadow-xs">
+                    {item.icon}
+                  </div>
+                  <div className="flex flex-col items-start leading-[20px]">
+                    <span className="text-[14px] font-normal text-[#4a5a70]">
+                      {item.label}
                     </span>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target={
+                          item.href.startsWith("http") ? "_blank" : undefined
+                        }
+                        rel="noreferrer"
+                        className="text-[15px] font-medium leading-[22px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200"
+                      >
+                        {item.val}
+                      </a>
+                    ) : (
+                      <span className="text-[15px] font-medium leading-[22px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200">
+                        {item.val}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Office Map Card */}
+            <div className="bg-[#eaf3ff] border border-[#d8e1ec] hover:border-[#0066db]/30 hover:shadow-md rounded-[24px] h-[180px] flex flex-col gap-2 items-center justify-center w-full text-center transition-all duration-300 cursor-default group">
+              <div className="size-8 flex items-center justify-center text-[#0066db] group-hover:scale-110 transition-transform duration-200">
+                <IconLocation className="size-8 text-[#0066db]" />
+              </div>
+              <span className="text-[14px] font-normal leading-[20px] text-[#0052b3] group-hover:underline">
+                Office map · Dhaka
+              </span>
+            </div>
+          </div>
+
+          {/* Right Column: Contact Form Card */}
+          <div className="w-full lg:w-[620px] flex-1 bg-white border border-[#d8e1ec] rounded-[32px] p-6 sm:p-8 lg:p-10 flex flex-col gap-6 items-start shadow-[0px_2px_12px_rgba(10,42,92,0.06)] relative">
+            {/* Form Head */}
+            <div className="flex flex-col gap-1.5 items-start text-left w-full">
+              <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726]">
+                Send us a message
+              </h3>
+              <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">
+                We usually call back within 1 working day.
+              </p>
+            </div>
+
+            {submitted ? (
+              <div className="py-12 w-full flex flex-col items-center text-center gap-3">
+                <div className="size-14 rounded-full bg-emerald-100 flex items-center justify-center text-[#187a43]">
+                  <IconCheckCircle className="size-8 text-[#187a43]" />
+                </div>
+                <h4 className="text-[20px] font-semibold text-[#0e1726]">
+                  Thank you!
+                </h4>
+                <p className="text-[15px] text-[#4a5a70] max-w-sm">
+                  We have received your message. An Autoral team member will reach
+                  out to you shortly.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubmitted(false)}
+                  className="mt-3 text-[14px] text-[#0066db] font-semibold hover:underline cursor-pointer"
+                >
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
+                {/* Row 1: Your Name & Phone Number */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                  <div className="flex flex-col gap-1.5 items-start w-full">
+                    <label className="text-[14px] font-medium leading-[20px] text-[#0e1726]">
+                      Your name
+                    </label>
                     <input
-                      id="phone"
+                      type="text"
+                      required
+                      placeholder="e.g. Abu Taher Molla"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-2 focus:ring-[#0066db]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5 items-start w-full">
+                    <label className="text-[14px] font-medium leading-[20px] text-[#0e1726]">
+                      Phone number
+                    </label>
+                    <input
                       type="tel"
                       required
-                      placeholder="1XXXXXXXXX"
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="flex-1 px-3.5 bg-transparent border-none outline-none text-base"
-                      style={{ color: "var(--text-primary)" }}
+                      placeholder="017XX-XXXXXX"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                      className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-2 focus:ring-[#0066db]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
                     />
                   </div>
                 </div>
-              </div>
 
-              {/* Row 2: Email */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="email" style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                  Email address
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full px-4 rounded-[12px] border transition-colors text-base"
-                  style={{
-                    height: 52,
-                    borderColor: "var(--border-default)",
-                    background: "var(--bg-page)",
-                    color: "var(--text-primary)",
-                  }}
-                />
-              </div>
-
-              {/* Interest Chips */}
-              <div className="flex flex-col gap-2">
-                <label style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                  What are you interested in?
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {interests.map((int) => {
-                    const isSelected = selectedInterest === int;
-                    return (
-                      <button
-                        key={int}
-                        type="button"
-                        onClick={() => setSelectedInterest(int)}
-                        className="px-4 py-2 rounded-full border text-sm font-medium transition-colors cursor-pointer"
-                        style={{
-                          background: isSelected ? "var(--primary)" : "var(--bg-page)",
-                          borderColor: isSelected ? "var(--primary)" : "var(--border-default)",
-                          color: isSelected ? "#ffffff" : "var(--text-secondary)",
-                        }}
-                      >
-                        {int}
-                      </button>
-                    );
-                  })}
+                {/* Row 2: Email (optional) */}
+                <div className="flex flex-col gap-1.5 items-start w-full">
+                  <label className="text-[14px] font-medium leading-[20px] text-[#0e1726]">
+                    Email (optional)
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="you@example.com"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-2 focus:ring-[#0066db]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                  />
                 </div>
-              </div>
 
-              {/* Message Textarea */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" style={{ fontSize: 14, fontWeight: 500, color: "var(--text-primary)" }}>
-                  Message (optional)
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  placeholder="Tell us about your rooms or ask any questions..."
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full p-4 rounded-[12px] border transition-colors text-base resize-none"
-                  style={{
-                    borderColor: "var(--border-default)",
-                    background: "var(--bg-page)",
-                    color: "var(--text-primary)",
-                  }}
-                />
-              </div>
+                {/* Row 3: I'm interested in */}
+                <div className="flex flex-col gap-3 items-start w-full">
+                  <span className="text-[15px] font-medium leading-[22px] text-[#0e1726]">
+                    I&apos;m interested in
+                  </span>
+                  <div className="flex flex-wrap gap-2 w-full">
+                    {chips.map((chip, idx) => {
+                      const isSelected = selectedInterest === chip;
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setSelectedInterest(chip)}
+                          className={`h-[36px] px-4 rounded-[18px] text-[14px] font-semibold flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
+                            isSelected
+                              ? "bg-[#0e1726] text-white shadow-xs scale-[1.02]"
+                              : "bg-white border border-[#d8e1ec] text-[#0e1726] hover:border-[#0066db] hover:text-[#0066db] hover:-translate-y-0.5 hover:shadow-xs"
+                          }`}
+                        >
+                          {isSelected && (
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                          )}
+                          <span>{chip}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-              {/* Submit CTA */}
-              <button
-                type="submit"
-                className="w-full rounded-full font-semibold text-white transition-opacity hover:opacity-90 cursor-pointer"
-                style={{
-                  height: 48,
-                  background: "var(--primary)",
-                  fontSize: 16,
-                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
-                }}
-              >
-                Send message
-              </button>
-            </form>
-          )}
+                {/* Row 4: Message */}
+                <div className="flex flex-col gap-1.5 items-start w-full">
+                  <label className="text-[14px] font-medium leading-[20px] text-[#0e1726]">
+                    Message
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Tell us about your home, e.g. 3-bedroom flat in Mirpur"
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
+                    className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-4 focus:ring-[#0066db]/10 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                  />
+                </div>
+
+                {/* Submit button */}
+                <button
+                  type="submit"
+                  className="btn-primary w-full h-[48px] rounded-[24px] font-semibold text-[16px] flex items-center justify-center gap-2 cursor-pointer mt-1"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                  <span>Send message</span>
+                </button>
+
+                {/* Disclaimer */}
+                <p className="text-[14px] font-normal leading-[20px] text-[#5e6e84] text-left">
+                  By sending this form you agree to be contacted about Autoral
+                  Home.
+                </p>
+              </form>
+            )}
+
+            {/* Subtle top inner light border */}
+            <div className="absolute inset-0 pointer-events-none rounded-[32px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]" />
+          </div>
         </div>
       </div>
     </section>

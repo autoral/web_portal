@@ -1,5 +1,19 @@
 import type { Metadata } from "next";
+import { Inter, Hind_Siliguri } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const hindSiliguri = Hind_Siliguri({
+  variable: "--font-bengali",
+  weight: ["400", "500", "600", "700"],
+  subsets: ["bengali"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Autoral Home – Smart Home Automation for Bangladesh",
@@ -10,22 +24,11 @@ export const metadata: Metadata = {
     "home automation Dhaka",
     "smart switch Bangladesh",
     "Autoral Home",
-    "home control app",
-    "স্মার্ট হোম",
+    "অটোরাল হোম",
   ],
-  openGraph: {
-    title: "Autoral Home – Smart Home Automation for Bangladesh",
-    description:
-      "Control your whole home from one app. Works on Wi-Fi, even offline.",
-    type: "website",
-    locale: "en_BD",
+  icons: {
+    icon: "/favicon.ico",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Autoral Home – Smart Home Automation for Bangladesh",
-    description: "Control your whole home from one app.",
-  },
-  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -34,8 +37,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" style={{ width: "100%" }}>
-      <body style={{ width: "100%", margin: 0 }}>{children}</body>
+    <html lang="en" className={`${inter.variable} ${hindSiliguri.variable}`}>
+      <body className="min-h-screen bg-[#f5f8fc] text-[#0e1726] selection:bg-[#0066db] selection:text-white">
+        {children}
+      </body>
     </html>
   );
 }

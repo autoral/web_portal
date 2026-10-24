@@ -1,229 +1,196 @@
 "use client";
-import Image from "next/image";
-import { useState } from "react";
 
-const navLinks = [
-  { label: "Features",       href: "#features" },
-  { label: "Autoral device", href: "#device" },
-  { label: "How it works",   href: "#how-it-works" },
-  { label: "Download",       href: "#download" },
-  { label: "About",          href: "#about" },
-  { label: "Contact",        href: "#contact" },
-];
+import React, { useState } from "react";
+import Link from "next/link";
+import { IconHomeFill } from "./Icons";
 
 export default function Header() {
   const [lang, setLang] = useState<"EN" | "BN">("EN");
-  const [activeNav, setActiveNav] = useState("Features");
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header
-      className="sticky top-0 z-50 w-full transition-all"
-      style={{
-        background: "rgba(255, 255, 255, 0.85)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        borderBottom: "1px solid var(--border-default)",
-      }}
-    >
-      <div className="container-inner flex items-center justify-between" style={{ height: 85 }}>
+    <header className="sticky top-0 z-50 w-full bg-white/85 backdrop-blur-xl border-b border-[#d8e1ec] transition-all">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[120px] h-[85px] flex items-center justify-between">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-[10px] shrink-0" aria-label="Autoral Home">
-          <div
-            className="flex items-center justify-center shrink-0"
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              background: "var(--primary)",
-            }}
-          >
-            <Image src="/icons/icon-home.svg" alt="" width={22} height={22} className="brightness-0 invert" />
+        <Link
+          href="/"
+          className="flex items-center gap-[10px] group transition-transform active:scale-95 shrink-0"
+        >
+          <div className="w-10 h-10 rounded-[12px] bg-[#0066db] flex items-center justify-center text-white shadow-xs group-hover:scale-105 group-hover:shadow-[0px_4px_14px_rgba(0,102,219,0.35)] transition-all duration-200 shrink-0">
+            <IconHomeFill className="w-6 h-6 text-white" />
           </div>
-          <span
-            style={{
-              fontSize: 18,
-              fontWeight: 600,
-              lineHeight: "26px",
-              color: "var(--text-primary)",
-              letterSpacing: "0px",
-            }}
-          >
+          <span className="font-semibold text-[18px] leading-[26px] text-[#0e1726] tracking-tight group-hover:text-[#0066db] transition-colors duration-200 whitespace-nowrap">
             Autoral Home
           </span>
-        </a>
+        </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center" style={{ gap: 36 }} aria-label="Main navigation">
-          {navLinks.map((item) => {
-            const isActive = activeNav === item.label;
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setActiveNav(item.label)}
-                className="relative flex flex-col items-center py-1 transition-colors hover:text-[#0066db]"
-                style={{
-                  fontSize: 15,
-                  fontWeight: 500,
-                  lineHeight: "22px",
-                  color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
-                }}
-              >
-                <span>{item.label}</span>
-                {isActive && (
-                  <span
-                    className="absolute -bottom-1 w-full"
-                    style={{
-                      height: 2,
-                      borderRadius: 1,
-                      background: "var(--primary)",
-                    }}
-                  />
-                )}
-              </a>
-            );
-          })}
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex items-center gap-[36px]">
+          <a
+            href="#features"
+            className="text-[15px] font-medium leading-[22px] text-[#4a5a70] hover:text-[#0e1726] transition-colors duration-200 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0066db] hover:after:w-full after:transition-all after:duration-200"
+          >
+            Features
+          </a>
+          <a
+            href="#device"
+            className="text-[15px] font-medium leading-[22px] text-[#4a5a70] hover:text-[#0e1726] transition-colors duration-200 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0066db] hover:after:w-full after:transition-all after:duration-200"
+          >
+            Autoral device
+          </a>
+          <a
+            href="#how-it-works"
+            className="text-[15px] font-medium leading-[22px] text-[#4a5a70] hover:text-[#0e1726] transition-colors duration-200 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0066db] hover:after:w-full after:transition-all after:duration-200"
+          >
+            How it works
+          </a>
+          <a
+            href="#download"
+            className="text-[15px] font-medium leading-[22px] text-[#4a5a70] hover:text-[#0e1726] transition-colors duration-200 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0066db] hover:after:w-full after:transition-all after:duration-200"
+          >
+            Download
+          </a>
+          <a
+            href="#about"
+            className="text-[15px] font-medium leading-[22px] text-[#4a5a70] hover:text-[#0e1726] transition-colors duration-200 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0066db] hover:after:w-full after:transition-all after:duration-200"
+          >
+            About
+          </a>
+          <a
+            href="#contact"
+            className="text-[15px] font-medium leading-[22px] text-[#4a5a70] hover:text-[#0e1726] transition-colors duration-200 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0066db] hover:after:w-full after:transition-all after:duration-200"
+          >
+            Contact
+          </a>
         </nav>
 
-        {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center" style={{ gap: 16 }}>
+        {/* Actions */}
+        <div className="hidden sm:flex items-center gap-[16px] shrink-0">
           {/* Language Toggle */}
-          <div
-            className="flex items-center border"
-            style={{
-              padding: 4,
-              gap: 2,
-              borderRadius: 999,
-              background: "var(--bg-subtle)",
-              borderColor: "var(--border-default)",
-            }}
-          >
+          <div className="bg-[#edf2f8] border border-[#d8e1ec] rounded-full p-[4px] flex items-center gap-[2px] shadow-xs">
             <button
               type="button"
               onClick={() => setLang("EN")}
-              className="transition-colors cursor-pointer"
-              style={{
-                padding: "6px 14px",
-                borderRadius: 999,
-                fontSize: 15,
-                fontWeight: 500,
-                lineHeight: "22px",
-                background: lang === "EN" ? "var(--text-primary)" : "transparent",
-                color: lang === "EN" ? "var(--text-white)" : "var(--text-secondary)",
-              }}
+              className={`px-[14px] py-[6px] text-[15px] font-medium leading-[22px] rounded-full transition-all duration-200 cursor-pointer ${
+                lang === "EN"
+                  ? "bg-[#0e1726] text-white shadow-xs"
+                  : "text-[#4a5a70] hover:text-[#0e1726]"
+              }`}
             >
               EN
             </button>
             <button
               type="button"
               onClick={() => setLang("BN")}
-              className="transition-colors cursor-pointer"
-              style={{
-                padding: "6px 14px",
-                borderRadius: 999,
-                fontFamily: "'Hind Siliguri', sans-serif",
-                fontSize: 15,
-                fontWeight: 500,
-                lineHeight: "22px",
-                background: lang === "BN" ? "var(--text-primary)" : "transparent",
-                color: lang === "BN" ? "var(--text-white)" : "var(--text-secondary)",
-              }}
+              className={`px-[14px] py-[6px] text-[15px] font-medium leading-[22px] font-bengali rounded-full transition-all duration-200 cursor-pointer ${
+                lang === "BN"
+                  ? "bg-[#0e1726] text-white shadow-xs"
+                  : "text-[#4a5a70] hover:text-[#0e1726]"
+              }`}
             >
               বাংলা
             </button>
           </div>
 
-          {/* Primary CTA */}
+          {/* CTA */}
           <a
             href="#download"
-            className="inline-flex items-center gap-2 transition-transform active:scale-[0.98] hover:opacity-95"
-            style={{
-              height: 48,
-              paddingLeft: 24,
-              paddingRight: 24,
-              borderRadius: 24,
-              background: "var(--primary)",
-              color: "var(--text-white)",
-              fontSize: 16,
-              fontWeight: 600,
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
-            }}
+            className="h-[48px] px-[24px] rounded-[24px] bg-[#0066db] hover:bg-[#0052b3] active:scale-98 text-white font-semibold text-[16px] leading-[24px] flex items-center justify-center transition-all duration-200 shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.6)] hover:shadow-[0px_4px_16px_rgba(0,102,219,0.35)] hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            <span>Get the app</span>
+            Get the app
           </a>
         </div>
 
         {/* Mobile menu button */}
         <button
           type="button"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100"
-          aria-label="Toggle navigation menu"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="lg:hidden p-2 text-[#0e1726] rounded-xl hover:bg-black/5"
+          aria-label="Toggle menu"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {mobileOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+          {mobileMenuOpen ? (
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
         </button>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileOpen && (
-        <div className="lg:hidden border-t px-6 py-6 flex flex-col gap-4 bg-white" style={{ borderColor: "var(--border-default)" }}>
-          {navLinks.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={() => {
-                setActiveNav(item.label);
-                setMobileOpen(false);
-              }}
-              className="text-base font-medium py-1"
-              style={{ color: "var(--text-primary)" }}
-            >
-              {item.label}
-            </a>
-          ))}
-          <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: "var(--border-default)" }}>
-            <div className="flex border rounded-full p-1" style={{ borderColor: "var(--border-default)" }}>
+      {/* Mobile dropdown */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-white border-b border-[#d8e1ec] px-6 py-6 flex flex-col gap-4 shadow-xl animate-in slide-in-from-top duration-200">
+          <a
+            href="#features"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[16px] font-medium text-[#4a5a70] py-2"
+          >
+            Features
+          </a>
+          <a
+            href="#device"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[16px] font-medium text-[#4a5a70] py-2"
+          >
+            Autoral device
+          </a>
+          <a
+            href="#how-it-works"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[16px] font-medium text-[#4a5a70] py-2"
+          >
+            How it works
+          </a>
+          <a
+            href="#download"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[16px] font-medium text-[#4a5a70] py-2"
+          >
+            Download
+          </a>
+          <a
+            href="#about"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[16px] font-medium text-[#4a5a70] py-2"
+          >
+            About
+          </a>
+          <a
+            href="#contact"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[16px] font-medium text-[#4a5a70] py-2"
+          >
+            Contact
+          </a>
+
+          <div className="pt-4 border-t border-[#d8e1ec] flex flex-col gap-3">
+            <div className="bg-[#edf2f8] border border-[#d8e1ec] rounded-full p-1 flex items-center w-fit">
               <button
                 type="button"
                 onClick={() => setLang("EN")}
-                className="px-4 py-1 rounded-full text-sm font-medium"
-                style={{
-                  background: lang === "EN" ? "var(--text-primary)" : "transparent",
-                  color: lang === "EN" ? "white" : "var(--text-secondary)",
-                }}
+                className={`px-4 py-1.5 text-[14px] font-medium rounded-full ${
+                  lang === "EN" ? "bg-[#0e1726] text-white" : "text-[#4a5a70]"
+                }`}
               >
                 EN
               </button>
               <button
                 type="button"
                 onClick={() => setLang("BN")}
-                className="px-4 py-1 rounded-full text-sm font-medium"
-                style={{
-                  fontFamily: "'Hind Siliguri', sans-serif",
-                  background: lang === "BN" ? "var(--text-primary)" : "transparent",
-                  color: lang === "BN" ? "white" : "var(--text-secondary)",
-                }}
+                className={`px-4 py-1.5 text-[14px] font-medium font-bengali rounded-full ${
+                  lang === "BN" ? "bg-[#0e1726] text-white" : "text-[#4a5a70]"
+                }`}
               >
                 বাংলা
               </button>
             </div>
             <a
               href="#download"
-              onClick={() => setMobileOpen(false)}
-              className="px-5 py-2.5 rounded-full text-sm font-semibold text-white"
-              style={{ background: "var(--primary)" }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="h-12 w-full rounded-full bg-[#0066db] text-white font-semibold text-[16px] flex items-center justify-center"
             >
               Get the app
             </a>

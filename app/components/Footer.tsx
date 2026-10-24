@@ -1,112 +1,186 @@
-import Image from "next/image";
-
-const links = {
-  Product: [
-    { label: "Features", href: "#features" },
-    { label: "Autoral device", href: "#device" },
-    { label: "How it works", href: "#how-it-works" },
-    { label: "Download the app", href: "#download" },
-  ],
-  Company: [
-    { label: "About us", href: "#about" },
-    { label: "Partner with us", href: "#contact" },
-    { label: "Contact", href: "#contact" },
-  ],
-  Support: [
-    { label: "FAQ", href: "#faq" },
-    { label: "Installation guide", href: "#how-it-works" },
-    { label: "Privacy policy", href: "#" },
-    { label: "Terms of use", href: "#" },
-  ],
-};
-
-const socials = [
-  { icon: "/icons/icon-facebook.svg", href: "#", label: "Facebook" },
-  { icon: "/icons/icon-messenger.svg", href: "#", label: "Messenger" },
-  { icon: "/icons/icon-youtube.svg", href: "#", label: "YouTube" },
-  { icon: "/icons/icon-whatsapp-footer.svg", href: "https://wa.me/8801770066585", label: "WhatsApp" },
-];
+import React from "react";
+import Link from "next/link";
+import {
+  IconHomeFill,
+  IconFacebook,
+  IconMessenger,
+  IconYouTube,
+  IconWhatsApp,
+} from "./Icons";
 
 export default function Footer() {
   return (
     <footer
-      className="w-full text-white"
-      style={{
-        background: "var(--surface-dark)",
-      }}
-      aria-label="Site footer"
+      id="footer"
+      className="w-full bg-[#0e1726] text-white pt-16 lg:pt-[80px] pb-10"
+      data-node-id="4239:1457"
     >
-      <div className="container-inner pt-20 pb-10 flex flex-col gap-14">
-        {/* Top Grid */}
-        <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-16">
-          {/* Brand Stack (Figma: w-360) */}
-          <div className="flex flex-col w-full lg:w-[360px] shrink-0 gap-5">
-            <div className="flex items-center gap-2.5">
-              <div
-                className="flex items-center justify-center shrink-0 w-10 h-10 rounded-[12px]"
-                style={{ background: "var(--primary)" }}
-              >
-                <Image src="/icons/icon-home.svg" alt="" width={22} height={22} className="brightness-0 invert" />
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-12 lg:gap-[56px]">
+        {/* Top Section */}
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-12 w-full">
+          {/* Brand Column */}
+          <div className="flex flex-col gap-5 items-start w-full lg:w-[360px] shrink-0">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="flex items-center gap-2.5 group"
+              aria-label="Autoral Home"
+            >
+              <div className="size-10 rounded-[12px] bg-[#0066db] flex items-center justify-center text-white shrink-0 shadow-sm transition-transform group-hover:scale-105">
+                <IconHomeFill className="size-6 text-white" />
               </div>
-              <span className="font-semibold text-lg text-white">Autoral Home</span>
-            </div>
+              <span className="text-[18px] font-semibold leading-[26px] text-white whitespace-nowrap">
+                Autoral Home
+              </span>
+            </Link>
 
-            <p style={{ fontSize: 16, lineHeight: "26px", color: "rgba(255, 255, 255, 0.85)" }}>
-              Your whole home, one tap away. Smart home automation designed for Bangladesh.
+            {/* Tagline */}
+            <p className="text-[16px] leading-[26px] font-normal text-white/72 max-w-[360px]">
+              Your whole home, one tap away. Smart home automation designed for
+              Bangladesh.
             </p>
 
-            {/* Social Icons (4 circles) */}
+            {/* Social Icon Buttons (44x44px rounded-full with 20px icons) */}
             <div className="flex items-center gap-3 pt-1">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  aria-label={s.label}
-                  target={s.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-11 h-11 rounded-full border transition-all hover:bg-white/10"
-                  style={{ borderColor: "rgba(255, 255, 255, 0.2)" }}
-                >
-                  <Image src={s.icon} alt="" width={18} height={18} className="brightness-0 invert" />
-                </a>
-              ))}
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
+                className="size-[44px] rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white/80 hover:text-[#0e1726] hover:bg-white hover:border-white hover:scale-110 active:scale-95 shadow-xs hover:shadow-[0px_4px_16px_rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer"
+                aria-label="Facebook"
+              >
+                <IconFacebook className="size-5" />
+              </a>
+              <a
+                href="https://m.me"
+                target="_blank"
+                rel="noreferrer"
+                className="size-[44px] rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white/80 hover:text-[#0e1726] hover:bg-white hover:border-white hover:scale-110 active:scale-95 shadow-xs hover:shadow-[0px_4px_16px_rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer"
+                aria-label="Messenger"
+              >
+                <IconMessenger className="size-5" />
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noreferrer"
+                className="size-[44px] rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white/80 hover:text-[#0e1726] hover:bg-white hover:border-white hover:scale-110 active:scale-95 shadow-xs hover:shadow-[0px_4px_16px_rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer"
+                aria-label="YouTube"
+              >
+                <IconYouTube className="size-5" />
+              </a>
+              <a
+                href="https://wa.me/8801770066585"
+                target="_blank"
+                rel="noreferrer"
+                className="size-[44px] rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white/80 hover:text-[#0e1726] hover:bg-white hover:border-white hover:scale-110 active:scale-95 shadow-xs hover:shadow-[0px_4px_16px_rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer"
+                aria-label="WhatsApp"
+              >
+                <IconWhatsApp className="size-5" />
+              </a>
             </div>
           </div>
 
           {/* Links Columns */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-14 flex-1 max-w-[680px]">
-            {Object.entries(links).map(([category, items]) => (
-              <div key={category} className="flex flex-col gap-4">
-                <span style={{ fontSize: 15, fontWeight: 500, color: "#ffffff" }}>
-                  {category}
-                </span>
-                <div className="flex flex-col gap-3">
-                  {items.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className="text-sm transition-opacity hover:opacity-100 opacity-80"
-                      style={{ color: "#ffffff" }}
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12 lg:gap-16 w-full lg:w-auto">
+            {/* Column 1: Product */}
+            <div className="flex flex-col items-start w-full sm:w-[140px] lg:w-[180px]">
+              <h3 className="text-[15px] font-medium leading-[22px] text-white pb-2">
+                Product
+              </h3>
+              <a
+                href="#features"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                Features
+              </a>
+              <a
+                href="#device"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                Autoral device
+              </a>
+              <a
+                href="#how-it-works"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                How it works
+              </a>
+              <a
+                href="#download"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                Download the app
+              </a>
+            </div>
+
+            {/* Column 2: Company */}
+            <div className="flex flex-col items-start w-full sm:w-[140px] lg:w-[180px]">
+              <h3 className="text-[15px] font-medium leading-[22px] text-white pb-2">
+                Company
+              </h3>
+              <a
+                href="#about"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                About us
+              </a>
+              <a
+                href="#contact"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                Partner with us
+              </a>
+              <a
+                href="#contact"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                Contact
+              </a>
+            </div>
+
+            {/* Column 3: Support */}
+            <div className="flex flex-col items-start w-full sm:w-[140px] lg:w-[180px]">
+              <h3 className="text-[15px] font-medium leading-[22px] text-white pb-2">
+                Support
+              </h3>
+              <a
+                href="#faq"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                FAQ
+              </a>
+              <a
+                href="#how-it-works"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                Installation guide
+              </a>
+              <a
+                href="#contact"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                Privacy policy
+              </a>
+              <a
+                href="#contact"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
+              >
+                Terms of use
+              </a>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div
-          className="flex flex-col sm:flex-row sm:items-center justify-between pt-6 border-t gap-3"
-          style={{ borderColor: "rgba(255, 255, 255, 0.12)" }}
-        >
-          <p style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.6)" }}>
+        <div className="border-t border-white/20 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
+          <p className="text-[14px] leading-[20px] text-white/56">
             © 2026 Autoral Home Automation. All rights reserved.
           </p>
-          <p style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.75)" }}>
-            English · <span style={{ fontFamily: "'Hind Siliguri', sans-serif" }}>বাংলা</span>
+          <p className="text-[14px] leading-[20px] text-white/56 flex items-center gap-1.5">
+            <span>English</span>
+            <span>·</span>
+            <span className="font-bengali font-medium text-white">বাংলা</span>
           </p>
         </div>
       </div>
