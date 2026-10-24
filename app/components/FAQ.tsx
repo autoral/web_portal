@@ -1,36 +1,80 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  IconChat,
-  IconWhatsApp,
-  IconChevronDown,
-  IconChevronUp,
-} from "./Icons";
+import { IconWhatsApp } from "./Icons";
+
+function IconChatBubble({ className = "size-7" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 28 28"
+      fill="none"
+      stroke="#0066db"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M24.5 13.5a9.5 9.5 0 0 1-10.5 9.4 9.8 9.8 0 0 1-4.2 1.1c-1.5 0-3-.5-4.3-1.5L3.5 24l1.5-3.8A9.5 9.5 0 1 1 24.5 13.5z" />
+      <path d="M9.5 11.5h9" />
+      <path d="M9.5 15.5h6" />
+    </svg>
+  );
+}
+
+function IconFaqChevron({
+  className = "size-5",
+  isOpen = false,
+}: {
+  className?: string;
+  isOpen?: boolean;
+}) {
+  return (
+    <svg
+      className={`${className} transition-transform duration-300 ${
+        isOpen ? "rotate-180" : ""
+      }`}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {
-      q: "Will my normal wall switches still work?",
-      a: "Yes. The device works alongside your switches, and the app updates when someone uses a switch on the wall.",
+      question: "Will my normal wall switches still work?",
+      answer:
+        "Yes. The device works alongside your switches, and the app updates when someone uses a switch on the wall.",
     },
     {
-      q: "What happens during load-shedding?",
-      a: "The hub remembers every channel. When power comes back, each device returns to the state it was in.",
+      question: "What happens during load-shedding?",
+      answer:
+        "The hub remembers every channel. When power comes back, each device returns to the state it was in.",
     },
     {
-      q: "Do I need internet for Autoral Home?",
-      a: "No. At home everything runs on your Wi-Fi. Internet is only needed to control your home from outside.",
+      question: "Do I need internet for Autoral Home?",
+      answer:
+        "No. At home everything runs on your Wi-Fi. Internet is only needed to control your home from outside.",
     },
     {
-      q: "Who installs the device?",
-      a: "A trained Autoral installer fits and tests it behind your switchboard, usually in about 30 minutes.",
+      question: "Who installs the device?",
+      answer:
+        "A trained Autoral installer fits and tests it behind your switchboard, usually in about 30 minutes.",
     },
     {
-      q: "Is my home data safe?",
-      a: "Control at home stays on your local network, and remote access is encrypted end to end.",
+      question: "Is my home data safe?",
+      answer:
+        "Control at home stays on your local network, and remote access is encrypted end to end.",
     },
   ];
 
@@ -39,82 +83,91 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-14 sm:py-16 lg:py-20 bg-white border-y border-[#d8e1ec]">
+    <section
+      id="faq"
+      className="w-full bg-white py-16 sm:py-20 lg:py-[112px]"
+      data-node-id="4239:1279"
+    >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-16">
-          {/* Left Intro & WhatsApp Help Card */}
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-[80px]">
+          {/* Left Column: FAQ Intro & Help Card */}
           <div className="w-full lg:w-[400px] flex flex-col gap-8 shrink-0">
-            <div>
-              <div className="text-[12px] font-semibold text-[#0066db] tracking-[0.96px] uppercase mb-3">
+            {/* Header */}
+            <div className="flex flex-col gap-4 items-start w-full">
+              <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
                 FAQ
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-semibold text-[#0e1726] tracking-[-1px] leading-[1.18]">
+              </p>
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726]">
                 Questions people ask before buying
               </h2>
             </div>
 
             {/* Help Card */}
-            <div className="bg-[#eaf3ff] rounded-[24px] p-7 border border-blue-100 flex flex-col items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#0066db] shadow-xs">
-                <IconChat className="w-6 h-6 text-[#0066db]" />
+            <div className="bg-[#eaf3ff] rounded-[24px] p-7 flex flex-col gap-3 items-start w-full">
+              <div className="size-7 flex items-center justify-center">
+                <IconChatBubble className="size-7 text-[#0066db]" />
               </div>
-              <h3 className="text-[18px] font-semibold text-[#0052b3]">
+              <h3 className="text-[18px] font-semibold leading-[26px] text-[#0052b3]">
                 Still have a question?
               </h3>
-              <p className="text-[15px] text-[#4a5a70] leading-[24px] mb-2">
+              <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">
                 Call, WhatsApp or Messenger. An Autoral expert will reply.
               </p>
               <a
                 href="https://wa.me/8801770066585"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-12 px-6 rounded-full bg-[#0066db] hover:bg-[#0052b3] active:scale-98 text-white font-semibold text-[15px] flex items-center gap-2.5 transition-all shadow-md shadow-blue-500/20"
+                className="h-[48px] px-6 rounded-full bg-[#0066db] hover:bg-[#0052b3] active:scale-98 text-white font-semibold text-[16px] flex items-center gap-2 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] mt-1"
               >
-                <IconWhatsApp className="w-5 h-5 text-white" />
+                <IconWhatsApp className="size-5 text-white" />
                 <span>Chat on WhatsApp</span>
               </a>
             </div>
           </div>
 
-          {/* Right Accordion List */}
-          <div className="w-full flex-1 flex flex-col gap-3">
+          {/* Right Column: Accordion Items */}
+          <div className="flex flex-col gap-3 items-start w-full flex-1 min-w-0">
             {faqs.map((faq, idx) => {
               const isOpen = openIndex === idx;
               return (
-                <div
+                <button
                   key={idx}
+                  type="button"
                   onClick={() => toggle(idx)}
-                  className={`border rounded-[20px] transition-all cursor-pointer p-6 ${
+                  className={`w-full px-6 py-[22px] rounded-[20px] transition-all text-left flex flex-col gap-3 relative cursor-pointer ${
                     isOpen
-                      ? "bg-white border-[#0066db] shadow-[0px_4px_16px_rgba(10,42,92,0.06)]"
-                      : "bg-white border-[#d8e1ec] hover:border-neutral-300"
+                      ? "bg-white border-2 border-[#0066db] shadow-[0px_2px_6px_rgba(10,42,92,0.06)]"
+                      : "bg-white border border-[#d8e1ec] hover:border-neutral-400"
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-4">
-                    <h3 className="text-[17px] sm:text-[18px] font-semibold text-[#0e1726]">
-                      {faq.q}
-                    </h3>
+                  {/* Question & Chevron Button */}
+                  <div className="flex items-center justify-between gap-4 w-full">
+                    <span className="text-[18px] font-semibold leading-[26px] text-[#0e1726]">
+                      {faq.question}
+                    </span>
                     <div
-                      className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+                      className={`size-9 rounded-full flex items-center justify-center shrink-0 transition-colors ${
                         isOpen
                           ? "bg-[#0066db] text-white"
                           : "bg-[#edf2f8] text-[#4a5a70]"
                       }`}
                     >
-                      {isOpen ? (
-                        <IconChevronUp className="w-4 h-4 text-white" />
-                      ) : (
-                        <IconChevronDown className="w-4 h-4 text-[#4a5a70]" />
-                      )}
+                      <IconFaqChevron className="size-5" isOpen={isOpen} />
                     </div>
                   </div>
 
+                  {/* Answer (Expanded) */}
                   {isOpen && (
-                    <p className="text-[15px] sm:text-[16px] text-[#4a5a70] leading-[26px] mt-3.5 pt-3 border-t border-neutral-100 animate-in fade-in duration-200">
-                      {faq.a}
+                    <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] text-left animate-in fade-in duration-200">
+                      {faq.answer}
                     </p>
                   )}
-                </div>
+
+                  {/* Subtle top inner light border on open item */}
+                  {isOpen && (
+                    <div className="absolute inset-0 pointer-events-none rounded-[20px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]" />
+                  )}
+                </button>
               );
             })}
           </div>
