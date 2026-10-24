@@ -1,85 +1,161 @@
 import React from "react";
-import { IconWifi, IconUsers, IconSupport } from "./Icons";
+
+// Exact vector icons from Figma (28x28 viewBox 0 0 28 28)
+function IconWifiValue({ className = "size-7" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 28 28"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5.5 13.5a13 13 0 0 1 17 0" />
+      <path d="M2 9.5a18.5 18.5 0 0 1 24 0" />
+      <path d="M9.5 17.5a7.5 7.5 0 0 1 9 0" />
+      <circle cx="14" cy="22" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function IconGroupsValue({ className = "size-7" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 28 28"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {/* Center Person */}
+      <circle cx="14" cy="8" r="3.5" />
+      <path d="M8.5 21v-1.5a5.5 5.5 0 0 1 11 0V21" />
+      {/* Left Person */}
+      <circle cx="6" cy="11.5" r="2.5" />
+      <path d="M2 21v-1a4 4 0 0 1 4.5-3.8" />
+      {/* Right Person */}
+      <circle cx="22" cy="11.5" r="2.5" />
+      <path d="M21.5 16.2a4 4 0 0 1 4.5 3.8v1" />
+    </svg>
+  );
+}
+
+function IconSupportValue({ className = "size-7" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 28 28"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 14.5v-2a10 10 0 0 1 20 0v2" />
+      <rect x="3" y="14.5" width="4" height="6.5" rx="2" fill="currentColor" />
+      <rect x="21" y="14.5" width="4" height="6.5" rx="2" fill="currentColor" />
+      <path d="M23 21v1.5a3.5 3.5 0 0 1-3.5 3.5H16" />
+      <circle cx="14" cy="26" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
 export default function AboutUs() {
   const values = [
     {
       title: "Local first",
       desc: "Your home works on your own Wi-Fi. Internet is only needed when you are away.",
-      icon: <IconWifi className="w-6 h-6 text-[#0066db]" />,
+      icon: <IconWifiValue className="size-7 text-[#0066db]" />,
     },
     {
       title: "Made for families",
       desc: "Big tiles, clear words and full Bangla, so everyone at home can use it.",
-      icon: <IconUsers className="w-6 h-6 text-[#0066db]" />,
+      icon: <IconGroupsValue className="size-7 text-[#0066db]" />,
     },
     {
       title: "Honest support",
       desc: "Real people on the phone, WhatsApp and Messenger, and installers who come to your home.",
-      icon: <IconSupport className="w-6 h-6 text-[#0066db]" />,
+      icon: <IconSupportValue className="size-7 text-[#0066db]" />,
     },
   ];
 
   return (
-    <section id="about" className="py-14 sm:py-16 lg:py-20 bg-[#f5f8fc]">
+    <section
+      id="about"
+      className="w-full bg-white py-16 sm:py-20 lg:py-[112px]"
+      data-node-id="4239:1242"
+    >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-16">
-          {/* Left Copy & Mission */}
-          <div className="w-full lg:w-[540px] flex flex-col items-start gap-6">
-            <div>
-              <div className="text-[12px] font-semibold text-[#0066db] tracking-[0.96px] uppercase mb-3">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-[80px]">
+          {/* Left Column: Copy & Mission */}
+          <div className="w-full lg:w-[520px] flex flex-col gap-6 items-start shrink-0">
+            {/* Header */}
+            <div className="flex flex-col gap-4 items-start w-full">
+              <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
                 ABOUT US
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold text-[#0e1726] tracking-[-1px] leading-[1.18] mb-6">
+              </p>
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726]">
                 Built for homes in Bangladesh
               </h2>
-              <div className="space-y-4 text-base sm:text-lg text-[#4a5a70] leading-[28px]">
-                <p>
-                  Autoral Home Automation started with a simple idea: a smart
-                  home shouldn&apos;t need new wiring, strong internet or
-                  English.
-                </p>
-                <p>
-                  We design our device and app around the switchboards, power cuts
-                  and families of Bangladesh, and we support every customer with
-                  a local team.
-                </p>
-              </div>
+              <p className="text-[18px] font-normal leading-[28px] text-[#4a5a70]">
+                Autoral Home Automation started with a simple idea: a smart home
+                shouldn’t need new wiring, strong internet or English.
+              </p>
             </div>
 
+            {/* Paragraph 2 */}
+            <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">
+              We design our device and app around the switchboards, power cuts and
+              families of Bangladesh, and we support every customer with a local
+              team.
+            </p>
+
             {/* Mission Box */}
-            <div className="w-full bg-[#eaf3ff] rounded-[24px] p-6 flex items-start gap-4 border border-blue-100/80 mt-2">
-              <div className="w-1.5 h-16 rounded-full bg-[#0066db] shrink-0 mt-0.5" />
-              <div>
-                <div className="text-[18px] font-semibold text-[#0052b3] mb-1">
+            <div className="w-full bg-[#eaf3ff] rounded-[20px] p-6 flex gap-5 items-start mt-2">
+              <div className="w-1 self-stretch rounded-[2px] bg-[#0066db] shrink-0" />
+              <div className="flex flex-col gap-1.5 items-start leading-[26px] text-[#0052b3]">
+                <p className="text-[18px] font-semibold leading-[26px]">
                   Our mission
-                </div>
-                <div className="text-[16px] text-[#0e1726] font-medium leading-[26px]">
+                </p>
+                <p className="text-[16px] font-normal leading-[26px]">
                   Make every home in Bangladesh easier and safer to run, one
                   switch at a time.
-                </div>
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Right Values Cards */}
-          <div className="w-full lg:w-[600px] flex flex-col gap-4">
+          {/* Right Column: 3 Value Cards */}
+          <div className="flex flex-col gap-4 items-start w-full flex-1 min-w-0">
             {values.map((val, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-[24px] p-6 sm:p-7 border border-[#d8e1ec] shadow-[0px_2px_12px_rgba(10,42,92,0.04)] hover:shadow-[0px_8px_24px_rgba(10,42,92,0.08)] transition-all flex items-start gap-5 group"
+                className="group relative bg-white rounded-[20px] border border-[#d8e1ec] p-6 flex gap-5 items-start w-full shadow-[0px_2px_6px_rgba(10,42,92,0.06)] hover:border-[#0066db] hover:-translate-y-1 hover:shadow-[0px_12px_32px_rgba(10,42,92,0.12)] transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-[16px] bg-[#eaf3ff] flex items-center justify-center shrink-0 border border-blue-100/50 group-hover:scale-105 transition-transform">
+                {/* Badge */}
+                <div className="size-[56px] rounded-[16px] bg-[#eaf3ff] flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-105">
                   {val.icon}
                 </div>
-                <div>
-                  <h3 className="text-[19px] font-semibold text-[#0e1726] mb-1.5">
+
+                {/* Text */}
+                <div className="flex flex-col gap-1.5 items-start leading-[26px] text-left">
+                  <h3 className="text-[18px] font-semibold text-[#0e1726]">
                     {val.title}
                   </h3>
-                  <p className="text-[15px] text-[#4a5a70] leading-[24px]">
+                  <p className="text-[16px] font-normal text-[#4a5a70]">
                     {val.desc}
                   </p>
                 </div>
+
+                {/* Subtle top inner light border */}
+                <div className="absolute inset-0 pointer-events-none rounded-[20px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]" />
               </div>
             ))}
           </div>
