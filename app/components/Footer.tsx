@@ -46,7 +46,7 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noreferrer"
-                className="size-[44px] rounded-full border border-white/20 flex items-center justify-center text-white hover:border-white/50 hover:bg-white/10 active:scale-95 transition-all"
+                className="size-[44px] rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white/80 hover:text-[#0e1726] hover:bg-white hover:border-white hover:scale-110 active:scale-95 shadow-xs hover:shadow-[0px_4px_16px_rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer"
                 aria-label="Facebook"
               >
                 <IconFacebook className="size-5" />
@@ -55,7 +55,7 @@ export default function Footer() {
                 href="https://m.me"
                 target="_blank"
                 rel="noreferrer"
-                className="size-[44px] rounded-full border border-white/20 flex items-center justify-center text-white hover:border-white/50 hover:bg-white/10 active:scale-95 transition-all"
+                className="size-[44px] rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white/80 hover:text-[#0e1726] hover:bg-white hover:border-white hover:scale-110 active:scale-95 shadow-xs hover:shadow-[0px_4px_16px_rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer"
                 aria-label="Messenger"
               >
                 <IconMessenger className="size-5" />
@@ -64,7 +64,7 @@ export default function Footer() {
                 href="https://youtube.com"
                 target="_blank"
                 rel="noreferrer"
-                className="size-[44px] rounded-full border border-white/20 flex items-center justify-center text-white hover:border-white/50 hover:bg-white/10 active:scale-95 transition-all"
+                className="size-[44px] rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white/80 hover:text-[#0e1726] hover:bg-white hover:border-white hover:scale-110 active:scale-95 shadow-xs hover:shadow-[0px_4px_16px_rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer"
                 aria-label="YouTube"
               >
                 <IconYouTube className="size-5" />
@@ -73,7 +73,7 @@ export default function Footer() {
                 href="https://wa.me/8801770066585"
                 target="_blank"
                 rel="noreferrer"
-                className="size-[44px] rounded-full border border-white/20 flex items-center justify-center text-white hover:border-white/50 hover:bg-white/10 active:scale-95 transition-all"
+                className="size-[44px] rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-white/80 hover:text-[#0e1726] hover:bg-white hover:border-white hover:scale-110 active:scale-95 shadow-xs hover:shadow-[0px_4px_16px_rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer"
                 aria-label="WhatsApp"
               >
                 <IconWhatsApp className="size-5" />
@@ -90,25 +90,25 @@ export default function Footer() {
               </h3>
               <a
                 href="#features"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 Features
               </a>
               <a
                 href="#device"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 Autoral device
               </a>
               <a
                 href="#how-it-works"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 How it works
               </a>
               <a
                 href="#download"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 Download the app
               </a>
@@ -121,19 +121,19 @@ export default function Footer() {
               </h3>
               <a
                 href="#about"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 About us
               </a>
               <a
                 href="#contact"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 Partner with us
               </a>
               <a
                 href="#contact"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 Contact
               </a>
@@ -146,25 +146,25 @@ export default function Footer() {
               </h3>
               <a
                 href="#faq"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 FAQ
               </a>
               <a
                 href="#how-it-works"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 Installation guide
               </a>
               <a
                 href="#contact"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 Privacy policy
               </a>
               <a
                 href="#contact"
-                className="py-2.5 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white transition-colors"
+                className="py-2 text-[14px] font-normal leading-[20px] text-white/64 hover:text-white hover:translate-x-1 transition-all duration-200 inline-block"
               >
                 Terms of use
               </a>

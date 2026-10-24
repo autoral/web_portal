@@ -67,17 +67,17 @@ function CategoryCard({
   tag,
 }: CategoryCardProps) {
   return (
-    <div className="bg-white border border-[#d8e1ec] rounded-[24px] p-[28px] flex flex-col justify-between min-h-[206px] drop-shadow-[0px_2px_6px_rgba(10,42,92,0.06)] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] hover:shadow-md transition-all group">
+    <div className="card-interactive bg-white border border-[#d8e1ec] rounded-[24px] p-[28px] flex flex-col justify-between min-h-[206px] group cursor-default">
       {/* Top Row: 56x56 Squircle Badge & Optional Tag */}
       <div className="flex items-center justify-between mb-7">
         <div
-          className={`w-[56px] h-[56px] rounded-[16px] ${containerBg} ${iconColor} flex items-center justify-center shrink-0 transition-transform group-hover:scale-105`}
+          className={`w-[56px] h-[56px] rounded-[16px] ${containerBg} ${iconColor} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 shadow-xs`}
         >
           {icon}
         </div>
         {tag && (
-          <div className="bg-[#edf2f8] border border-[#d8e1ec] rounded-full px-[12px] py-[6px]">
-            <span className="text-[12px] font-normal leading-[16px] text-[#4a5a70] whitespace-nowrap">
+          <div className="bg-[#edf2f8] border border-[#d8e1ec] rounded-full px-[12px] py-[6px] transition-colors duration-200 group-hover:bg-[#eaf3ff] group-hover:border-[#0066db]/30">
+            <span className="text-[12px] font-normal leading-[16px] text-[#4a5a70] group-hover:text-[#0052b3] transition-colors duration-200 whitespace-nowrap">
               {tag}
             </span>
           </div>
@@ -86,7 +86,7 @@ function CategoryCard({
 
       {/* Bottom Text Block */}
       <div className="flex flex-col gap-[6px]">
-        <h3 className="text-[24px] font-semibold leading-[32px] text-[#0e1726] tracking-[-0.2px]">
+        <h3 className="text-[24px] font-semibold leading-[32px] text-[#0e1726] tracking-[-0.2px] group-hover:text-[#0066db] transition-colors duration-200">
           {title}
         </h3>
         <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">

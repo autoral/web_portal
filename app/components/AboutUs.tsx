@@ -72,17 +72,17 @@ export default function AboutUs() {
     {
       title: "Local first",
       desc: "Your home works on your own Wi-Fi. Internet is only needed when you are away.",
-      icon: <IconWifiValue className="size-7 text-[#0066db]" />,
+      icon: <IconWifiValue className="size-7" />,
     },
     {
       title: "Made for families",
       desc: "Big tiles, clear words and full Bangla, so everyone at home can use it.",
-      icon: <IconGroupsValue className="size-7 text-[#0066db]" />,
+      icon: <IconGroupsValue className="size-7" />,
     },
     {
       title: "Honest support",
       desc: "Real people on the phone, WhatsApp and Messenger, and installers who come to your home.",
-      icon: <IconSupportValue className="size-7 text-[#0066db]" />,
+      icon: <IconSupportValue className="size-7" />,
     },
   ];
 
@@ -118,7 +118,7 @@ export default function AboutUs() {
             </p>
 
             {/* Mission Box */}
-            <div className="w-full bg-[#eaf3ff] rounded-[20px] p-6 flex gap-5 items-start mt-2">
+            <div className="w-full bg-[#eaf3ff] border border-transparent hover:border-[#0066db]/25 hover:shadow-md rounded-[20px] p-6 flex gap-5 items-start mt-2 transition-all duration-300">
               <div className="w-1 self-stretch rounded-[2px] bg-[#0066db] shrink-0" />
               <div className="flex flex-col gap-1.5 items-start leading-[26px] text-[#0052b3]">
                 <p className="text-[18px] font-semibold leading-[26px]">
@@ -137,16 +137,16 @@ export default function AboutUs() {
             {values.map((val, idx) => (
               <div
                 key={idx}
-                className="group relative bg-white rounded-[20px] border border-[#d8e1ec] p-6 flex gap-5 items-start w-full shadow-[0px_2px_6px_rgba(10,42,92,0.06)] hover:border-[#0066db] hover:-translate-y-1 hover:shadow-[0px_12px_32px_rgba(10,42,92,0.12)] transition-all duration-300"
+                className="card-interactive group relative bg-white rounded-[20px] border border-[#d8e1ec] p-6 flex gap-5 items-start w-full cursor-default"
               >
                 {/* Badge */}
-                <div className="size-[56px] rounded-[16px] bg-[#eaf3ff] flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-105">
+                <div className="size-[56px] rounded-[16px] bg-[#eaf3ff] text-[#0066db] flex items-center justify-center shrink-0 shadow-xs transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0066db] group-hover:text-white group-hover:shadow-[0px_6px_20px_rgba(0,102,219,0.3)]">
                   {val.icon}
                 </div>
 
                 {/* Text */}
                 <div className="flex flex-col gap-1.5 items-start leading-[26px] text-left">
-                  <h3 className="text-[18px] font-semibold text-[#0e1726]">
+                  <h3 className="text-[18px] font-semibold text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200">
                     {val.title}
                   </h3>
                   <p className="text-[16px] font-normal text-[#4a5a70]">

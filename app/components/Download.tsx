@@ -99,7 +99,7 @@ export default function Download() {
               {/* Google Play */}
               <a
                 href="#download"
-                className="bg-black hover:bg-neutral-900 active:scale-98 transition-all text-white rounded-[14px] pl-[14px] pr-[16px] py-[10px] flex items-center gap-[10px] shadow-sm shrink-0"
+                className="store-badge rounded-[14px] pl-[14px] pr-[16px] py-[10px] flex items-center gap-[10px] shrink-0 cursor-pointer"
                 aria-label="Get it on Google Play"
               >
                 <div className="size-6 shrink-0 flex items-center justify-center">
@@ -118,7 +118,7 @@ export default function Download() {
               {/* App Store */}
               <a
                 href="#download"
-                className="bg-black hover:bg-neutral-900 active:scale-98 transition-all text-white rounded-[14px] pl-[14px] pr-[16px] py-[10px] flex items-center gap-[10px] shadow-sm shrink-0"
+                className="store-badge rounded-[14px] pl-[14px] pr-[16px] py-[10px] flex items-center gap-[10px] shrink-0 cursor-pointer"
                 aria-label="Download on the App Store"
               >
                 <div className="size-6 shrink-0 flex items-center justify-center">
@@ -136,14 +136,14 @@ export default function Download() {
             </div>
 
             {/* QR Code Container */}
-            <div className="bg-white/[0.28] border border-white/90 backdrop-blur-md rounded-[24px] pl-[12px] pr-[24px] py-[12px] flex items-center gap-[20px] shadow-[0px_4px_20px_rgba(0,0,0,0.06)] w-full max-w-[396px]">
-              <div className="size-[96px] rounded-[16px] bg-white flex items-center justify-center shrink-0 p-2 shadow-xs">
+            <div className="bg-white/[0.28] hover:bg-white/[0.36] border border-white/90 backdrop-blur-md rounded-[24px] pl-[12px] pr-[24px] py-[12px] flex items-center gap-[20px] shadow-[0px_4px_20px_rgba(0,0,0,0.06)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 w-full max-w-[396px] group cursor-pointer">
+              <div className="size-[96px] rounded-[16px] bg-white flex items-center justify-center shrink-0 p-2 shadow-xs transition-transform duration-300 group-hover:scale-105">
                 <div className="size-[76px] flex items-center justify-center">
                   <IconQrCodeDetailed className="size-full" />
                 </div>
               </div>
               <div className="flex flex-col gap-1 items-start text-left text-white">
-                <span className="text-[18px] font-semibold leading-[26px]">
+                <span className="text-[18px] font-semibold leading-[26px] group-hover:translate-x-0.5 transition-transform duration-200">
                   Scan to download
                 </span>
                 <span className="text-[14px] font-normal leading-[20px] text-white/90">

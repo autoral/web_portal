@@ -32,35 +32,35 @@ export default function Contact() {
       label: "Phone",
       val: "01770-066585",
       href: "tel:01770066585",
-      icon: <IconPhone className="size-[22px] text-[#0066db]" />,
+      icon: <IconPhone className="size-[22px]" />,
     },
     {
       label: "WhatsApp",
       val: "01770-066585",
       href: "https://wa.me/8801770066585",
-      icon: <IconWhatsApp className="size-[22px] text-[#0066db]" />,
+      icon: <IconWhatsApp className="size-[22px]" />,
     },
     {
       label: "Messenger",
       val: "Autoral Home on Facebook",
       href: "https://m.me",
-      icon: <IconMessenger className="size-[22px] text-[#0066db]" />,
+      icon: <IconMessenger className="size-[22px]" />,
     },
     {
       label: "Email",
       val: "molla.ux@gmail.com",
       href: "mailto:molla.ux@gmail.com",
-      icon: <IconMail className="size-[22px] text-[#0066db]" />,
+      icon: <IconMail className="size-[22px]" />,
     },
     {
       label: "Office",
       val: "Dhaka, Bangladesh",
-      icon: <IconLocation className="size-[22px] text-[#0066db]" />,
+      icon: <IconLocation className="size-[22px]" />,
     },
     {
       label: "Hours",
       val: "Sat–Thu, 10:00 AM – 7:00 PM",
-      icon: <IconClock className="size-[22px] text-[#0066db]" />,
+      icon: <IconClock className="size-[22px]" />,
     },
   ];
 
@@ -91,11 +91,14 @@ export default function Contact() {
             </div>
 
             {/* Contact Rows List */}
-            <div className="flex flex-col gap-5 w-full">
+            <div className="flex flex-col gap-4 w-full">
               {contactItems.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-4">
+                <div
+                  key={idx}
+                  className="group flex items-center gap-4 p-2 -m-2 rounded-[16px] hover:bg-white hover:shadow-xs transition-all duration-200 cursor-default"
+                >
                   {/* Circular Badge */}
-                  <div className="size-[48px] rounded-full bg-[#eaf3ff] flex items-center justify-center shrink-0">
+                  <div className="size-[48px] rounded-full bg-[#eaf3ff] text-[#0066db] flex items-center justify-center shrink-0 group-hover:bg-[#0066db] group-hover:text-white group-hover:scale-105 transition-all duration-200 shadow-xs">
                     {item.icon}
                   </div>
                   <div className="flex flex-col items-start leading-[20px]">
@@ -109,12 +112,12 @@ export default function Contact() {
                           item.href.startsWith("http") ? "_blank" : undefined
                         }
                         rel="noreferrer"
-                        className="text-[15px] font-medium leading-[22px] text-[#0e1726] hover:text-[#0066db] transition-colors"
+                        className="text-[15px] font-medium leading-[22px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200"
                       >
                         {item.val}
                       </a>
                     ) : (
-                      <span className="text-[15px] font-medium leading-[22px] text-[#0e1726]">
+                      <span className="text-[15px] font-medium leading-[22px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200">
                         {item.val}
                       </span>
                     )}
@@ -124,11 +127,11 @@ export default function Contact() {
             </div>
 
             {/* Office Map Card */}
-            <div className="bg-[#eaf3ff] border border-[#d8e1ec] rounded-[24px] h-[180px] flex flex-col gap-2 items-center justify-center w-full text-center">
-              <div className="size-8 flex items-center justify-center text-[#0066db]">
+            <div className="bg-[#eaf3ff] border border-[#d8e1ec] hover:border-[#0066db]/30 hover:shadow-md rounded-[24px] h-[180px] flex flex-col gap-2 items-center justify-center w-full text-center transition-all duration-300 cursor-default group">
+              <div className="size-8 flex items-center justify-center text-[#0066db] group-hover:scale-110 transition-transform duration-200">
                 <IconLocation className="size-8 text-[#0066db]" />
               </div>
-              <span className="text-[14px] font-normal leading-[20px] text-[#0052b3]">
+              <span className="text-[14px] font-normal leading-[20px] text-[#0052b3] group-hover:underline">
                 Office map · Dhaka
               </span>
             </div>
@@ -232,10 +235,10 @@ export default function Contact() {
                           key={idx}
                           type="button"
                           onClick={() => setSelectedInterest(chip)}
-                          className={`h-[36px] px-4 rounded-[18px] text-[14px] font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                          className={`h-[36px] px-4 rounded-[18px] text-[14px] font-semibold flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
                             isSelected
-                              ? "bg-[#0e1726] text-white shadow-xs"
-                              : "bg-white border border-[#d8e1ec] text-[#0e1726] hover:border-neutral-400"
+                              ? "bg-[#0e1726] text-white shadow-xs scale-[1.02]"
+                              : "bg-white border border-[#d8e1ec] text-[#0e1726] hover:border-[#0066db] hover:text-[#0066db] hover:-translate-y-0.5 hover:shadow-xs"
                           }`}
                         >
                           {isSelected && (
@@ -272,14 +275,14 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-2 focus:ring-[#0066db]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                    className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-4 focus:ring-[#0066db]/10 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
                   />
                 </div>
 
                 {/* Submit button */}
                 <button
                   type="submit"
-                  className="w-full h-[48px] rounded-[24px] bg-[#0066db] hover:bg-[#0052b3] active:scale-98 text-white font-semibold text-[16px] flex items-center justify-center gap-2 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] cursor-pointer mt-1"
+                  className="btn-primary w-full h-[48px] rounded-[24px] font-semibold text-[16px] flex items-center justify-center gap-2 cursor-pointer mt-1"
                 >
                   <svg
                     width="18"

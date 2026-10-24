@@ -103,7 +103,7 @@ export default function FAQ() {
             </div>
 
             {/* Help Card */}
-            <div className="bg-[#eaf3ff] rounded-[24px] p-7 flex flex-col gap-3 items-start w-full">
+            <div className="bg-[#eaf3ff] rounded-[24px] p-7 flex flex-col gap-3 items-start w-full border border-transparent hover:border-[#0066db]/25 hover:shadow-md transition-all duration-300">
               <div className="size-7 flex items-center justify-center">
                 <IconChatBubble className="size-7 text-[#0066db]" />
               </div>
@@ -117,7 +117,7 @@ export default function FAQ() {
                 href="https://wa.me/8801770066585"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-[48px] px-6 rounded-full bg-[#0066db] hover:bg-[#0052b3] active:scale-98 text-white font-semibold text-[16px] flex items-center gap-2 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] mt-1"
+                className="btn-primary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center gap-2 cursor-pointer mt-1"
               >
                 <IconWhatsApp className="size-5 text-white" />
                 <span>Chat on WhatsApp</span>
@@ -134,22 +134,24 @@ export default function FAQ() {
                   key={idx}
                   type="button"
                   onClick={() => toggle(idx)}
-                  className={`w-full px-6 py-[22px] rounded-[20px] transition-all text-left flex flex-col gap-3 relative cursor-pointer ${
+                  className={`group w-full px-6 py-[22px] rounded-[20px] transition-all duration-200 text-left flex flex-col gap-3 relative cursor-pointer ${
                     isOpen
-                      ? "bg-white border-2 border-[#0066db] shadow-[0px_2px_6px_rgba(10,42,92,0.06)]"
-                      : "bg-white border border-[#d8e1ec] hover:border-neutral-400"
+                      ? "bg-white border-2 border-[#0066db] shadow-[0px_4px_16px_rgba(0,102,219,0.12)]"
+                      : "bg-white border border-[#d8e1ec] hover:border-[#0066db] hover:-translate-y-0.5 hover:shadow-elevation-soft"
                   }`}
                 >
                   {/* Question & Chevron Button */}
                   <div className="flex items-center justify-between gap-4 w-full">
-                    <span className="text-[18px] font-semibold leading-[26px] text-[#0e1726]">
+                    <span className={`text-[18px] font-semibold leading-[26px] transition-colors duration-200 ${
+                      isOpen ? "text-[#0066db]" : "text-[#0e1726] group-hover:text-[#0066db]"
+                    }`}>
                       {faq.question}
                     </span>
                     <div
-                      className={`size-9 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+                      className={`size-9 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
                         isOpen
                           ? "bg-[#0066db] text-white"
-                          : "bg-[#edf2f8] text-[#4a5a70]"
+                          : "bg-[#edf2f8] text-[#4a5a70] group-hover:bg-[#eaf3ff] group-hover:text-[#0066db]"
                       }`}
                     >
                       <IconFaqChevron className="size-5" isOpen={isOpen} />

@@ -167,10 +167,10 @@ export default function AutoralDevice() {
               <button
                 type="button"
                 onClick={() => setSelectedModel("MH-4")}
-                className={`p-5 rounded-[20px] flex flex-col gap-1 items-start text-left transition-all cursor-pointer ${
+                className={`p-5 rounded-[20px] flex flex-col gap-1 items-start text-left transition-all duration-300 cursor-pointer ${
                   selectedModel === "MH-4"
-                    ? "bg-[#eaf3ff] border-2 border-[#0066db] shadow-xs"
-                    : "bg-white border border-[#d8e1ec] hover:border-neutral-400"
+                    ? "bg-[#eaf3ff] border-2 border-[#0066db] shadow-[0px_4px_16px_rgba(0,102,219,0.15)] scale-[1.01]"
+                    : "bg-white border border-[#d8e1ec] hover:border-[#0066db] hover:-translate-y-1 hover:shadow-elevation-float"
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
@@ -190,17 +190,17 @@ export default function AutoralDevice() {
               <button
                 type="button"
                 onClick={() => setSelectedModel("MH-8")}
-                className={`p-5 rounded-[20px] flex flex-col gap-1 items-start text-left transition-all cursor-pointer ${
+                className={`p-5 rounded-[20px] flex flex-col gap-1 items-start text-left transition-all duration-300 cursor-pointer ${
                   selectedModel === "MH-8"
-                    ? "bg-[#eaf3ff] border-2 border-[#0066db] shadow-xs"
-                    : "bg-white border border-[#d8e1ec] hover:border-neutral-400"
+                    ? "bg-[#eaf3ff] border-2 border-[#0066db] shadow-[0px_4px_16px_rgba(0,102,219,0.15)] scale-[1.01]"
+                    : "bg-white border border-[#d8e1ec] hover:border-[#0066db] hover:-translate-y-1 hover:shadow-elevation-float"
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
                   <span className="text-[18px] font-semibold leading-[26px] text-[#0e1726]">
                     Autoral MH-8
                   </span>
-                  <span className="bg-[#0066db] text-white text-[12px] font-normal leading-[16px] px-2.5 py-1 rounded-full">
+                  <span className="bg-[#0066db] text-white text-[12px] font-semibold leading-[16px] px-2.5 py-1 rounded-full shadow-xs">
                     Popular
                   </span>
                 </div>
@@ -218,7 +218,7 @@ export default function AutoralDevice() {
               {/* Ask for a price (Primary CTA) */}
               <a
                 href="#contact"
-                className="h-[48px] px-6 rounded-full bg-[#0066db] hover:bg-[#0052b3] active:scale-98 text-white font-semibold text-[16px] flex items-center gap-2 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                className="btn-primary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center gap-2 cursor-pointer"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12" />
@@ -232,7 +232,7 @@ export default function AutoralDevice() {
                 href="https://wa.me/8801770066585"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-[48px] px-6 rounded-full bg-white/75 backdrop-blur-md hover:bg-white active:scale-98 border border-[#d8e1ec] text-[#0066db] font-semibold text-[16px] flex items-center gap-2 transition-all shadow-[0px_8px_32px_rgba(10,42,92,0.12)]"
+                className="btn-secondary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center gap-2 cursor-pointer"
               >
                 <IconWhatsApp className="w-5 h-5 text-[#25D366]" />
                 <span>Book installation</span>

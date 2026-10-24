@@ -36,22 +36,22 @@ function IconHandyman({ className = "w-[22px] h-[22px]" }: { className?: string 
 export default function TrustStrip() {
   const trustItems = [
     {
-      icon: <IconWifiTrust className="w-[22px] h-[22px] text-[#0066db]" />,
+      icon: <IconWifiTrust className="w-[22px] h-[22px]" />,
       title: "Works without internet",
       desc: "Control at home on Wi-Fi",
     },
     {
-      icon: <IconSwitch className="w-[22px] h-[22px] text-[#0066db]" />,
+      icon: <IconSwitch className="w-[22px] h-[22px]" />,
       title: "Wall switches still work",
       desc: "No need to change habits",
     },
     {
-      icon: <IconBolt className="w-[22px] h-[22px] text-[#0066db]" />,
+      icon: <IconBolt className="w-[22px] h-[22px]" />,
       title: "Ready for load-shedding",
       desc: "Restores the last state",
     },
     {
-      icon: <IconHandyman className="w-[22px] h-[22px] text-[#0066db]" />,
+      icon: <IconHandyman className="w-[22px] h-[22px]" />,
       title: "Local installation",
       desc: "Trained Autoral installers",
     },
@@ -63,20 +63,20 @@ export default function TrustStrip() {
       className="bg-white border-t border-b border-[#d8e1ec] py-[32px] w-full"
     >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6 items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 items-center">
           {trustItems.map((item, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-[14px]"
+              className="group flex items-center gap-[14px] p-2.5 rounded-[16px] transition-all duration-200 hover:bg-[#f5f8fc] hover:-translate-y-0.5 cursor-default"
             >
               {/* Badge: 44x44, rounded-[12px], bg-[#eaf3ff] */}
-              <div className="w-[44px] h-[44px] rounded-[12px] bg-[#eaf3ff] flex items-center justify-center shrink-0">
+              <div className="w-[44px] h-[44px] rounded-[12px] bg-[#eaf3ff] text-[#0066db] flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-[#0066db] group-hover:text-white group-hover:shadow-[0px_4px_12px_rgba(0,102,219,0.25)] transition-all duration-200">
                 {item.icon}
               </div>
 
               {/* Text: Title 15px/22px medium, Subtitle 14px/20px regular */}
               <div className="flex flex-col gap-[2px] min-w-0">
-                <p className="font-medium text-[15px] leading-[22px] text-[#0e1726] whitespace-nowrap">
+                <p className="font-medium text-[15px] leading-[22px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200 whitespace-nowrap">
                   {item.title}
                 </p>
                 <p className="font-normal text-[14px] leading-[20px] text-[#4a5a70] whitespace-nowrap">

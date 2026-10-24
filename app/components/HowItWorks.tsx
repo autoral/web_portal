@@ -96,21 +96,21 @@ export default function HowItWorks() {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="group relative bg-[#f5f8fc] rounded-[24px] border border-[#d8e1ec] p-8 flex flex-col justify-between gap-8 min-h-[288px] shadow-[0px_2px_6px_rgba(10,42,92,0.06)] hover:border-[#0066db] hover:-translate-y-1 hover:shadow-[0px_12px_32px_rgba(10,42,92,0.12)] transition-all duration-300"
+              className="card-interactive group relative bg-[#f5f8fc] rounded-[24px] border border-[#d8e1ec] p-8 flex flex-col justify-between gap-8 min-h-[288px] cursor-default hover:bg-white"
             >
               {/* Top: Icon Badge & Number */}
               <div className="flex items-center justify-between w-full">
-                <div className="size-[56px] rounded-[16px] bg-[#0066db] flex items-center justify-center text-white shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-105">
+                <div className="size-[56px] rounded-[16px] bg-[#0066db] flex items-center justify-center text-white shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0px_6px_20px_rgba(0,102,219,0.35)]">
                   {step.icon}
                 </div>
-                <span className="text-[64px] font-semibold leading-[72px] tracking-[-1.5px] text-[#0066db]/16 select-none transition-colors duration-300 group-hover:text-[#0066db]/25">
+                <span className="text-[64px] font-semibold leading-[72px] tracking-[-1.5px] text-[#0066db]/16 select-none transition-colors duration-300 group-hover:text-[#0066db]/35">
                   {step.num}
                 </span>
               </div>
 
               {/* Text */}
               <div className="flex flex-col gap-2 w-full text-left">
-                <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726]">
+                <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200">
                   {step.title}
                 </h3>
                 <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">

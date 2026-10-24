@@ -80,16 +80,16 @@ export default function AppFeatures() {
           {features.map((item, idx) => (
             <div
               key={idx}
-              className="bg-[#f5f8fc] rounded-[24px] p-[28px] border border-[#d8e1ec] drop-shadow-[0px_2px_6px_rgba(10,42,92,0.06)] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] hover:bg-white hover:border-[#0066db]/40 hover:shadow-md transition-all group flex flex-col justify-between min-h-[224px]"
+              className="card-interactive bg-[#f5f8fc] rounded-[24px] p-[28px] border border-[#d8e1ec] hover:bg-white group flex flex-col justify-between min-h-[224px] cursor-default"
             >
               {/* Badge: 56x56, rounded-[16px], bg-[#eaf3ff] */}
-              <div className="w-[56px] h-[56px] rounded-[16px] bg-[#eaf3ff] flex items-center justify-center mb-6 transition-transform group-hover:scale-105">
+              <div className="w-[56px] h-[56px] rounded-[16px] bg-[#eaf3ff] flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 shadow-xs">
                 {item.icon}
               </div>
 
               {/* Text Block: Title 18px semibold, Body 16px regular */}
               <div className="flex flex-col gap-2">
-                <h3 className="text-[18px] font-semibold leading-[26px] text-[#0e1726]">
+                <h3 className="text-[18px] font-semibold leading-[26px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200">
                   {item.title}
                 </h3>
                 <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">

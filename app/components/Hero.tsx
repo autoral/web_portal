@@ -48,7 +48,7 @@ function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
   return (
     <a
       href="#download"
-      className="inline-flex items-center bg-black hover:bg-neutral-800 active:scale-98 transition-all rounded-[14px] shrink-0 text-white shadow-md"
+      className="inline-flex items-center bg-black hover:bg-neutral-800 active:scale-98 transition-all duration-200 rounded-[14px] shrink-0 text-white shadow-md hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
       style={{
         gap: 10,
         padding: "10px 16px 10px 14px",
@@ -68,7 +68,7 @@ function StoreBadge({ store }: { store: "Google Play" | "App Store" }) {
         <span className="text-[11px] font-normal leading-[14px] text-neutral-300">
           {isGoogle ? "GET IT ON" : "Download on the"}
         </span>
-        <span className="text-[18px] font-semibold leading-[24px]">
+        <span className="text-[18px] font-semibold leading-[24px] text-white">
           {store}
         </span>
       </div>
@@ -223,12 +223,12 @@ export default function Hero() {
           <div className="flex flex-wrap items-center gap-6 pt-1">
             <a
               href="#how-it-works"
-              className="inline-flex items-center gap-2 border rounded-full transition-all hover:bg-white active:scale-98 shadow-xs hover:shadow"
+              className="inline-flex items-center gap-2 border rounded-full transition-all duration-200 hover:bg-white hover:border-[#0066db] hover:shadow-md hover:-translate-y-0.5 active:scale-98 shadow-xs cursor-pointer"
               style={{
                 height: 48,
                 paddingLeft: 24,
                 paddingRight: 24,
-                background: "rgba(255, 255, 255, 0.72)",
+                background: "rgba(255, 255, 255, 0.85)",
                 borderColor: "#d8e1ec",
                 backdropFilter: "blur(24px)",
                 color: "#0066db",
@@ -253,73 +253,75 @@ export default function Hero() {
         </div>
 
         {/* Right Interactive Mockup (Figma 4238:661 exact design, scrollable & interactive) */}
-        <div className="relative w-full max-w-[520px] lg:w-[540px] h-[720px] flex items-center justify-center select-none">
+        <div className="relative w-full max-w-[540px] h-[720px] flex items-center justify-center select-none">
           {/* Subtle Ambient Radial Ring & Soft Glow from Figma */}
-          <div className="absolute w-[460px] h-[460px] rounded-full border border-[#4c8dff]/20 bg-gradient-to-tr from-[#4c8dff]/15 via-blue-200/10 to-transparent blur-2xl pointer-events-none" />
+          <div className="absolute w-[480px] h-[480px] rounded-full border border-[#4c8dff]/20 bg-gradient-to-tr from-[#4c8dff]/15 via-blue-200/10 to-transparent blur-2xl pointer-events-none" />
 
-          {/* Floating Card: Left (MH-8 Device Status) */}
-          <div className="absolute -left-2 sm:-left-6 lg:-left-10 bottom-28 z-30 bg-white/95 backdrop-blur-xl border border-white/80 rounded-[20px] p-4 flex items-center gap-3.5 shadow-[0px_8px_24px_rgba(10,42,92,0.14)] w-[260px] sm:w-[280px] transition-transform hover:scale-102">
-            <div className="w-12 h-12 rounded-[14px] bg-[#eaf3ff] flex items-center justify-center text-[#0066db] shrink-0">
-              <IconRouter className="w-6 h-6 text-[#0066db]" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-[16px] font-medium text-[#0e1726] truncate">
-                Autoral MH-8
+          {/* Phone & Floating Badges Combined Stage Container */}
+          <div className="relative z-20 w-[316px] h-[660px] shrink-0">
+            {/* 1. Floating Card: Left (MH-8 Device Status) - Figma: top 430px */}
+            <div className="absolute -left-[130px] sm:-left-[145px] top-[410px] z-30 bg-white/95 backdrop-blur-xl border border-white/80 rounded-[20px] p-4 flex items-center gap-3.5 shadow-elevation-float w-[270px] sm:w-[280px] transition-all duration-300 hover:-translate-y-1 hover:shadow-elevation-high cursor-default">
+              <div className="w-12 h-12 rounded-[14px] bg-[#eaf3ff] flex items-center justify-center text-[#0066db] shrink-0">
+                <IconRouter className="w-6 h-6 text-[#0066db]" />
               </div>
-              <div className="text-[12px] text-[#4a5a70] truncate">
-                6 of 8 channels in use
+              <div className="flex-1 min-w-0">
+                <div className="text-[16px] font-medium text-[#0e1726] truncate">
+                  Autoral MH-8
+                </div>
+                <div className="text-[12px] text-[#4a5a70] truncate">
+                  6 of 8 channels in use
+                </div>
+                <div className="flex items-center gap-1.5 text-[12px] mt-0.5">
+                  <span className="w-2 h-2 rounded-full bg-[#187a43]" />
+                  <span className="text-[#0e1726] font-medium">Online</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1.5 text-[12px] mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-[#187a43]" />
-                <span className="text-[#0e1726] font-medium">Online</span>
+              <div className="text-[#4a5a70]">
+                <svg className="w-5 h-5 -rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </div>
             </div>
-            <div className="text-[#4a5a70]">
-              <svg className="w-5 h-5 -rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </div>
-          </div>
 
-          {/* Floating Card: Top Right (Ceiling Light Quick Tile) */}
-          <div
-            onClick={() => toggleAppliance("living-ceiling-light")}
-            className={`absolute -right-2 sm:-right-4 lg:-right-6 top-16 z-30 w-[158px] h-[120px] rounded-[16px] p-3.5 flex flex-col justify-between shadow-[0px_8px_24px_rgba(10,42,92,0.14)] cursor-pointer transition-all hover:scale-103 ${
-              ceilingLightOn
-                ? "bg-[#ffedbf] border border-amber-300/80 text-[#4a310d]"
-                : "bg-[#edf2f8] border border-[#d8e1ec] text-[#0e1726]"
-            }`}
-          >
-            <div className="flex items-start justify-between">
-              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-xs">
-                <IconLightbulb className={`w-5 h-5 ${ceilingLightOn ? "text-[#b45309]" : "text-neutral-500"}`} />
+            {/* 2. Floating Card: Top Right (Ceiling Light Quick Tile) - Figma: top 170px */}
+            <div
+              onClick={() => toggleAppliance("living-ceiling-light")}
+              className={`absolute -right-[110px] sm:-right-[126px] top-[156px] z-30 w-[158px] h-[120px] rounded-[16px] p-3.5 flex flex-col justify-between shadow-elevation-float cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-elevation-high active:scale-98 ${
+                ceilingLightOn
+                  ? "bg-[#ffedbf] border border-amber-300/80 text-[#4a310d]"
+                  : "bg-[#edf2f8] border border-[#d8e1ec] text-[#0e1726]"
+              }`}
+            >
+              <div className="flex items-start justify-between">
+                <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-xs">
+                  <IconLightbulb className={`w-5 h-5 ${ceilingLightOn ? "text-[#b45309]" : "text-neutral-500"}`} />
+                </div>
+                <ToggleSwitch
+                  checked={ceilingLightOn}
+                  onChange={() => toggleAppliance("living-ceiling-light")}
+                  size="normal"
+                />
               </div>
-              <ToggleSwitch
-                checked={ceilingLightOn}
-                onChange={() => toggleAppliance("living-ceiling-light")}
-                size="normal"
-              />
+              <div>
+                <div className="text-[16px] font-semibold leading-tight">
+                  Ceiling Light
+                </div>
+                <div className="text-[12px] opacity-80 mt-0.5">
+                  {ceilingLightOn ? "On" : "Off"}
+                </div>
+              </div>
             </div>
-            <div>
-              <div className="text-[16px] font-semibold leading-tight">
-                Ceiling Light
-              </div>
-              <div className="text-[12px] opacity-80 mt-0.5">
-                {ceilingLightOn ? "On" : "Off"}
-              </div>
+
+            {/* 3. Floating Badge: Bottom Right (Wi-Fi Badge) - Figma: top 470px */}
+            <div className="absolute -right-[75px] sm:-right-[88px] top-[452px] z-30 bg-white/80 backdrop-blur-xl border border-white/90 rounded-[14px] px-3.5 py-2 flex items-center gap-2 shadow-elevation-float transition-all duration-300 hover:-translate-y-0.5 cursor-default">
+              <IconWifi className="w-4 h-4 text-[#0066db]" />
+              <span className="text-[14px] font-medium text-[#0e1726] whitespace-nowrap">
+                On home Wi-Fi
+              </span>
             </div>
-          </div>
 
-          {/* Floating Badge: Bottom Right (Wi-Fi Badge) */}
-          <div className="absolute -right-1 sm:right-2 lg:-right-4 bottom-44 z-30 bg-white/80 backdrop-blur-xl border border-white/90 rounded-[14px] px-3.5 py-2 flex items-center gap-2 shadow-[0px_10px_30px_rgba(10,42,92,0.14)]">
-            <IconWifi className="w-4 h-4 text-[#0066db]" />
-            <span className="text-[14px] font-medium text-[#0e1726]">
-              On home Wi-Fi
-            </span>
-          </div>
-
-          {/* iPhone 17 Pro Metallic Titanium Chassis */}
-          <div className="relative z-20 w-[304px] sm:w-[316px] h-[660px] rounded-[52px] p-[10px] bg-gradient-to-b from-[#e8ecf2] via-[#d4dbe4] to-[#b6c0cd] shadow-[0px_25px_60px_-15px_rgba(10,42,92,0.25),0px_0px_0px_1px_rgba(255,255,255,0.9)_inset] ring-1 ring-black/10">
+            {/* iPhone 17 Pro Metallic Titanium Chassis */}
+            <div className="relative w-full h-full rounded-[52px] p-[10px] bg-gradient-to-b from-[#e8ecf2] via-[#d4dbe4] to-[#b6c0cd] shadow-[0px_25px_60px_-15px_rgba(10,42,92,0.25),0px_0px_0px_1px_rgba(255,255,255,0.9)_inset] ring-1 ring-black/10">
             {/* Volume & Power hardware buttons simulation */}
             <div className="absolute -left-[3px] top-28 w-[3px] h-7 bg-[#b6c0cd] rounded-l-xs shadow-xs" />
             <div className="absolute -left-[3px] top-40 w-[3px] h-12 bg-[#b6c0cd] rounded-l-xs shadow-xs" />
@@ -555,10 +557,10 @@ export default function Hero() {
                             <div
                               key={device.id}
                               onClick={() => toggleAppliance(device.id)}
-                              className={`rounded-[14px] p-2.5 flex flex-col justify-between h-[88px] transition-all duration-200 cursor-pointer shadow-xs hover:shadow ${bgClass}`}
+                              className={`rounded-[14px] p-2.5 flex flex-col justify-between h-[88px] transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md hover:scale-[1.02] active:scale-[0.98] ${bgClass}`}
                             >
                               <div className="flex items-start justify-between">
-                                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-xs">
+                                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-xs transition-transform duration-200 group-hover:scale-110">
                                   <ApplianceIcon type={device.type} className="w-4 h-4 text-[#0e1726]" />
                                 </div>
                                 <ToggleSwitch
@@ -645,6 +647,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }
