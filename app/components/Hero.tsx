@@ -260,7 +260,7 @@ export default function Hero() {
           {/* Phone & Floating Badges Combined Stage Container */}
           <div className="relative z-20 w-[316px] h-[660px] shrink-0">
             {/* 1. Floating Card: Left (MH-8 Device Status) - Figma: top 430px */}
-            <div className="absolute -left-[130px] sm:-left-[145px] top-[410px] z-30 bg-white/95 backdrop-blur-xl border border-white/80 rounded-[20px] p-4 flex items-center gap-3.5 shadow-elevation-float w-[270px] sm:w-[280px] transition-all duration-300 hover:-translate-y-1 hover:shadow-elevation-high cursor-default">
+            <div className="absolute -left-[180px] sm:-left-[195px] top-[430px] z-30 bg-white/95 backdrop-blur-xl border border-white/80 rounded-[20px] p-4 flex items-center gap-3.5 shadow-elevation-float w-[280px] transition-all duration-300 hover:-translate-y-1 hover:shadow-elevation-high cursor-default">
               <div className="w-12 h-12 rounded-[14px] bg-[#eaf3ff] flex items-center justify-center text-[#0066db] shrink-0">
                 <IconRouter className="w-6 h-6 text-[#0066db]" />
               </div>
@@ -283,10 +283,10 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* 2. Floating Card: Top Right (Ceiling Light Quick Tile) - Figma: top 170px */}
+            {/* 2. Floating Card: Top Right (Ceiling Light Quick Tile) - Figma: top 215px, right -138px */}
             <div
               onClick={() => toggleAppliance("living-ceiling-light")}
-              className={`absolute -right-[110px] sm:-right-[126px] top-[156px] z-30 w-[158px] h-[120px] rounded-[16px] p-3.5 flex flex-col justify-between shadow-elevation-float cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-elevation-high active:scale-98 ${
+              className={`absolute -right-[125px] sm:-right-[138px] top-[215px] z-30 w-[158px] h-[120px] rounded-[16px] p-3.5 flex flex-col justify-between shadow-elevation-float cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-elevation-high active:scale-98 ${
                 ceilingLightOn
                   ? "bg-[#ffedbf] border border-amber-300/80 text-[#4a310d]"
                   : "bg-[#edf2f8] border border-[#d8e1ec] text-[#0e1726]"
@@ -312,8 +312,8 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* 3. Floating Badge: Bottom Right (Wi-Fi Badge) - Figma: top 470px */}
-            <div className="absolute -right-[75px] sm:-right-[88px] top-[452px] z-30 bg-white/80 backdrop-blur-xl border border-white/90 rounded-[14px] px-3.5 py-2 flex items-center gap-2 shadow-elevation-float transition-all duration-300 hover:-translate-y-0.5 cursor-default">
+            {/* 3. Floating Badge: Bottom Right (Wi-Fi Badge) - Figma: top 480px, right -135px */}
+            <div className="absolute -right-[120px] sm:-right-[135px] top-[480px] z-30 bg-white/80 backdrop-blur-xl border border-white/90 rounded-[14px] px-3.5 py-2 flex items-center gap-2 shadow-elevation-float transition-all duration-300 hover:-translate-y-0.5 cursor-default">
               <IconWifi className="w-4 h-4 text-[#0066db]" />
               <span className="text-[14px] font-medium text-[#0e1726] whitespace-nowrap">
                 On home Wi-Fi
