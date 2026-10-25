@@ -60,26 +60,26 @@ export default function TrustStrip() {
   return (
     <section
       aria-label="Trust strip"
-      className="bg-white border-t border-b border-[#d8e1ec] py-[32px] w-full"
+      className="bg-white dark:bg-[#0a0f17] border-t border-b border-[#d8e1ec] dark:border-[#2a3546] py-[32px] w-full transition-colors duration-200"
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 items-center">
           {trustItems.map((item, idx) => (
             <div
               key={idx}
-              className="group flex items-center gap-[14px] p-2.5 rounded-[16px] transition-all duration-200 hover:bg-[#f5f8fc] hover:-translate-y-0.5 cursor-default"
+              className="group flex items-center gap-[14px] p-2.5 rounded-[16px] transition-all duration-200 hover:bg-[#f5f8fc] dark:hover:bg-[#151d29] hover:-translate-y-0.5 cursor-default"
             >
               {/* Badge: 44x44, rounded-[12px], bg-[#eaf3ff], text-[#0052b3] */}
-              <div className="w-[44px] h-[44px] rounded-[12px] bg-[#eaf3ff] text-[#0052b3] flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-[#0066db] group-hover:text-white group-hover:shadow-[0px_4px_12px_rgba(0,102,219,0.25)] transition-all duration-200">
+              <div className="w-[44px] h-[44px] rounded-[12px] bg-[#eaf3ff] dark:bg-[#0b2a55] text-[#0052b3] dark:text-[#84beff] flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-[#0066db] dark:group-hover:bg-[#84beff] group-hover:text-white dark:group-hover:text-[#071d3d] group-hover:shadow-[0px_4px_12px_rgba(0,102,219,0.25)] transition-all duration-200">
                 {item.icon}
               </div>
 
               {/* Text: Title 15px/22px medium, Subtitle 14px/20px regular */}
               <div className="flex flex-col gap-[2px] min-w-0">
-                <p className="font-medium text-[15px] leading-[22px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200 whitespace-nowrap">
+                <p className="font-medium text-[15px] leading-[22px] text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff] transition-colors duration-200 whitespace-nowrap">
                   {item.title}
                 </p>
-                <p className="font-normal text-[14px] leading-[20px] text-[#4a5a70] whitespace-nowrap">
+                <p className="font-normal text-[14px] leading-[20px] text-[#4a5a70] dark:text-[#b4c1d1] whitespace-nowrap">
                   {item.desc}
                 </p>
               </div>

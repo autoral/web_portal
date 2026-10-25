@@ -77,16 +77,16 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="w-full bg-white py-16 sm:py-20 lg:py-[112px]"
+      className="w-full bg-white dark:bg-[#0a0f17] py-16 sm:py-20 lg:py-[112px] transition-colors duration-200"
       data-node-id="4239:1161"
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-12 lg:gap-[56px] items-center">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-col gap-12 lg:gap-[56px] items-center">
         {/* Section Heading */}
         <div className="flex flex-col gap-4 items-center text-center max-w-[760px] w-full">
-          <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
+          <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
             HOW IT WORKS
           </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726]">
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726] dark:text-[#edf2f8]">
             From switchboard to smartphone in three steps
           </h2>
         </div>
@@ -96,30 +96,30 @@ export default function HowItWorks() {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="card-interactive group relative bg-[#f5f8fc] rounded-[24px] border border-[#d8e1ec] p-8 flex flex-col justify-between gap-8 min-h-[288px] cursor-default hover:bg-white"
+              className="card-interactive group relative bg-[#f5f8fc] dark:bg-[#151d29] rounded-[24px] border border-[#d8e1ec] dark:border-[#2a3546] p-8 flex flex-col justify-between gap-8 min-h-[288px] cursor-default hover:bg-white dark:hover:bg-[#1c283e] transition-colors duration-200"
             >
               {/* Top: Icon Badge & Number */}
               <div className="flex items-center justify-between w-full">
-                <div className="size-[56px] rounded-[16px] bg-[#0066db] flex items-center justify-center text-white shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0px_6px_20px_rgba(0,102,219,0.35)]">
+                <div className="size-[56px] rounded-[16px] bg-[#0066db] dark:bg-[#0b2a55] flex items-center justify-center text-white dark:text-[#84beff] shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0px_6px_20px_rgba(0,102,219,0.35)]">
                   {step.icon}
                 </div>
-                <span className="text-[64px] font-semibold leading-[72px] tracking-[-1.5px] text-[#0066db]/16 select-none transition-colors duration-300 group-hover:text-[#0066db]/35">
+                <span className="text-[64px] font-semibold leading-[72px] tracking-[-1.5px] text-[#0066db]/16 dark:text-[#84beff]/25 select-none transition-colors duration-300 group-hover:text-[#0066db]/35 dark:group-hover:text-[#84beff]/50">
                   {step.num}
                 </span>
               </div>
 
               {/* Text */}
               <div className="flex flex-col gap-2 w-full text-left">
-                <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200">
+                <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff] transition-colors duration-200">
                   {step.title}
                 </h3>
-                <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">
+                <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
                   {step.desc}
                 </p>
               </div>
 
               {/* Subtle top inner light border */}
-              <div className="absolute inset-0 pointer-events-none rounded-[24px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]" />
+              <div className="absolute inset-0 pointer-events-none rounded-[24px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] dark:shadow-[inset_0px_1px_0px_rgba(255,255,255,0.08)]" />
             </div>
           ))}
         </div>

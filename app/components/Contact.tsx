@@ -69,22 +69,22 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="w-full bg-[#f5f8fc] py-16 sm:py-20 lg:py-[112px]"
+      className="w-full bg-[#f5f8fc] dark:bg-[#0a0f17] py-16 sm:py-20 lg:py-[112px] transition-colors duration-200"
       data-node-id="4239:1331"
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-[64px]">
           {/* Left Column: Contact Info & Office Map */}
           <div className="w-full lg:w-[480px] flex flex-col gap-8 shrink-0">
             {/* Header */}
             <div className="flex flex-col gap-4 items-start w-full">
-              <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
+              <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
                 CONTACT
               </p>
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726]">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726] dark:text-[#edf2f8]">
                 Talk to an Autoral expert
               </h2>
-              <p className="text-[18px] font-normal leading-[28px] text-[#4a5a70]">
+              <p className="text-[18px] font-normal leading-[28px] text-[#4a5a70] dark:text-[#b4c1d1]">
                 Ask for a price, book an installation or become a partner
                 installer.
               </p>
@@ -95,14 +95,14 @@ export default function Contact() {
               {contactItems.map((item, idx) => (
                 <div
                   key={idx}
-                  className="group flex items-center gap-4 p-2 -m-2 rounded-[16px] hover:bg-white hover:shadow-xs transition-all duration-200 cursor-default"
+                  className="group flex items-center gap-4 p-2 -m-2 rounded-[16px] hover:bg-white dark:hover:bg-[#151d29] hover:shadow-xs transition-all duration-200 cursor-default"
                 >
                   {/* Circular Badge */}
-                  <div className="size-[48px] rounded-full bg-[#eaf3ff] text-[#0066db] flex items-center justify-center shrink-0 group-hover:bg-[#0066db] group-hover:text-white group-hover:scale-105 transition-all duration-200 shadow-xs">
+                  <div className="size-[48px] rounded-full bg-[#eaf3ff] dark:bg-[#0b2a55] text-[#0066db] dark:text-[#84beff] flex items-center justify-center shrink-0 group-hover:bg-[#0066db] group-hover:text-white group-hover:scale-105 transition-all duration-200 shadow-xs">
                     {item.icon}
                   </div>
                   <div className="flex flex-col items-start leading-[20px]">
-                    <span className="text-[14px] font-normal text-[#4a5a70]">
+                    <span className="text-[14px] font-normal text-[#4a5a70] dark:text-[#8b9aae]">
                       {item.label}
                     </span>
                     {item.href ? (
@@ -112,12 +112,12 @@ export default function Contact() {
                           item.href.startsWith("http") ? "_blank" : undefined
                         }
                         rel="noreferrer"
-                        className="text-[15px] font-medium leading-[22px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200"
+                        className="text-[15px] font-medium leading-[22px] text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff] transition-colors duration-200"
                       >
                         {item.val}
                       </a>
                     ) : (
-                      <span className="text-[15px] font-medium leading-[22px] text-[#0e1726] group-hover:text-[#0066db] transition-colors duration-200">
+                      <span className="text-[15px] font-medium leading-[22px] text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff] transition-colors duration-200">
                         {item.val}
                       </span>
                     )}
@@ -127,44 +127,44 @@ export default function Contact() {
             </div>
 
             {/* Office Map Card */}
-            <div className="bg-[#eaf3ff] border border-[#d8e1ec] hover:border-[#0066db]/30 hover:shadow-md rounded-[24px] h-[180px] flex flex-col gap-2 items-center justify-center w-full text-center transition-all duration-300 cursor-default group">
-              <div className="size-8 flex items-center justify-center text-[#0066db] group-hover:scale-110 transition-transform duration-200">
-                <IconLocation className="size-8 text-[#0066db]" />
+            <div className="bg-[#eaf3ff] dark:bg-[#151d29] border border-[#d8e1ec] dark:border-[#2a3546] hover:border-[#0066db]/30 dark:hover:border-[#84beff]/40 hover:shadow-md rounded-[24px] h-[180px] flex flex-col gap-2 items-center justify-center w-full text-center transition-all duration-300 cursor-default group">
+              <div className="size-8 flex items-center justify-center text-[#0066db] dark:text-[#84beff] group-hover:scale-110 transition-transform duration-200">
+                <IconLocation className="size-8 text-[#0066db] dark:text-[#84beff]" />
               </div>
-              <span className="text-[14px] font-normal leading-[20px] text-[#0052b3] group-hover:underline">
+              <span className="text-[14px] font-normal leading-[20px] text-[#0052b3] dark:text-[#84beff] group-hover:underline">
                 Office map · Dhaka
               </span>
             </div>
           </div>
 
           {/* Right Column: Contact Form Card */}
-          <div className="w-full lg:w-[620px] flex-1 bg-white border border-[#d8e1ec] rounded-[32px] p-6 sm:p-8 lg:p-10 flex flex-col gap-6 items-start shadow-[0px_2px_12px_rgba(10,42,92,0.06)] relative">
+          <div className="w-full lg:w-[620px] flex-1 bg-white dark:bg-[#151d29] border border-[#d8e1ec] dark:border-[#2a3546] rounded-[32px] p-6 sm:p-8 lg:p-10 flex flex-col gap-6 items-start shadow-[0px_2px_12px_rgba(10,42,92,0.06)] dark:shadow-none relative">
             {/* Form Head */}
             <div className="flex flex-col gap-1.5 items-start text-left w-full">
-              <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726]">
+              <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] dark:text-[#edf2f8]">
                 Send us a message
               </h3>
-              <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">
+              <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
                 We usually call back within 1 working day.
               </p>
             </div>
 
             {submitted ? (
               <div className="py-12 w-full flex flex-col items-center text-center gap-3">
-                <div className="size-14 rounded-full bg-emerald-100 flex items-center justify-center text-[#187a43]">
-                  <IconCheckCircle className="size-8 text-[#187a43]" />
+                <div className="size-14 rounded-full bg-emerald-100 dark:bg-emerald-950/50 flex items-center justify-center text-[#187a43] dark:text-emerald-400">
+                  <IconCheckCircle className="size-8 text-[#187a43] dark:text-emerald-400" />
                 </div>
-                <h4 className="text-[20px] font-semibold text-[#0e1726]">
+                <h4 className="text-[20px] font-semibold text-[#0e1726] dark:text-[#edf2f8]">
                   Thank you!
                 </h4>
-                <p className="text-[15px] text-[#4a5a70] max-w-sm">
+                <p className="text-[15px] text-[#4a5a70] dark:text-[#b4c1d1] max-w-sm">
                   We have received your message. An Autoral team member will reach
                   out to you shortly.
                 </p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
-                  className="mt-3 text-[14px] text-[#0066db] font-semibold hover:underline cursor-pointer"
+                  className="mt-3 text-[14px] text-[#0066db] dark:text-[#84beff] font-semibold hover:underline cursor-pointer"
                 >
                   Send another message
                 </button>
@@ -174,7 +174,7 @@ export default function Contact() {
                 {/* Row 1: Your Name & Phone Number */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                   <div className="flex flex-col gap-1.5 items-start w-full">
-                    <label className="text-[14px] font-medium leading-[20px] text-[#0e1726]">
+                    <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
                       Your name
                     </label>
                     <input
@@ -185,12 +185,12 @@ export default function Contact() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-2 focus:ring-[#0066db]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                      className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] dark:border-[#2a3546] bg-white dark:bg-[#0e1726] px-4 text-[16px] text-[#0e1726] dark:text-[#edf2f8] placeholder:text-[#4a5a70] dark:placeholder:text-[#8b9aae] focus:outline-none focus:border-[#0066db] dark:focus:border-[#84beff] focus:ring-2 focus:ring-[#0066db]/20 dark:focus:ring-[#84beff]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] dark:shadow-none"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5 items-start w-full">
-                    <label className="text-[14px] font-medium leading-[20px] text-[#0e1726]">
+                    <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
                       Phone number
                     </label>
                     <input
@@ -201,14 +201,14 @@ export default function Contact() {
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-2 focus:ring-[#0066db]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                      className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] dark:border-[#2a3546] bg-white dark:bg-[#0e1726] px-4 text-[16px] text-[#0e1726] dark:text-[#edf2f8] placeholder:text-[#4a5a70] dark:placeholder:text-[#8b9aae] focus:outline-none focus:border-[#0066db] dark:focus:border-[#84beff] focus:ring-2 focus:ring-[#0066db]/20 dark:focus:ring-[#84beff]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] dark:shadow-none"
                     />
                   </div>
                 </div>
 
                 {/* Row 2: Email (optional) */}
                 <div className="flex flex-col gap-1.5 items-start w-full">
-                  <label className="text-[14px] font-medium leading-[20px] text-[#0e1726]">
+                  <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
                     Email (optional)
                   </label>
                   <input
@@ -218,13 +218,13 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-2 focus:ring-[#0066db]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                    className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] dark:border-[#2a3546] bg-white dark:bg-[#0e1726] px-4 text-[16px] text-[#0e1726] dark:text-[#edf2f8] placeholder:text-[#4a5a70] dark:placeholder:text-[#8b9aae] focus:outline-none focus:border-[#0066db] dark:focus:border-[#84beff] focus:ring-2 focus:ring-[#0066db]/20 dark:focus:ring-[#84beff]/20 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] dark:shadow-none"
                   />
                 </div>
 
                 {/* Row 3: I'm interested in */}
                 <div className="flex flex-col gap-3 items-start w-full">
-                  <span className="text-[15px] font-medium leading-[22px] text-[#0e1726]">
+                  <span className="text-[15px] font-medium leading-[22px] text-[#0e1726] dark:text-[#edf2f8]">
                     I&apos;m interested in
                   </span>
                   <div className="flex flex-wrap gap-2 w-full">
@@ -237,8 +237,8 @@ export default function Contact() {
                           onClick={() => setSelectedInterest(chip)}
                           className={`h-[36px] px-4 rounded-[18px] text-[14px] font-semibold flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
                             isSelected
-                              ? "bg-[#0e1726] text-white shadow-xs scale-[1.02]"
-                              : "bg-white border border-[#d8e1ec] text-[#0e1726] hover:border-[#0066db] hover:text-[#0066db] hover:-translate-y-0.5 hover:shadow-xs"
+                              ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726] shadow-xs scale-[1.02]"
+                              : "bg-white dark:bg-[#0e1726] border border-[#d8e1ec] dark:border-[#2a3546] text-[#0e1726] dark:text-[#edf2f8] hover:border-[#0066db] dark:hover:border-[#84beff] hover:text-[#0066db] dark:hover:text-[#84beff] hover:-translate-y-0.5 hover:shadow-xs"
                           }`}
                         >
                           {isSelected && (
@@ -265,7 +265,7 @@ export default function Contact() {
 
                 {/* Row 4: Message */}
                 <div className="flex flex-col gap-1.5 items-start w-full">
-                  <label className="text-[14px] font-medium leading-[20px] text-[#0e1726]">
+                  <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
                     Message
                   </label>
                   <input
@@ -275,7 +275,7 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] bg-white px-4 text-[16px] text-[#0e1726] placeholder:text-[#4a5a70] focus:outline-none focus:border-[#0066db] focus:ring-4 focus:ring-[#0066db]/10 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]"
+                    className="w-full h-[52px] rounded-[26px] border border-[#d8e1ec] dark:border-[#2a3546] bg-white dark:bg-[#0e1726] px-4 text-[16px] text-[#0e1726] dark:text-[#edf2f8] placeholder:text-[#4a5a70] dark:placeholder:text-[#8b9aae] focus:outline-none focus:border-[#0066db] dark:focus:border-[#84beff] focus:ring-4 focus:ring-[#0066db]/10 dark:focus:ring-[#84beff]/10 transition-all shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] dark:shadow-none"
                   />
                 </div>
 
@@ -302,7 +302,7 @@ export default function Contact() {
                 </button>
 
                 {/* Disclaimer */}
-                <p className="text-[14px] font-normal leading-[20px] text-[#5e6e84] text-left">
+                <p className="text-[14px] font-normal leading-[20px] text-[#5e6e84] dark:text-[#8b9aae] text-left">
                   By sending this form you agree to be contacted about Autoral
                   Home.
                 </p>
@@ -310,7 +310,7 @@ export default function Contact() {
             )}
 
             {/* Subtle top inner light border */}
-            <div className="absolute inset-0 pointer-events-none rounded-[32px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]" />
+            <div className="absolute inset-0 pointer-events-none rounded-[32px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] dark:shadow-[inset_0px_1px_0px_rgba(255,255,255,0.05)]" />
           </div>
         </div>
       </div>

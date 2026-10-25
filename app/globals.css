@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+html.dark,
+.dark {
+  color-scheme: dark;
+}
+
 :root {
   --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-bengali: "Hind Siliguri", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -22,6 +29,27 @@
   --chip-selected: #0e1726;
   --chip-on-selected: #ffffff;
   --tile-off: #edf2f8;
+}
+
+.dark {
+  --brand-primary: #84beff;
+  --brand-on-primary: #ffffff;
+  --brand-container: #0b2a55;
+  --brand-on-container: #b5d8ff;
+  --surface-bg: #0a0f17;
+  --surface-card: #151d29;
+  --surface-raised: #1e2836;
+  --surface-inverse: #0e1726;
+  --surface-glass: rgba(21, 29, 41, 0.85);
+  --border-default: #2a3546;
+  --text-primary: #edf2f8;
+  --text-secondary: #b4c1d1;
+  --text-tertiary: #8b9aae;
+  --status-success: #5cc98a;
+  --status-success-container: #123524;
+  --chip-selected: #ffffff;
+  --chip-on-selected: #0e1726;
+  --tile-off: #1e2836;
 }
 
 @theme inline {

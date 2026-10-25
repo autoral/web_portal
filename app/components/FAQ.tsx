@@ -85,47 +85,47 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="w-full bg-white py-16 sm:py-20 lg:py-[112px]"
+      className="w-full bg-white dark:bg-[#0a0f17] py-16 sm:py-20 lg:py-[112px] transition-colors duration-200"
       data-node-id="4239:1279"
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-[80px]">
-          {/* Left Column: FAQ Intro & Help Card */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-[80px]">
+          {/* Left Column: FAQ Intro & Help Card (Desktop) */}
           <div className="w-full lg:w-[400px] flex flex-col gap-8 shrink-0">
             {/* Header */}
             <div className="flex flex-col gap-4 items-start w-full">
-              <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
+              <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
                 FAQ
               </p>
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726]">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726] dark:text-[#edf2f8]">
                 Questions people ask before buying
               </h2>
             </div>
 
-            {/* Help Card */}
-            <div className="bg-[#eaf3ff] rounded-[24px] p-7 flex flex-col gap-3 items-start w-full border border-transparent hover:border-[#0066db]/25 hover:shadow-md transition-all duration-300">
+            {/* Help Card (Desktop) */}
+            <div className="hidden lg:flex bg-[#eaf3ff] dark:bg-[#0b2a55] rounded-[24px] p-7 flex-col gap-3 items-start w-full border border-transparent dark:border-[#2a3546] hover:border-[#0066db]/25 hover:shadow-md transition-all duration-300">
               <div className="size-7 flex items-center justify-center">
-                <IconChatBubble className="size-7 text-[#0066db]" />
+                <IconChatBubble className="size-7 text-[#0066db] dark:text-[#84beff]" />
               </div>
-              <h3 className="text-[18px] font-semibold leading-[26px] text-[#0052b3]">
+              <h3 className="text-[18px] font-semibold leading-[26px] text-[#0052b3] dark:text-[#b5d8ff]">
                 Still have a question?
               </h3>
-              <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">
+              <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
                 Call, WhatsApp or Messenger. An Autoral expert will reply.
               </p>
               <a
                 href="https://wa.me/8801770066585"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center gap-2 cursor-pointer mt-1"
+                className="btn-primary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center gap-2 cursor-pointer mt-1 dark:bg-[#84beff] dark:text-[#071d3d] dark:hover:bg-[#a6d2ff]"
               >
-                <IconWhatsApp className="size-5 text-white" />
+                <IconWhatsApp className="size-5 text-white dark:text-[#071d3d]" />
                 <span>Chat on WhatsApp</span>
               </a>
             </div>
           </div>
 
-          {/* Right Column: Accordion Items */}
+          {/* Right Column: Accordion Items & Mobile Help Card */}
           <div className="flex flex-col gap-3 items-start w-full flex-1 min-w-0">
             {faqs.map((faq, idx) => {
               const isOpen = openIndex === idx;
@@ -134,24 +134,24 @@ export default function FAQ() {
                   key={idx}
                   type="button"
                   onClick={() => toggle(idx)}
-                  className={`group w-full px-6 py-[22px] rounded-[20px] transition-all duration-200 text-left flex flex-col gap-3 relative cursor-pointer ${
+                  className={`group w-full px-5 sm:px-6 py-[20px] sm:py-[22px] rounded-[20px] transition-all duration-200 text-left flex flex-col gap-3 relative cursor-pointer ${
                     isOpen
-                      ? "bg-white border-2 border-[#0066db] shadow-[0px_4px_16px_rgba(0,102,219,0.12)]"
-                      : "bg-white border border-[#d8e1ec] hover:border-[#0066db] hover:-translate-y-0.5 hover:shadow-elevation-soft"
+                      ? "bg-white dark:bg-[#151d29] border-2 border-[#0066db] dark:border-[#84beff] shadow-[0px_4px_16px_rgba(0,102,219,0.12)]"
+                      : "bg-white dark:bg-[#151d29] border border-[#d8e1ec] dark:border-[#2a3546] hover:border-[#0066db] dark:hover:border-[#84beff] hover:-translate-y-0.5 hover:shadow-elevation-soft"
                   }`}
                 >
                   {/* Question & Chevron Button */}
                   <div className="flex items-center justify-between gap-4 w-full">
-                    <span className={`text-[18px] font-semibold leading-[26px] transition-colors duration-200 ${
-                      isOpen ? "text-[#0066db]" : "text-[#0e1726] group-hover:text-[#0066db]"
+                    <span className={`text-[17px] sm:text-[18px] font-semibold leading-[24px] sm:leading-[26px] transition-colors duration-200 ${
+                      isOpen ? "text-[#0066db] dark:text-[#84beff]" : "text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff]"
                     }`}>
                       {faq.question}
                     </span>
                     <div
                       className={`size-9 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
                         isOpen
-                          ? "bg-[#0066db] text-white"
-                          : "bg-[#edf2f8] text-[#4a5a70] group-hover:bg-[#eaf3ff] group-hover:text-[#0066db]"
+                          ? "bg-[#0066db] dark:bg-[#84beff] text-white dark:text-[#071d3d]"
+                          : "bg-[#edf2f8] dark:bg-[#1e2836] text-[#4a5a70] dark:text-[#b4c1d1] group-hover:bg-[#eaf3ff] dark:group-hover:bg-[#0b2a55] group-hover:text-[#0066db] dark:group-hover:text-[#84beff]"
                       }`}
                     >
                       <IconFaqChevron className="size-5" isOpen={isOpen} />
@@ -160,18 +160,40 @@ export default function FAQ() {
 
                   {/* Answer (Expanded) */}
                   {isOpen && (
-                    <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] text-left animate-in fade-in duration-200">
+                    <p className="text-[15px] sm:text-[16px] font-normal leading-[24px] sm:leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1] text-left animate-in fade-in duration-200">
                       {faq.answer}
                     </p>
                   )}
 
                   {/* Subtle top inner light border on open item */}
                   {isOpen && (
-                    <div className="absolute inset-0 pointer-events-none rounded-[20px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)]" />
+                    <div className="absolute inset-0 pointer-events-none rounded-[20px] shadow-[inset_0px_1px_0px_rgba(255,255,255,0.6)] dark:shadow-[inset_0px_1px_0px_rgba(255,255,255,0.08)]" />
                   )}
                 </button>
               );
             })}
+
+            {/* Help Card (Mobile & Tablet: positioned below FAQs) */}
+            <div className="flex lg:hidden bg-[#eaf3ff] dark:bg-[#0b2a55] rounded-[24px] p-6 sm:p-7 flex-col gap-3 items-start w-full border border-transparent dark:border-[#2a3546] hover:border-[#0066db]/25 hover:shadow-md transition-all duration-300 mt-4">
+              <div className="size-7 flex items-center justify-center">
+                <IconChatBubble className="size-7 text-[#0066db] dark:text-[#84beff]" />
+              </div>
+              <h3 className="text-[18px] font-semibold leading-[26px] text-[#0052b3] dark:text-[#b5d8ff]">
+                Still have a question?
+              </h3>
+              <p className="text-[15px] sm:text-[16px] font-normal leading-[24px] sm:leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
+                Call, WhatsApp or Messenger. An Autoral expert will reply.
+              </p>
+              <a
+                href="https://wa.me/8801770066585"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center justify-center gap-2 cursor-pointer mt-1 w-full sm:w-auto dark:bg-[#84beff] dark:text-[#071d3d] dark:hover:bg-[#a6d2ff]"
+              >
+                <IconWhatsApp className="size-5 text-white dark:text-[#071d3d]" />
+                <span>Chat on WhatsApp</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
