@@ -13,7 +13,7 @@ import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#f5f8fc] text-[#0e1726] flex flex-col font-sans selection:bg-[#0066db] selection:text-white">
+    <div className="min-h-screen bg-[#f5f8fc] dark:bg-[#0a0f17] text-[#0e1726] dark:text-[#edf2f8] flex flex-col font-sans selection:bg-[#0066db] selection:text-white transition-colors duration-200">
       {/* 01 Header */}
       <Header />
 

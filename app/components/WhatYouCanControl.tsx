@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 // Exact vector icons extracted from Figma node 4238:780
@@ -59,6 +61,8 @@ function IconSecurity({ className = "w-7 h-7" }: { className?: string }) {
 interface CategoryCardProps {
   title: string;
   body: string;
+  hoverTitle: string;
+  hoverBody: string;
   containerBg: string;
   iconColor: string;
   icon: React.ReactNode;
@@ -68,117 +72,120 @@ interface CategoryCardProps {
 function CategoryCard({
   title,
   body,
+  hoverTitle,
+  hoverBody,
   containerBg,
   iconColor,
   icon,
   tag,
 }: CategoryCardProps) {
   return (
-    <div className="bg-white border border-[#d8e1ec] rounded-[24px] p-[28px] flex flex-col justify-between min-h-[206px] group cursor-default transition-all duration-300 hover:-translate-y-1 hover:shadow-[0px_8px_24px_rgba(10,42,92,0.08)] shadow-[0px_2px_6px_rgba(10,42,92,0.06)] relative">
+    <div className="bg-white dark:bg-[#151d29] border-2 border-[#d8e1ec] dark:border-[#2a3546] hover:border-[#0066db] dark:hover:border-[#84beff] rounded-[24px] p-[27px] flex flex-col justify-between min-h-[206px] group cursor-pointer transition-colors duration-200 shadow-[0px_2px_6px_rgba(10,42,92,0.04)] hover:shadow-[0px_8px_24px_rgba(0,102,219,0.12)] relative">
       {/* Top Row: 56x56 Squircle Badge & Optional Tag */}
       <div className="flex items-center justify-between mb-7">
         <div
-          className={`w-[56px] h-[56px] rounded-[16px] ${containerBg} ${iconColor} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-xs`}
+          className={`w-[56px] h-[56px] rounded-[16px] ${containerBg} ${iconColor} flex items-center justify-center shrink-0 shadow-xs transition-colors`}
         >
           {icon}
         </div>
         {tag && (
-          <div className="bg-[#edf2f8] border border-[#d8e1ec] rounded-full px-[12px] py-[6px] shrink-0">
-            <span className="text-[12px] font-normal leading-[16px] text-[#4a5a70] whitespace-nowrap">
+          <div className="bg-[#edf2f8] dark:bg-[#1e2836] border border-[#d8e1ec] dark:border-[#2a3546] rounded-full px-[12px] py-[6px] shrink-0 transition-colors">
+            <span className="text-[12px] font-normal leading-[16px] text-[#4a5a70] dark:text-[#b4c1d1] whitespace-nowrap">
               {tag}
             </span>
           </div>
         )}
       </div>
 
-      {/* Bottom Text Block */}
-      <div className="flex flex-col gap-[6px]">
-        <h3 className="text-[24px] font-semibold leading-[32px] text-[#0e1726] tracking-[-0.2px] group-hover:text-[#0066db] transition-colors duration-200">
-          {title}
-        </h3>
-        <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70]">
-          {body}
-        </p>
+      {/* Bottom Text Block with smooth hover content transition */}
+      <div className="relative min-h-[64px]">
+        {/* Default content (visible by default, fades out on hover) */}
+        <div className="flex flex-col gap-[6px] transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-y-1 group-hover:pointer-events-none">
+          <h3 className="text-[24px] font-semibold leading-[32px] text-[#0e1726] dark:text-[#edf2f8] tracking-[-0.2px]">
+            {title}
+          </h3>
+          <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
+            {body}
+          </p>
+        </div>
+
+        {/* Hover content (hidden by default, fades in smoothly on hover) */}
+        <div className="absolute inset-0 flex flex-col gap-[6px] transition-all duration-300 ease-out opacity-0 translate-y-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
+          <h3 className="text-[24px] font-semibold leading-[32px] text-[#0e1726] dark:text-[#edf2f8] tracking-[-0.2px]">
+            {hoverTitle}
+          </h3>
+          <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
+            {hoverBody}
+          </p>
+        </div>
       </div>
-      <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.6)]" />
+      <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.6)] dark:shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.08)]" />
     </div>
   );
 }
 
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
+
 export default function WhatYouCanControl() {
-  const categories: CategoryCardProps[] = [
-    {
-      title: "Lighting",
-      body: "Ceiling lights, lamps, strip lights",
-      containerBg: "bg-[#ffedbf]",
-      iconColor: "text-[#4a310d]",
-      icon: <IconLighting className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Cooling",
-      body: "Fans, AC, air cooler, exhaust fan",
-      containerBg: "bg-[#d4f3f7]",
-      iconColor: "text-[#06404a]",
-      icon: <IconCooling className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Water & heating",
-      body: "Water pump, geyser, room heater",
-      containerBg: "bg-[#ffe0d6]",
-      iconColor: "text-[#5c1d0c]",
-      icon: <IconWater className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Entertainment",
-      body: "TV, set-top box, speaker",
-      containerBg: "bg-[#fbddeb]",
-      iconColor: "text-[#5a1236]",
-      icon: <IconEntertainment className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Power & appliances",
-      body: "Smart plugs, fridge, washing machine, IPS",
-      containerBg: "bg-[#e3f2c9]",
-      iconColor: "text-[#243d0b]",
-      icon: <IconPower className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Security",
-      body: "Door lock, camera, gas & motion sensors",
-      containerBg: "bg-[#dee1fb]",
-      iconColor: "text-[#1c2360]",
-      icon: <IconSecurity className="w-[28px] h-[28px]" />,
-      tag: "Coming soon",
-    },
+  const { isBN } = useLanguage();
+  const lKey = isBN ? "bn" : "en";
+  const t = translations.control;
+
+  const icons = [
+    <IconLighting key={0} className="w-[28px] h-[28px]" />,
+    <IconCooling key={1} className="w-[28px] h-[28px]" />,
+    <IconWater key={2} className="w-[28px] h-[28px]" />,
+    <IconEntertainment key={3} className="w-[28px] h-[28px]" />,
+    <IconPower key={4} className="w-[28px] h-[28px]" />,
+    <IconSecurity key={5} className="w-[28px] h-[28px]" />,
+  ];
+
+  const colors = [
+    { containerBg: "bg-[#ffedbf] dark:bg-[#4a310d]", iconColor: "text-[#4a310d] dark:text-[#ffedbf]" },
+    { containerBg: "bg-[#d4f3f7] dark:bg-[#08363d]", iconColor: "text-[#06404a] dark:text-[#d4f3f7]" },
+    { containerBg: "bg-[#ffe0d6] dark:bg-[#5c1d0c]", iconColor: "text-[#5c1d0c] dark:text-[#ffe0d6]" },
+    { containerBg: "bg-[#fbddeb] dark:bg-[#5a1236]", iconColor: "text-[#5a1236] dark:text-[#fbddeb]" },
+    { containerBg: "bg-[#e3f2c9] dark:bg-[#243d0b]", iconColor: "text-[#243d0b] dark:text-[#e3f2c9]" },
+    { containerBg: "bg-[#dee1fb] dark:bg-[#1c2360]", iconColor: "text-[#1c2360] dark:text-[#dee1fb]" },
   ];
 
   return (
-    <section id="features" aria-label="What you can control" className="py-16 sm:py-20 lg:py-[112px] bg-[#f5f8fc]">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-[56px]">
+    <section id="features" aria-label="What you can control" className="py-16 sm:py-20 lg:py-[112px] bg-[#f5f8fc] dark:bg-[#0a0f17] transition-colors duration-200" data-node-id="4440:18735">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-col gap-[56px]">
         {/* Section Heading (WebSectionHead) */}
         <div className="flex flex-col gap-4 items-center text-center max-w-[760px] mx-auto">
-          <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] tracking-[0.96px] uppercase">
-            WHAT YOU CAN CONTROL
+          <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
+            {t.overline[lKey]}
           </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] sm:leading-[52px] text-[#0e1726] tracking-[-1px]">
-            One app for every room
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] sm:leading-[52px] text-[#0e1726] dark:text-[#edf2f8] tracking-[-1px]">
+            {t.title[lKey]}
           </h2>
-          <p className="text-base sm:text-lg lg:text-[18px] text-[#4a5a70] leading-[28px]">
-            Autoral Home brings every switch in your home into one place,
-            grouped by room the way your family lives.
+          <p className="text-base sm:text-lg lg:text-[18px] text-[#4a5a70] dark:text-[#b4c1d1] leading-[28px]">
+            {t.subtitle[lKey]}
           </p>
         </div>
 
-        {/* 6 Category Cards Grid (3x2 Desktop, 2x3 Tablet, 1x6 Mobile) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-          {categories.map((cat, idx) => (
-            <CategoryCard key={idx} {...cat} />
+        {/* 6 Category Cards Grid (3x2 Desktop & Tablet, 2x3 Small Tablet, 1x6 Mobile) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
+          {t.categories.map((cat, idx) => (
+            <CategoryCard
+              key={cat.id}
+              title={cat.title[lKey]}
+              body={cat.body[lKey]}
+              hoverTitle={cat.hoverTitle[lKey]}
+              hoverBody={cat.hoverBody[lKey]}
+              containerBg={colors[idx].containerBg}
+              iconColor={colors[idx].iconColor}
+              icon={icons[idx]}
+              tag={cat.tag ? cat.tag[lKey] : undefined}
+            />
           ))}
         </div>
 
         {/* Footnote */}
-        <p className="text-center text-[14px] font-normal leading-[20px] text-[#5e6e84]">
-          AC, TV and security appliances connect through matching Autoral modules.
+        <p className="text-center text-[14px] font-normal leading-[20px] text-[#5e6e84] dark:text-[#8b9aae]">
+          {t.footnote[lKey]}
         </p>
       </div>
     </section>
