@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 // Exact vector icons extracted from Figma node 4238:780
@@ -122,92 +124,68 @@ function CategoryCard({
   );
 }
 
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
+
 export default function WhatYouCanControl() {
-  const categories: CategoryCardProps[] = [
-    {
-      title: "Lighting",
-      body: "Ceiling lights, lamps, strip lights",
-      hoverTitle: "Smart Dimming",
-      hoverBody: "One-tap all-off, scheduled scenes & dimming",
-      containerBg: "bg-[#ffedbf] dark:bg-[#4a310d]",
-      iconColor: "text-[#4a310d] dark:text-[#ffedbf]",
-      icon: <IconLighting className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Cooling",
-      body: "Fans, AC, air cooler, exhaust fan",
-      hoverTitle: "Temperature & Fan Speed",
-      hoverBody: "Auto-timer, speed regulator & energy saving",
-      containerBg: "bg-[#d4f3f7] dark:bg-[#08363d]",
-      iconColor: "text-[#06404a] dark:text-[#d4f3f7]",
-      icon: <IconCooling className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Water & heating",
-      body: "Water pump, geyser, room heater",
-      hoverTitle: "Automated Pumps",
-      hoverBody: "Schedule morning geyser & overflow protection",
-      containerBg: "bg-[#ffe0d6] dark:bg-[#5c1d0c]",
-      iconColor: "text-[#5c1d0c] dark:text-[#ffe0d6]",
-      icon: <IconWater className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Entertainment",
-      body: "TV, set-top box, speaker",
-      hoverTitle: "Media Control",
-      hoverBody: "Cut standby ghost power & one-touch theater mode",
-      containerBg: "bg-[#fbddeb] dark:bg-[#5a1236]",
-      iconColor: "text-[#5a1236] dark:text-[#fbddeb]",
-      icon: <IconEntertainment className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Power & appliances",
-      body: "Smart plugs, fridge, washing machine, IPS",
-      hoverTitle: "Heavy Load Safety",
-      hoverBody: "Surge protection, voltage monitoring & safe cutoffs",
-      containerBg: "bg-[#e3f2c9] dark:bg-[#243d0b]",
-      iconColor: "text-[#243d0b] dark:text-[#e3f2c9]",
-      icon: <IconPower className="w-[28px] h-[28px]" />,
-    },
-    {
-      title: "Security",
-      body: "Door lock, camera, gas & motion sensors",
-      hoverTitle: "Instant Alerts",
-      hoverBody: "Real-time notifications & emergency auto-switch",
-      containerBg: "bg-[#dee1fb] dark:bg-[#1c2360]",
-      iconColor: "text-[#1c2360] dark:text-[#dee1fb]",
-      icon: <IconSecurity className="w-[28px] h-[28px]" />,
-      tag: "Coming soon",
-    },
+  const { isBN } = useLanguage();
+  const lKey = isBN ? "bn" : "en";
+  const t = translations.control;
+
+  const icons = [
+    <IconLighting key={0} className="w-[28px] h-[28px]" />,
+    <IconCooling key={1} className="w-[28px] h-[28px]" />,
+    <IconWater key={2} className="w-[28px] h-[28px]" />,
+    <IconEntertainment key={3} className="w-[28px] h-[28px]" />,
+    <IconPower key={4} className="w-[28px] h-[28px]" />,
+    <IconSecurity key={5} className="w-[28px] h-[28px]" />,
+  ];
+
+  const colors = [
+    { containerBg: "bg-[#ffedbf] dark:bg-[#4a310d]", iconColor: "text-[#4a310d] dark:text-[#ffedbf]" },
+    { containerBg: "bg-[#d4f3f7] dark:bg-[#08363d]", iconColor: "text-[#06404a] dark:text-[#d4f3f7]" },
+    { containerBg: "bg-[#ffe0d6] dark:bg-[#5c1d0c]", iconColor: "text-[#5c1d0c] dark:text-[#ffe0d6]" },
+    { containerBg: "bg-[#fbddeb] dark:bg-[#5a1236]", iconColor: "text-[#5a1236] dark:text-[#fbddeb]" },
+    { containerBg: "bg-[#e3f2c9] dark:bg-[#243d0b]", iconColor: "text-[#243d0b] dark:text-[#e3f2c9]" },
+    { containerBg: "bg-[#dee1fb] dark:bg-[#1c2360]", iconColor: "text-[#1c2360] dark:text-[#dee1fb]" },
   ];
 
   return (
-    <section id="features" aria-label="What you can control" className="py-16 sm:py-20 lg:py-[112px] bg-[#f5f8fc] dark:bg-[#0a0f17] transition-colors duration-200">
+    <section id="features" aria-label="What you can control" className="py-16 sm:py-20 lg:py-[112px] bg-[#f5f8fc] dark:bg-[#0a0f17] transition-colors duration-200" data-node-id="4440:18735">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-col gap-[56px]">
         {/* Section Heading (WebSectionHead) */}
         <div className="flex flex-col gap-4 items-center text-center max-w-[760px] mx-auto">
           <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
-            WHAT YOU CAN CONTROL
+            {t.overline[lKey]}
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] sm:leading-[52px] text-[#0e1726] dark:text-[#edf2f8] tracking-[-1px]">
-            One app for every room
+            {t.title[lKey]}
           </h2>
           <p className="text-base sm:text-lg lg:text-[18px] text-[#4a5a70] dark:text-[#b4c1d1] leading-[28px]">
-            Autoral Home brings every switch in your home into one place,
-            grouped by room the way your family lives.
+            {t.subtitle[lKey]}
           </p>
         </div>
 
         {/* 6 Category Cards Grid (3x2 Desktop & Tablet, 2x3 Small Tablet, 1x6 Mobile) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
-          {categories.map((cat, idx) => (
-            <CategoryCard key={idx} {...cat} />
+          {t.categories.map((cat, idx) => (
+            <CategoryCard
+              key={cat.id}
+              title={cat.title[lKey]}
+              body={cat.body[lKey]}
+              hoverTitle={cat.hoverTitle[lKey]}
+              hoverBody={cat.hoverBody[lKey]}
+              containerBg={colors[idx].containerBg}
+              iconColor={colors[idx].iconColor}
+              icon={icons[idx]}
+              tag={cat.tag ? cat.tag[lKey] : undefined}
+            />
           ))}
         </div>
 
         {/* Footnote */}
         <p className="text-center text-[14px] font-normal leading-[20px] text-[#5e6e84] dark:text-[#8b9aae]">
-          AC, TV and security appliances connect through matching Autoral modules.
+          {t.footnote[lKey]}
         </p>
       </div>
     </section>

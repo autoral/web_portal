@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { IconWhatsApp } from "./Icons";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 function IconChatBubble({ className = "size-7" }: { className?: string }) {
   return (
@@ -48,35 +50,9 @@ function IconFaqChevron({
 }
 
 export default function FAQ() {
+  const { lang } = useLanguage();
+  const t = translations.faq;
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const faqs = [
-    {
-      question: "Will my normal wall switches still work?",
-      answer:
-        "Yes. The device works alongside your switches, and the app updates when someone uses a switch on the wall.",
-    },
-    {
-      question: "What happens during load-shedding?",
-      answer:
-        "The hub remembers every channel. When power comes back, each device returns to the state it was in.",
-    },
-    {
-      question: "Do I need internet for Autoral Home?",
-      answer:
-        "No. At home everything runs on your Wi-Fi. Internet is only needed to control your home from outside.",
-    },
-    {
-      question: "Who installs the device?",
-      answer:
-        "A trained Autoral installer fits and tests it behind your switchboard, usually in about 30 minutes.",
-    },
-    {
-      question: "Is my home data safe?",
-      answer:
-        "Control at home stays on your local network, and remote access is encrypted end to end.",
-    },
-  ];
 
   const toggle = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -95,10 +71,10 @@ export default function FAQ() {
             {/* Header */}
             <div className="flex flex-col gap-4 items-start w-full">
               <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
-                FAQ
+                {t.overline[lang]}
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726] dark:text-[#edf2f8]">
-                Questions people ask before buying
+                {t.title[lang]}
               </h2>
             </div>
 
@@ -108,10 +84,10 @@ export default function FAQ() {
                 <IconChatBubble className="size-7 text-[#0066db] dark:text-[#84beff]" />
               </div>
               <h3 className="text-[18px] font-semibold leading-[26px] text-[#0052b3] dark:text-[#b5d8ff]">
-                Still have a question?
+                {t.helpTitle[lang]}
               </h3>
               <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
-                Call, WhatsApp or Messenger. An Autoral expert will reply.
+                {t.helpBody[lang]}
               </p>
               <a
                 href="https://wa.me/8801770066585"
@@ -120,14 +96,14 @@ export default function FAQ() {
                 className="btn-primary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center gap-2 cursor-pointer mt-1 dark:bg-[#84beff] dark:text-[#071d3d] dark:hover:bg-[#a6d2ff]"
               >
                 <IconWhatsApp className="size-5 text-white dark:text-[#071d3d]" />
-                <span>Chat on WhatsApp</span>
+                <span>{t.whatsappBtn[lang]}</span>
               </a>
             </div>
           </div>
 
           {/* Right Column: Accordion Items & Mobile Help Card */}
           <div className="flex flex-col gap-3 items-start w-full flex-1 min-w-0">
-            {faqs.map((faq, idx) => {
+            {t.items.map((faq, idx) => {
               const isOpen = openIndex === idx;
               return (
                 <button
@@ -145,7 +121,7 @@ export default function FAQ() {
                     <span className={`text-[17px] sm:text-[18px] font-semibold leading-[24px] sm:leading-[26px] transition-colors duration-200 ${
                       isOpen ? "text-[#0066db] dark:text-[#84beff]" : "text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff]"
                     }`}>
-                      {faq.question}
+                      {faq.q[lang]}
                     </span>
                     <div
                       className={`size-9 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
@@ -161,7 +137,7 @@ export default function FAQ() {
                   {/* Answer (Expanded) */}
                   {isOpen && (
                     <p className="text-[15px] sm:text-[16px] font-normal leading-[24px] sm:leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1] text-left animate-in fade-in duration-200">
-                      {faq.answer}
+                      {faq.a[lang]}
                     </p>
                   )}
 
@@ -179,10 +155,10 @@ export default function FAQ() {
                 <IconChatBubble className="size-7 text-[#0066db] dark:text-[#84beff]" />
               </div>
               <h3 className="text-[18px] font-semibold leading-[26px] text-[#0052b3] dark:text-[#b5d8ff]">
-                Still have a question?
+                {t.helpTitle[lang]}
               </h3>
               <p className="text-[15px] sm:text-[16px] font-normal leading-[24px] sm:leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
-                Call, WhatsApp or Messenger. An Autoral expert will reply.
+                {t.helpBody[lang]}
               </p>
               <a
                 href="https://wa.me/8801770066585"
@@ -191,7 +167,7 @@ export default function FAQ() {
                 className="btn-primary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center justify-center gap-2 cursor-pointer mt-1 w-full sm:w-auto dark:bg-[#84beff] dark:text-[#071d3d] dark:hover:bg-[#a6d2ff]"
               >
                 <IconWhatsApp className="size-5 text-white dark:text-[#071d3d]" />
-                <span>Chat on WhatsApp</span>
+                <span>{t.whatsappBtn[lang]}</span>
               </a>
             </div>
           </div>

@@ -11,6 +11,8 @@ import {
   IconFan,
   IconTv,
 } from "./Icons";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 // Appliance data definitions matching Figma design system
 type ApplianceType = "lighting" | "cooling" | "climate" | "media" | "water";
@@ -191,6 +193,34 @@ function RoomIcon({ room, className = "size-[14px]" }: { room: string; className
 }
 
 export default function Hero() {
+  const { lang, setLang } = useLanguage();
+  const t = translations.hero;
+
+  const toBnNum = (n: number | string) => {
+    if (lang !== "bn") return String(n);
+    const bnDigits = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+    return String(n).replace(/\d/g, (d) => bnDigits[Number(d)]);
+  };
+
+  const getRoomName = (room: string) => {
+    if (room === "Living room") return t.phone.rooms.living[lang];
+    if (room === "Bedroom") return t.phone.rooms.bedroom[lang];
+    if (room === "Kitchen") return t.phone.rooms.kitchen[lang];
+    if (room === "Kids room") return t.phone.rooms.kids[lang];
+    if (room === "Veranda") return t.phone.rooms.veranda[lang];
+    return room;
+  };
+
+  const getRoomTabLabel = (tab: string) => {
+    if (tab === "All") return t.phone.rooms.all[lang];
+    return getRoomName(tab);
+  };
+
+  const getApplianceName = (app: Appliance) => {
+    const key = app.id as keyof typeof t.phone.appliances;
+    return t.phone.appliances[key]?.[lang] || app.name;
+  };
+
   const [appliances, setAppliances] = useState<Appliance[]>(INITIAL_APPLIANCES);
   const [selectedRoom, setSelectedRoom] = useState<string>("All");
   const [activeTab, setActiveTab] = useState<"home" | "appliances" | "settings">("home");
@@ -198,7 +228,6 @@ export default function Hero() {
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
   const [applianceCategoryFilter, setApplianceCategoryFilter] = useState<string>("All");
-  const [lang, setLang] = useState<"en" | "bn">("en");
 
   const triggerIslandToast = (msg: string) => {
     setIslandToast(msg);
@@ -212,7 +241,12 @@ export default function Hero() {
       prev.map((app) => {
         if (app.id === id) {
           const next = !app.on;
-          triggerIslandToast(`${app.name} turned ${next ? "On" : "Off"}`);
+          const appName = getApplianceName(app);
+          triggerIslandToast(
+            lang === "bn"
+              ? `${appName} ${next ? "চালু করা হয়েছে" : "বন্ধ করা হয়েছে"}`
+              : `${app.name} turned ${next ? "On" : "Off"}`
+          );
           return { ...app, on: next };
         }
         return app;
@@ -222,19 +256,24 @@ export default function Hero() {
 
   const turnAllOn = () => {
     setAppliances((prev) => prev.map((app) => ({ ...app, on: true })));
-    triggerIslandToast("All appliances turned on");
+    triggerIslandToast(lang === "bn" ? "সব যন্ত্র চালু করা হয়েছে" : "All appliances turned on");
   };
 
   const turnAllOff = () => {
     setAppliances((prev) => prev.map((app) => ({ ...app, on: false })));
-    triggerIslandToast("All appliances turned off");
+    triggerIslandToast(lang === "bn" ? "সব যন্ত্র বন্ধ করা হয়েছে" : "All appliances turned off");
   };
 
   const toggleRoom = (roomName: string, shouldTurnOn: boolean) => {
     setAppliances((prev) =>
       prev.map((app) => (app.room === roomName ? { ...app, on: shouldTurnOn } : app))
     );
-    triggerIslandToast(`${roomName}: ${shouldTurnOn ? "All on" : "All off"}`);
+    const localizedRoom = getRoomName(roomName);
+    triggerIslandToast(
+      lang === "bn"
+        ? `${localizedRoom}: ${shouldTurnOn ? "সব চালু" : "সব বন্ধ"}`
+        : `${roomName}: ${shouldTurnOn ? "All on" : "All off"}`
+    );
   };
 
   // Live counts for dynamic state
@@ -246,7 +285,7 @@ export default function Hero() {
   const ceilingLight = appliances.find((a) => a.id === "living-ceiling-light");
   const ceilingLightOn = ceilingLight ? ceilingLight.on : true;
 
-  // Filtered rooms (when "All" is active, displays Living room at top and enables scrolling down through all rooms, matching Image 3 & Image 4)
+  // Filtered rooms (when "All" is active, displays Living room at top and enables scrolling down through all rooms)
   const roomsToDisplay =
     selectedRoom === "All"
       ? (["Living room", "Bedroom", "Kitchen", "Kids room", "Veranda"] as const)
@@ -264,19 +303,18 @@ export default function Hero() {
           <div className="inline-flex items-center gap-2 bg-white dark:bg-[#151d29] border border-[#d8e1ec] dark:border-[#2a3546] rounded-full px-3.5 py-2 shadow-xs transition-colors">
             <IconFamilyHome className="w-[18px] h-[18px] text-[#0066db] dark:text-[#84beff]" />
             <span className="text-[12px] font-semibold text-[#0052b3] dark:text-[#84beff] tracking-[0.96px] uppercase">
-              SMART HOME FOR BANGLADESH
+              {t.eyebrow[lang]}
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-semibold text-[#0e1726] dark:text-[#edf2f8] tracking-[-1.5px] leading-[1.12]">
-            Your whole home,<br />one tap away.
+            {t.headlineLine1[lang]}<br />{t.headlineLine2[lang]}
           </h1>
 
           {/* Lead Paragraph */}
           <p className="text-lg lg:text-[18px] text-[#4a5a70] dark:text-[#b4c1d1] leading-[28px] max-w-[540px] mx-auto lg:mx-0">
-            Control lights, fans, AC, TV, water pump and more from one app. It
-            works on your home Wi-Fi, even when the internet is down.
+            {t.lead[lang]}
           </p>
 
           {/* Store Badges */}
@@ -291,14 +329,13 @@ export default function Hero() {
               href="#how-it-works"
               className="inline-flex items-center justify-center h-[48px] px-6 rounded-full bg-white/75 dark:bg-[#151d29]/85 backdrop-blur-md border border-white/90 dark:border-[#2a3546] shadow-[0px_8px_32px_rgba(10,42,92,0.12)] text-[#0066db] dark:text-[#84beff] font-semibold text-[16px] transition-all duration-200 hover:bg-white dark:hover:bg-[#1e2836] hover:border-[#0066db] dark:hover:border-[#84beff] hover:shadow-lg hover:-translate-y-0.5 active:scale-98 cursor-pointer w-full sm:w-auto"
             >
-              See how it works
+              {t.seeHowItWorks[lang]}
             </a>
 
             <div className="inline-flex items-center gap-2 text-[#4a5a70] dark:text-[#b4c1d1] text-[14px]">
               <IconCheckCircle className="w-[18px] h-[18px] text-[#187a43] dark:text-[#5cc98a]" />
               <span>
-                Free app · English &amp;{" "}
-                <span className="font-bengali font-medium">বাংলা</span>
+                {t.freeAppNote[lang]}
               </span>
             </div>
           </div>
@@ -306,10 +343,10 @@ export default function Hero() {
 
         {/* Right Hero Visual Stage (Figma 4238:661: 540px wide by 680px tall) */}
         <div className="relative w-full max-w-[540px] h-[680px] shrink-0 select-none">
-          {/* Subtle Ambient Radial Ring (Figma 4238:663: size 480px, left 30px, top 100px) */}
+          {/* Subtle Ambient Radial Ring */}
           <div className="absolute left-[30px] top-[100px] w-[480px] h-[480px] rounded-full border border-[#4c8dff]/25 bg-gradient-to-tr from-[#4c8dff]/15 via-blue-200/10 to-transparent blur-2xl pointer-events-none" />
 
-          {/* 1. Floating Card: Left - Autoral MH-8 Device (Matches Figma/User reference image) */}
+          {/* 1. Floating Card: Left - Autoral MH-8 Device */}
           <div
             onClick={() => setShowAddModal(true)}
             className="hidden lg:flex absolute left-[-115px] top-[392px] z-30 w-[265px] bg-white dark:bg-[#151d29] rounded-[20px] p-3.5 items-center gap-3 shadow-[0px_16px_40px_rgba(10,42,92,0.18)] border border-[#e8effc] dark:border-[#2a3546] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl cursor-pointer"
@@ -319,16 +356,18 @@ export default function Hero() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-[15px] font-semibold text-[#0e1726] dark:text-[#edf2f8] truncate">
-                Autoral MH-8
+                {t.floatingDevice.title[lang]}
               </div>
               <div className="text-[12px] text-[#5e6e84] dark:text-[#8b9aae] truncate">
-                6 of 8 channels in use
+                {t.floatingDevice.subtitle[lang]}
               </div>
               <div className="flex items-center gap-1.5 text-[11.5px] mt-0.5">
                 <span className="w-3.5 h-3.5 rounded-full bg-[#0e1726] dark:bg-white text-white dark:text-[#0e1726] flex items-center justify-center text-[9px] font-bold">
                   ✓
                 </span>
-                <span className="text-[#0e1726] dark:text-[#edf2f8] font-medium">Online</span>
+                <span className="text-[#0e1726] dark:text-[#edf2f8] font-medium">
+                  {t.floatingDevice.online[lang]}
+                </span>
               </div>
             </div>
             <div className="text-[#8798ad] dark:text-[#8b9aae] shrink-0 pr-1">
@@ -338,7 +377,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* 2. Floating Card: Right - Ceiling Light Quick Tile (Matches Figma/User reference image) */}
+          {/* 2. Floating Card: Right - Ceiling Light Quick Tile */}
           <div
             onClick={() => toggleAppliance("living-ceiling-light")}
             className={`hidden lg:flex absolute left-[370px] top-[182px] z-30 w-[158px] h-[122px] rounded-[22px] p-3.5 flex-col justify-between shadow-[0px_16px_40px_rgba(10,42,92,0.18)] cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl active:scale-98 ${
@@ -359,25 +398,25 @@ export default function Hero() {
             </div>
             <div>
               <div className="text-[15px] font-semibold leading-tight">
-                Ceiling Light
+                {t.floatingTile.title[lang]}
               </div>
               <div className="text-[12px] opacity-80 mt-0.5">
-                {ceilingLightOn ? "On" : "Off"}
+                {ceilingLightOn ? t.floatingTile.on[lang] : t.floatingTile.off[lang]}
               </div>
             </div>
           </div>
 
-          {/* 3. Floating Badge: Right - On home Wi-Fi (Matches Figma/User reference image) */}
+          {/* 3. Floating Badge: Right - On home Wi-Fi */}
           <div className="hidden lg:flex absolute left-[408px] top-[396px] z-30 h-[38px] bg-white/85 dark:bg-[#151d29]/90 backdrop-blur-md border border-white/90 dark:border-[#2a3546] rounded-full px-3.5 items-center gap-2 shadow-[0px_12px_32px_rgba(10,42,92,0.16)] transition-all duration-300 hover:-translate-y-0.5 cursor-default">
             <IconWifi className="w-4 h-4 text-[#0e1726] dark:text-[#edf2f8]" />
             <span className="text-[13px] font-medium text-[#0e1726] dark:text-[#edf2f8] whitespace-nowrap">
-              On home Wi-Fi
+              {t.floatingConnection.label[lang]}
             </span>
           </div>
 
-          {/* iPhone 17 Pro Mockup Frame (Using official /images/iphone-17-pro.svg) */}
+          {/* iPhone 17 Pro Mockup Frame */}
           <div className="absolute left-1/2 -translate-x-1/2 lg:left-[104px] lg:translate-x-0 top-0 z-20 w-[333px] h-[681px]">
-            {/* Interactive Phone Screen - Positioned under the transparent SVG screen cutout */}
+            {/* Interactive Phone Screen */}
             <div
               className="absolute overflow-hidden bg-[#f5f8fc] dark:bg-[#0a0f17] rounded-[42px] flex flex-col justify-between transition-colors duration-200"
               style={{
@@ -403,17 +442,12 @@ export default function Hero() {
                 )}
               </div>
 
-              {/* Status Bar (Fixed at Top, exactly 44px, aligned around the SVG Dynamic Island) */}
+              {/* Status Bar */}
               <div className="absolute top-0 inset-x-0 h-[44px] px-4.5 flex items-center justify-between z-20 pointer-events-none text-[#0e1726] dark:text-white pt-1.5">
-                {/* Time */}
                 <div className="w-12 text-[13px] font-semibold tracking-tight text-center">
                   9:41
                 </div>
-
-                {/* Empty Center Spacer reserved for SVG Dynamic Island (92px wide) */}
                 <div className="w-[92px] h-[26px]" />
-
-                {/* Trailing: Cellular, Wi-Fi, Battery */}
                 <div className="w-12 flex items-center justify-end gap-1.5">
                   <div className="flex items-end gap-[1px] h-2.5">
                     <span className="w-[2px] h-1 bg-[#0e1726] dark:bg-white rounded-2xs" />
@@ -438,10 +472,10 @@ export default function Hero() {
                     <div className="flex items-center justify-between px-1">
                       <div>
                         <div className="text-[12px] text-[#4a5a70] dark:text-[#8b9aae] leading-none mb-1">
-                          Good evening
+                          {t.phone.greeting[lang]}
                         </div>
                         <div className="text-[18px] font-semibold text-[#0e1726] dark:text-white leading-tight">
-                          Abu Taher Molla
+                          {t.phone.userName[lang]}
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5">
@@ -479,10 +513,12 @@ export default function Hero() {
                             <IconWifi className="w-3 h-3 text-[#187a43] dark:text-[#5cc98a]" />
                           </div>
                           <div className="min-w-0">
-                            <div className="text-[9px] text-[#4a5a70] dark:text-[#8b9aae] leading-none">Connection</div>
+                            <div className="text-[9px] text-[#4a5a70] dark:text-[#8b9aae] leading-none">
+                              {t.phone.connection[lang]}
+                            </div>
                             <div className="text-[10px] font-semibold text-[#0e1726] dark:text-white flex items-center gap-1 mt-0.5">
                               <span className="w-1.5 h-1.5 rounded-full bg-[#187a43] dark:bg-[#5cc98a]" />
-                              <span className="truncate">Home Wi-Fi</span>
+                              <span className="truncate">{t.phone.homeWifi[lang]}</span>
                             </div>
                           </div>
                         </div>
@@ -491,10 +527,14 @@ export default function Hero() {
                             <IconRouter className="w-3 h-3 text-[#187a43] dark:text-[#5cc98a]" />
                           </div>
                           <div className="min-w-0">
-                            <div className="text-[9px] text-[#4a5a70] dark:text-[#8b9aae] leading-none">Devices</div>
+                            <div className="text-[9px] text-[#4a5a70] dark:text-[#8b9aae] leading-none">
+                              {t.phone.devices[lang]}
+                            </div>
                             <div className="text-[10px] font-semibold text-[#0e1726] dark:text-white flex items-center gap-1 mt-0.5">
                               <span className="w-1.5 h-1.5 rounded-full bg-[#187a43] dark:bg-[#5cc98a]" />
-                              <span className="truncate">2 of 2 online</span>
+                              <span className="truncate">
+                                {lang === "bn" ? `${toBnNum(2)}টির ${toBnNum(2)}টি সচল` : "2 of 2 online"}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -504,10 +544,14 @@ export default function Hero() {
                       <div className="flex items-center justify-between pt-0.5">
                         <div>
                           <div className="text-[20px] font-bold text-[#0e1726] dark:text-white tracking-tight leading-none">
-                            {activeCount} appliances on
+                            {lang === "bn"
+                              ? `${toBnNum(activeCount)}টি যন্ত্র চালু`
+                              : `${activeCount} appliances on`}
                           </div>
                           <div className="text-[10.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-1">
-                            {offCount} off · {totalCount} appliances
+                            {lang === "bn"
+                              ? `${toBnNum(offCount)}টি বন্ধ · মোট ${toBnNum(totalCount)}টি`
+                              : `${offCount} off · ${totalCount} appliances`}
                           </div>
                         </div>
                         {/* Active type indicators */}
@@ -545,7 +589,7 @@ export default function Hero() {
                             <line x1="1" y1="12" x2="3" y2="12" />
                             <line x1="21" y1="12" x2="23" y2="12" />
                           </svg>
-                          All on
+                          {t.phone.allOn[lang]}
                         </button>
                         <button
                           type="button"
@@ -556,7 +600,7 @@ export default function Hero() {
                             <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
                             <line x1="12" y1="2" x2="12" y2="12" />
                           </svg>
-                          All off
+                          {t.phone.allOff[lang]}
                         </button>
                       </div>
                     </div>
@@ -576,7 +620,7 @@ export default function Hero() {
                                 : "bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433]"
                             }`}
                           >
-                            {tab}
+                            {getRoomTabLabel(tab)}
                           </button>
                         );
                       })}
@@ -588,6 +632,7 @@ export default function Hero() {
                       if (roomApps.length === 0) return null;
                       const roomActiveCount = roomApps.filter((a) => a.on).length;
                       const hasActive = roomActiveCount > 0;
+                      const localizedRoom = getRoomName(roomName);
 
                       return (
                         <div key={roomName} className="space-y-1.5">
@@ -596,10 +641,10 @@ export default function Hero() {
                             <div className="flex items-center gap-1.5">
                               <RoomIcon room={roomName} className="w-3.5 h-3.5 text-[#4a5a70] dark:text-[#8b9aae]" />
                               <span className="text-[13px] font-semibold text-[#0e1726] dark:text-white">
-                                {roomName}
+                                {localizedRoom}
                               </span>
                               <span className="bg-[#edf2f8] dark:bg-[#192433] text-[#0e1726] dark:text-[#84beff] text-[9.5px] px-1.5 py-0.5 rounded-full font-medium">
-                                {roomActiveCount} on
+                                {lang === "bn" ? `${toBnNum(roomActiveCount)}টি চালু` : `${roomActiveCount} on`}
                               </span>
                             </div>
                             <button
@@ -607,13 +652,16 @@ export default function Hero() {
                               onClick={() => toggleRoom(roomName, !hasActive)}
                               className="text-[11px] font-semibold text-[#0052b3] dark:text-[#84beff] hover:underline cursor-pointer"
                             >
-                              {hasActive ? "Turn all off" : "Turn all on"}
+                              {hasActive
+                                ? (lang === "bn" ? "সব বন্ধ করুন" : "Turn all off")
+                                : (lang === "bn" ? "সব চালু করুন" : "Turn all on")}
                             </button>
                           </div>
 
-                          {/* Device Tiles Grid (Exact 2-column Figma layout) */}
+                          {/* Device Tiles Grid */}
                           <div className="grid grid-cols-2 gap-2">
                             {roomApps.map((device) => {
+                              const localizedDeviceName = getApplianceName(device);
                               let bgClass = "bg-[#edf2f8] dark:bg-[#131d2a] dark:border dark:border-[#233144] text-[#0e1726] dark:text-white";
                               let iconBgClass = "bg-white dark:bg-[#1c293a] text-[#0e1726] dark:text-[#8b9aae]";
                               let subTextClass = "text-[10px] opacity-80 mt-0.5 text-[#4a5a70] dark:text-[#8b9aae]";
@@ -656,10 +704,12 @@ export default function Hero() {
                                   </div>
                                   <div>
                                     <div className={titleClass}>
-                                      {device.name}
+                                      {localizedDeviceName}
                                     </div>
                                     <div className={subTextClass}>
-                                      {device.on ? "On" : "Off"}
+                                      {device.on
+                                        ? (lang === "bn" ? "চালু" : "On")
+                                        : (lang === "bn" ? "বন্ধ" : "Off")}
                                     </div>
                                   </div>
                                 </div>
@@ -943,7 +993,7 @@ export default function Hero() {
                     <svg width="15" height="15" viewBox="0 0 24 24" fill={activeTab === "home" ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
                       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                     </svg>
-                    <span className="text-[9.5px] font-semibold leading-none">Home</span>
+                    <span className="text-[9.5px] font-semibold leading-none">{t.phone.nav.home[lang]}</span>
                   </button>
 
                   <button
@@ -960,7 +1010,7 @@ export default function Hero() {
                       <line x1="8" y1="21" x2="16" y2="21" />
                       <line x1="12" y1="17" x2="12" y2="21" />
                     </svg>
-                    <span className="text-[9.5px] font-medium leading-none">Appliances</span>
+                    <span className="text-[9.5px] font-medium leading-none">{t.phone.nav.devices[lang]}</span>
                   </button>
 
                   <button
@@ -976,7 +1026,7 @@ export default function Hero() {
                       <circle cx="12" cy="12" r="3" />
                       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
                     </svg>
-                    <span className="text-[9.5px] font-medium leading-none">Settings</span>
+                    <span className="text-[9.5px] font-medium leading-none">{t.phone.nav.settings[lang]}</span>
                   </button>
                 </div>
               </div>

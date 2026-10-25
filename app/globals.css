@@ -81,8 +81,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.font-bengali {
-  font-family: var(--font-bengali), var(--font-inter);
+.font-bengali,
+html[lang="bn"],
+html[lang="bn"] body,
+html[data-lang="BN"],
+html[data-lang="BN"] body,
+[data-lang="BN"] {
+  font-family: var(--font-bengali), var(--font-inter), sans-serif;
 }
 
 /* ==========================================================================

@@ -1,6 +1,10 @@
-import React from "react";
+"use client";
 
-// Exact SVGs extracted from Figma node 4238:747
+import React from "react";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
+
+// Exact SVGs extracted from Figma node 4238:747 / 4440:18730
 function IconWifiTrust({ className = "w-[22px] h-[22px]" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 22 22" fill="currentColor">
@@ -12,7 +16,7 @@ function IconWifiTrust({ className = "w-[22px] h-[22px]" }: { className?: string
 function IconSwitch({ className = "w-[22px] h-[22px]" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 22 22" fill="currentColor">
-      <path d="M5.04167 20.1667C4.675 20.1667 4.35417 20.0292 4.07917 19.7542C3.80417 19.4792 3.66667 19.1583 3.66667 18.7917V3.20833C3.66667 2.84167 3.80417 2.52083 4.07917 2.24583C4.35417 1.97083 4.675 1.83333 5.04167 1.83333H16.9583C17.325 1.83333 17.6458 1.97083 17.9208 2.24583C18.1958 2.52083 18.3333 2.84167 18.3333 3.20833V18.7917C18.3333 19.1583 18.1958 19.4792 17.9208 19.7542C17.6458 20.0292 17.325 20.1667 16.9583 20.1667H5.04167ZM5.04167 18.7917H16.9583V3.20833H5.04167V18.7917ZM8.13542 15.4688H13.8417C14.0403 15.4688 14.2007 15.4 14.3229 15.2625C14.4604 15.1403 14.5292 14.9799 14.5292 14.7813V7.24167C14.5292 7.04306 14.4604 6.88264 14.3229 6.76042C14.2007 6.62292 14.0403 6.55417 13.8417 6.55417H8.13542C7.93681 6.55417 7.77639 6.62292 7.65417 6.76042C7.51667 6.88264 7.44792 7.04306 7.44792 7.24167V14.7813C7.44792 14.9799 7.51667 15.1403 7.65417 15.2625C7.77639 15.4 7.93681 15.4688 8.13542 15.4688ZM8.82292 14.0938V9.80833H13.1542V14.0938H8.82292ZM11 5.31667C11.1375 5.31667 11.2444 5.27083 11.3208 5.17917C11.4125 5.10278 11.4583 4.99583 11.4583 4.85833C11.4583 4.73611 11.4125 4.62917 11.3208 4.5375C11.2444 4.44583 11.1375 4.4 11 4.4C10.8778 4.4 10.7708 4.44583 10.6792 4.5375C10.5875 4.62917 10.5417 4.73611 10.5417 4.85833C10.5417 4.98056 10.5875 5.0875 10.6792 5.17917C10.7708 5.27083 10.8778 5.31667 11 5.31667ZM11 17.5771C11.1375 17.5771 11.2444 17.5313 11.3208 17.4396C11.4125 17.3632 11.4583 17.2563 11.4583 17.1187C11.4583 16.9965 11.4125 16.8896 11.3208 16.7979C11.2444 16.7063 11.1375 16.6604 11 16.6604C10.8778 16.6604 10.7708 16.7063 10.6792 16.7979C10.5875 16.8896 10.5417 16.9965 10.5417 17.1187C10.5417 17.241 10.5875 17.3479 10.6792 17.4396C10.7708 17.5313 10.8778 17.5771 11 17.5771Z" />
+      <path d="M5.04167 20.1667C4.675 20.1667 4.35417 20.0292 4.07917 19.7542C3.80417 19.4792 3.66667 19.1583 3.66667 18.7917V3.20833C3.66667 2.84167 3.80417 2.52083 4.07917 2.24583C4.35417 1.97083 4.675 1.83333 5.04167 1.83333H16.9583C17.325 1.83333 17.6458 1.97083 17.9208 2.24583C18.1958 2.52083 18.3333 2.84167 18.3333 3.20833V18.7917C18.3333 19.1583 18.1958 19.4792 17.9208 19.7542C17.6458 20.0292 17.325 20.1667 16.9583 20.1667H5.04167ZM5.04167 18.7917H16.9583V3.20833H5.04167V18.7917ZM8.13542 15.4688H13.8417C14.0403 15.4688 14.2007 15.4 14.3229 15.2625C14.4604 15.1403 14.5292 14.9799 14.5292 14.7813V7.24167C14.5292 7.04306 14.4604 6.88264 14.3229 6.76042C14.2007 6.62292 14.0403 6.55417 13.8417 6.55417H8.13542C7.93681 6.55417 7.77639 6.62292 7.65417 6.76042C7.51667 6.88264 7.44792 7.04306 7.44792 7.24167V14.7813C7.44792 14.9799 7.51667 15.1403 7.65417 15.2625C7.7639 15.4 7.93681 15.4688 8.13542 15.4688ZM8.82292 14.0938V9.80833H13.1542V14.0938H8.82292ZM11 5.31667C11.1375 5.31667 11.2444 5.27083 11.3208 5.17917C11.4125 5.10278 11.4583 4.99583 11.4583 4.85833C11.4583 4.73611 11.4125 4.62917 11.3208 4.5375C11.2444 4.44583 11.1375 4.4 11 4.4C10.8778 4.4 10.7708 4.44583 10.6792 4.5375C10.5875 4.62917 10.5417 4.73611 10.5417 4.85833C10.5417 4.98056 10.5875 5.0875 10.6792 5.17917C10.7708 5.27083 10.8778 5.31667 11 5.31667ZM11 17.5771C11.1375 17.5771 11.2444 17.5313 11.3208 17.4396C11.4125 17.3632 11.4583 17.2563 11.4583 17.1187C11.4583 16.9965 11.4125 16.8896 11.3208 16.7979C11.2444 16.7063 11.1375 16.6604 11 16.6604C10.8778 16.6604 10.7708 16.7063 10.6792 16.7979C10.5875 16.8896 10.5417 16.9965 10.5417 17.1187C10.5417 17.241 10.5875 17.3479 10.6792 17.4396C10.7708 17.5313 10.8778 17.5771 11 17.5771Z" />
     </svg>
   );
 }
@@ -34,53 +38,42 @@ function IconHandyman({ className = "w-[22px] h-[22px]" }: { className?: string 
 }
 
 export default function TrustStrip() {
-  const trustItems = [
-    {
-      icon: <IconWifiTrust className="w-[22px] h-[22px]" />,
-      title: "Works without internet",
-      desc: "Control at home on Wi-Fi",
-    },
-    {
-      icon: <IconSwitch className="w-[22px] h-[22px]" />,
-      title: "Wall switches still work",
-      desc: "No need to change habits",
-    },
-    {
-      icon: <IconBolt className="w-[22px] h-[22px]" />,
-      title: "Ready for load-shedding",
-      desc: "Restores the last state",
-    },
-    {
-      icon: <IconHandyman className="w-[22px] h-[22px]" />,
-      title: "Local installation",
-      desc: "Trained Autoral installers",
-    },
+  const { isBN } = useLanguage();
+  const lKey = isBN ? "bn" : "en";
+  const items = translations.trustStrip;
+
+  const trustIcons = [
+    <IconWifiTrust key={0} className="w-[22px] h-[22px]" />,
+    <IconSwitch key={1} className="w-[22px] h-[22px]" />,
+    <IconBolt key={2} className="w-[22px] h-[22px]" />,
+    <IconHandyman key={3} className="w-[22px] h-[22px]" />,
   ];
 
   return (
     <section
       aria-label="Trust strip"
       className="bg-white dark:bg-[#0a0f17] border-t border-b border-[#d8e1ec] dark:border-[#2a3546] py-[32px] w-full transition-colors duration-200"
+      data-node-id="4440:18730"
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 items-center">
-          {trustItems.map((item, idx) => (
+          {items.map((item, idx) => (
             <div
               key={idx}
               className="group flex items-center gap-[14px] p-2.5 rounded-[16px] transition-all duration-200 hover:bg-[#f5f8fc] dark:hover:bg-[#151d29] hover:-translate-y-0.5 cursor-default"
             >
-              {/* Badge: 44x44, rounded-[12px], bg-[#eaf3ff], text-[#0052b3] */}
+              {/* Badge */}
               <div className="w-[44px] h-[44px] rounded-[12px] bg-[#eaf3ff] dark:bg-[#0b2a55] text-[#0052b3] dark:text-[#84beff] flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:bg-[#0066db] dark:group-hover:bg-[#84beff] group-hover:text-white dark:group-hover:text-[#071d3d] group-hover:shadow-[0px_4px_12px_rgba(0,102,219,0.25)] transition-all duration-200">
-                {item.icon}
+                {trustIcons[idx]}
               </div>
 
-              {/* Text: Title 15px/22px medium, Subtitle 14px/20px regular */}
+              {/* Text */}
               <div className="flex flex-col gap-[2px] min-w-0">
                 <p className="font-medium text-[15px] leading-[22px] text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff] transition-colors duration-200 whitespace-nowrap">
-                  {item.title}
+                  {item.title[lKey]}
                 </p>
                 <p className="font-normal text-[14px] leading-[20px] text-[#4a5a70] dark:text-[#b4c1d1] whitespace-nowrap">
-                  {item.desc}
+                  {item.desc[lKey]}
                 </p>
               </div>
             </div>

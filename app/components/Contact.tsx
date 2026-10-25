@@ -10,10 +10,15 @@ import {
   IconClock,
   IconCheckCircle,
 } from "./Icons";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 export default function Contact() {
-  const [selectedInterest, setSelectedInterest] =
-    useState<string>("Buying a device");
+  const { lang } = useLanguage();
+  const t = translations.contact;
+
+  const [selectedInterestKey, setSelectedInterestKey] =
+    useState<"buying" | "installation" | "partner" | "other">("buying");
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -29,42 +34,47 @@ export default function Contact() {
 
   const contactItems = [
     {
-      label: "Phone",
-      val: "01770-066585",
+      label: t.items.phone.label[lang],
+      val: t.items.phone.val[lang],
       href: "tel:01770066585",
       icon: <IconPhone className="size-[22px]" />,
     },
     {
-      label: "WhatsApp",
-      val: "01770-066585",
+      label: t.items.whatsapp.label[lang],
+      val: t.items.whatsapp.val[lang],
       href: "https://wa.me/8801770066585",
       icon: <IconWhatsApp className="size-[22px]" />,
     },
     {
-      label: "Messenger",
-      val: "Autoral Home on Facebook",
+      label: t.items.messenger.label[lang],
+      val: t.items.messenger.val[lang],
       href: "https://m.me",
       icon: <IconMessenger className="size-[22px]" />,
     },
     {
-      label: "Email",
-      val: "molla.ux@gmail.com",
+      label: t.items.email.label[lang],
+      val: t.items.email.val[lang],
       href: "mailto:molla.ux@gmail.com",
       icon: <IconMail className="size-[22px]" />,
     },
     {
-      label: "Office",
-      val: "Dhaka, Bangladesh",
+      label: t.items.office.label[lang],
+      val: t.items.office.val[lang],
       icon: <IconLocation className="size-[22px]" />,
     },
     {
-      label: "Hours",
-      val: "Sat–Thu, 10:00 AM – 7:00 PM",
+      label: t.items.hours.label[lang],
+      val: t.items.hours.val[lang],
       icon: <IconClock className="size-[22px]" />,
     },
   ];
 
-  const chips = ["Buying a device", "Installation", "Partnership", "Other"];
+  const chips: Array<{ key: "buying" | "installation" | "partner" | "other"; label: string }> = [
+    { key: "buying", label: t.form.chips.buying[lang] },
+    { key: "installation", label: t.form.chips.installation[lang] },
+    { key: "partner", label: t.form.chips.partner[lang] },
+    { key: "other", label: t.form.chips.other[lang] },
+  ];
 
   return (
     <section
@@ -79,14 +89,13 @@ export default function Contact() {
             {/* Header */}
             <div className="flex flex-col gap-4 items-start w-full">
               <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
-                CONTACT
+                {t.overline[lang]}
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726] dark:text-[#edf2f8]">
-                Talk to an Autoral expert
+                {t.title[lang]}
               </h2>
               <p className="text-[18px] font-normal leading-[28px] text-[#4a5a70] dark:text-[#b4c1d1]">
-                Ask for a price, book an installation or become a partner
-                installer.
+                {t.subtitle[lang]}
               </p>
             </div>
 
@@ -132,7 +141,7 @@ export default function Contact() {
                 <IconLocation className="size-8 text-[#0066db] dark:text-[#84beff]" />
               </div>
               <span className="text-[14px] font-normal leading-[20px] text-[#0052b3] dark:text-[#84beff] group-hover:underline">
-                Office map · Dhaka
+                {t.mapLabel[lang]}
               </span>
             </div>
           </div>
@@ -142,10 +151,10 @@ export default function Contact() {
             {/* Form Head */}
             <div className="flex flex-col gap-1.5 items-start text-left w-full">
               <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] dark:text-[#edf2f8]">
-                Send us a message
+                {t.form.head[lang]}
               </h3>
               <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
-                We usually call back within 1 working day.
+                {t.form.sub[lang]}
               </p>
             </div>
 
@@ -155,18 +164,17 @@ export default function Contact() {
                   <IconCheckCircle className="size-8 text-[#187a43] dark:text-emerald-400" />
                 </div>
                 <h4 className="text-[20px] font-semibold text-[#0e1726] dark:text-[#edf2f8]">
-                  Thank you!
+                  {lang === "bn" ? "ধন্যবাদ!" : "Thank you!"}
                 </h4>
                 <p className="text-[15px] text-[#4a5a70] dark:text-[#b4c1d1] max-w-sm">
-                  We have received your message. An Autoral team member will reach
-                  out to you shortly.
+                  {t.form.success[lang]}
                 </p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
                   className="mt-3 text-[14px] text-[#0066db] dark:text-[#84beff] font-semibold hover:underline cursor-pointer"
                 >
-                  Send another message
+                  {lang === "bn" ? "আরেকটি বার্তা পাঠান" : "Send another message"}
                 </button>
               </div>
             ) : (
@@ -175,12 +183,12 @@ export default function Contact() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                   <div className="flex flex-col gap-1.5 items-start w-full">
                     <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
-                      Your name
+                      {t.form.nameLabel[lang]}
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Abu Taher Molla"
+                      placeholder={t.form.namePlaceholder[lang]}
                       value={formData.name}
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
@@ -191,12 +199,12 @@ export default function Contact() {
 
                   <div className="flex flex-col gap-1.5 items-start w-full">
                     <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
-                      Phone number
+                      {t.form.phoneLabel[lang]}
                     </label>
                     <input
                       type="tel"
                       required
-                      placeholder="017XX-XXXXXX"
+                      placeholder={t.form.phonePlaceholder[lang]}
                       value={formData.phone}
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
@@ -209,11 +217,11 @@ export default function Contact() {
                 {/* Row 2: Email (optional) */}
                 <div className="flex flex-col gap-1.5 items-start w-full">
                   <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
-                    Email (optional)
+                    {t.form.emailLabel[lang]}
                   </label>
                   <input
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder={t.form.emailPlaceholder[lang]}
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
@@ -225,16 +233,16 @@ export default function Contact() {
                 {/* Row 3: I'm interested in */}
                 <div className="flex flex-col gap-3 items-start w-full">
                   <span className="text-[15px] font-medium leading-[22px] text-[#0e1726] dark:text-[#edf2f8]">
-                    I&apos;m interested in
+                    {t.form.interestLabel[lang]}
                   </span>
                   <div className="flex flex-wrap gap-2 w-full">
-                    {chips.map((chip, idx) => {
-                      const isSelected = selectedInterest === chip;
+                    {chips.map((chip) => {
+                      const isSelected = selectedInterestKey === chip.key;
                       return (
                         <button
-                          key={idx}
+                          key={chip.key}
                           type="button"
-                          onClick={() => setSelectedInterest(chip)}
+                          onClick={() => setSelectedInterestKey(chip.key)}
                           className={`h-[36px] px-4 rounded-[18px] text-[14px] font-semibold flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
                             isSelected
                               ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726] shadow-xs scale-[1.02]"
@@ -256,7 +264,7 @@ export default function Contact() {
                               <polyline points="20 6 9 17 4 12" />
                             </svg>
                           )}
-                          <span>{chip}</span>
+                          <span>{chip.label}</span>
                         </button>
                       );
                     })}
@@ -266,11 +274,11 @@ export default function Contact() {
                 {/* Row 4: Message */}
                 <div className="flex flex-col gap-1.5 items-start w-full">
                   <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
-                    Message
+                    {t.form.messageLabel[lang]}
                   </label>
                   <input
                     type="text"
-                    placeholder="Tell us about your home, e.g. 3-bedroom flat in Mirpur"
+                    placeholder={t.form.messagePlaceholder[lang]}
                     value={formData.message}
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
@@ -298,13 +306,12 @@ export default function Contact() {
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
                   </svg>
-                  <span>Send message</span>
+                  <span>{t.form.submitBtn[lang]}</span>
                 </button>
 
                 {/* Disclaimer */}
                 <p className="text-[14px] font-normal leading-[20px] text-[#5e6e84] dark:text-[#8b9aae] text-left">
-                  By sending this form you agree to be contacted about Autoral
-                  Home.
+                  {t.form.consent[lang]}
                 </p>
               </form>
             )}

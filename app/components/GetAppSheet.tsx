@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { IconHomeFill, IconClose, IconAddHomeFill } from "./Icons";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 interface GetAppSheetProps {
   isOpen: boolean;
@@ -10,6 +12,9 @@ interface GetAppSheetProps {
 }
 
 export default function GetAppSheet({ isOpen, onClose }: GetAppSheetProps) {
+  const { lang } = useLanguage();
+  const t = translations.modals.getApp;
+
   // Prevent background scrolling when sheet is open
   useEffect(() => {
     if (isOpen) {
@@ -52,10 +57,10 @@ export default function GetAppSheet({ isOpen, onClose }: GetAppSheetProps) {
               id="get-app-title"
               className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] dark:text-[#edf2f8]"
             >
-              Get Autoral Home
+              {t.title[lang]}
             </h2>
             <p className="text-[14px] font-normal leading-[20px] text-[#4a5a70] dark:text-[#b4c1d1]">
-              Free on Android and iPhone · Setup takes about 5 minutes
+              {t.subtitle[lang]}
             </p>
           </div>
 

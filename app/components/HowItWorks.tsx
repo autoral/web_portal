@@ -1,4 +1,8 @@
+"use client";
+
 import React from "react";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 // Exact vector icons from Figma (28x28 viewBox 0 0 28 28)
 function IconHandyman({ className = "size-7" }: { className?: string }) {
@@ -53,25 +57,13 @@ function IconStepGlobe({ className = "size-7" }: { className?: string }) {
 }
 
 export default function HowItWorks() {
-  const steps = [
-    {
-      num: "01",
-      title: "Install the device",
-      desc: "A trained Autoral installer fits the device behind your switchboard in about 30 minutes.",
-      icon: <IconHandyman className="size-7 text-white" />,
-    },
-    {
-      num: "02",
-      title: "Connect in the app",
-      desc: "Open the app, find the device, join your home Wi-Fi and name each room and appliance.",
-      icon: <IconStepSmartphone className="size-7 text-white" />,
-    },
-    {
-      num: "03",
-      title: "Control anywhere",
-      desc: "Tap to switch at home. Sign in to control your home from the office or on holiday.",
-      icon: <IconStepGlobe className="size-7 text-white" />,
-    },
+  const { lang } = useLanguage();
+  const t = translations.howItWorks;
+
+  const icons = [
+    <IconHandyman key="0" className="size-7 text-white" />,
+    <IconStepSmartphone key="1" className="size-7 text-white" />,
+    <IconStepGlobe key="2" className="size-7 text-white" />,
   ];
 
   return (
@@ -84,16 +76,16 @@ export default function HowItWorks() {
         {/* Section Heading */}
         <div className="flex flex-col gap-4 items-center text-center max-w-[760px] w-full">
           <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
-            HOW IT WORKS
+            {t.overline[lang]}
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-[#0e1726] dark:text-[#edf2f8]">
-            From switchboard to smartphone in three steps
+            {t.title[lang]}
           </h2>
         </div>
 
         {/* 3 Step Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-          {steps.map((step, idx) => (
+          {t.steps.map((step, idx) => (
             <div
               key={idx}
               className="card-interactive group relative bg-[#f5f8fc] dark:bg-[#151d29] rounded-[24px] border border-[#d8e1ec] dark:border-[#2a3546] p-8 flex flex-col justify-between gap-8 min-h-[288px] cursor-default hover:bg-white dark:hover:bg-[#1c283e] transition-colors duration-200"
@@ -101,20 +93,20 @@ export default function HowItWorks() {
               {/* Top: Icon Badge & Number */}
               <div className="flex items-center justify-between w-full">
                 <div className="size-[56px] rounded-[16px] bg-[#0066db] dark:bg-[#0b2a55] flex items-center justify-center text-white dark:text-[#84beff] shrink-0 shadow-xs transition-transform duration-300 group-hover:scale-110 group-hover:shadow-[0px_6px_20px_rgba(0,102,219,0.35)]">
-                  {step.icon}
+                  {icons[idx]}
                 </div>
-                <span className="text-[64px] font-semibold leading-[72px] tracking-[-1.5px] text-[#0066db]/16 dark:text-[#84beff]/25 select-none transition-colors duration-300 group-hover:text-[#0066db]/35 dark:group-hover:text-[#84beff]/50">
-                  {step.num}
+                <span className="text-[64px] font-semibold leading-[72px] tracking-[-1.5px] text-[#0066db]/16 dark:text-[#84beff]/25 select-none transition-colors duration-300 group-hover:text-[#0066db]/35 dark:group-hover:text-[#84beff]/50 font-bengali">
+                  {step.num[lang]}
                 </span>
               </div>
 
               {/* Text */}
               <div className="flex flex-col gap-2 w-full text-left">
                 <h3 className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff] transition-colors duration-200">
-                  {step.title}
+                  {step.title[lang]}
                 </h3>
                 <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
-                  {step.desc}
+                  {step.desc[lang]}
                 </p>
               </div>
 

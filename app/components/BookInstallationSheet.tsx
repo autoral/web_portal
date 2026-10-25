@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { IconClose, IconHandyman, IconCheckCircle } from "./Icons";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 interface BookInstallationSheetProps {
   isOpen: boolean;
@@ -12,13 +14,17 @@ export default function BookInstallationSheet({
   isOpen,
   onClose,
 }: BookInstallationSheetProps) {
+  const { lang } = useLanguage();
+  const t = translations.modals.book;
+  const f = translations.contact.form;
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     message: "",
   });
-  const [selectedInterest, setSelectedInterest] = useState("Installation");
+  const [selectedInterestKey, setSelectedInterestKey] = useState<"buying" | "installation" | "partner" | "other">("installation");
   const [submitted, setSubmitted] = useState(false);
 
   // Prevent background scrolling when sheet is open
@@ -40,7 +46,12 @@ export default function BookInstallationSheet({
 
   if (!isOpen) return null;
 
-  const chips = ["Buying a device", "Installation", "Partnership", "Other"];
+  const chips: Array<{ key: "buying" | "installation" | "partner" | "other"; label: string }> = [
+    { key: "buying", label: f.chips.buying[lang] },
+    { key: "installation", label: f.chips.installation[lang] },
+    { key: "partner", label: f.chips.partner[lang] },
+    { key: "other", label: f.chips.other[lang] },
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,10 +86,10 @@ export default function BookInstallationSheet({
               id="book-installation-title"
               className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] dark:text-[#edf2f8]"
             >
-              Book an installation
+              {t.title[lang]}
             </h2>
             <p className="text-[14px] font-normal leading-[20px] text-[#4a5a70] dark:text-[#b4c1d1]">
-              Tell us about your home. We call within 1 working day to fix a visit time.
+              {t.subtitle[lang]}
             </p>
           </div>
 
@@ -121,12 +132,12 @@ export default function BookInstallationSheet({
             {/* Field: Your name */}
             <div className="flex flex-col gap-1.5 items-start w-full">
               <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
-                Your name
+                {f.nameLabel[lang]}
               </label>
               <input
                 type="text"
                 required
-                placeholder="e.g. Abu Taher Molla"
+                placeholder={f.namePlaceholder[lang]}
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
@@ -138,12 +149,12 @@ export default function BookInstallationSheet({
             {/* Field: Phone number */}
             <div className="flex flex-col gap-1.5 items-start w-full">
               <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
-                Phone number
+                {f.phoneLabel[lang]}
               </label>
               <input
                 type="tel"
                 required
-                placeholder="017XX-XXXXXX"
+                placeholder={f.phonePlaceholder[lang]}
                 value={formData.phone}
                 onChange={(e) =>
                   setFormData({ ...formData, phone: e.target.value })
@@ -155,11 +166,11 @@ export default function BookInstallationSheet({
             {/* Field: Email (optional) */}
             <div className="flex flex-col gap-1.5 items-start w-full">
               <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
-                Email (optional)
+                {f.emailLabel[lang]}
               </label>
               <input
                 type="email"
-                placeholder="you@example.com"
+                placeholder={f.emailPlaceholder[lang]}
                 value={formData.email}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
@@ -171,16 +182,16 @@ export default function BookInstallationSheet({
             {/* Field: I'm interested in */}
             <div className="flex flex-col gap-2.5 items-start w-full">
               <span className="text-[15px] font-medium leading-[22px] text-[#0e1726] dark:text-[#edf2f8]">
-                I&apos;m interested in
+                {f.interestLabel[lang]}
               </span>
               <div className="flex flex-wrap gap-2 w-full">
-                {chips.map((chip, idx) => {
-                  const isSelected = selectedInterest === chip;
+                {chips.map((chip) => {
+                  const isSelected = selectedInterestKey === chip.key;
                   return (
                     <button
-                      key={idx}
+                      key={chip.key}
                       type="button"
-                      onClick={() => setSelectedInterest(chip)}
+                      onClick={() => setSelectedInterestKey(chip.key)}
                       className={`h-[36px] px-4 rounded-[18px] text-[14px] font-semibold flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
                         isSelected
                           ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726] shadow-xs scale-[1.02]"
@@ -202,7 +213,7 @@ export default function BookInstallationSheet({
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                       )}
-                      <span>{chip}</span>
+                      <span>{chip.label}</span>
                     </button>
                   );
                 })}
@@ -212,11 +223,11 @@ export default function BookInstallationSheet({
             {/* Field: Message */}
             <div className="flex flex-col gap-1.5 items-start w-full">
               <label className="text-[14px] font-medium leading-[20px] text-[#0e1726] dark:text-[#edf2f8]">
-                Message
+                {f.messageLabel[lang]}
               </label>
               <textarea
                 rows={3}
-                placeholder="Your area and how many switchboards, e.g. Mirpur 10, 3 switchboards"
+                placeholder={f.messagePlaceholder[lang]}
                 value={formData.message}
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
@@ -227,7 +238,7 @@ export default function BookInstallationSheet({
 
             {/* Consent Disclaimer */}
             <p className="text-[14px] font-normal leading-[20px] text-[#5e6e84] dark:text-[#8b9aae] text-left pt-1">
-              By sending this form you agree to be contacted about Autoral Home.
+              {f.consent[lang]}
             </p>
 
             {/* Submit Button */}
@@ -237,7 +248,7 @@ export default function BookInstallationSheet({
                 className="btn-primary w-full h-12 rounded-[24px] font-semibold text-[16px] leading-[24px] flex items-center justify-center gap-2 shadow-xs cursor-pointer active:scale-98 transition-all"
               >
                 <IconHandyman className="size-5 text-white" />
-                <span>Request installation</span>
+                <span>{lang === "bn" ? "ইনস্টলেশন অনুরোধ করুন" : "Request installation"}</span>
               </button>
             </div>
           </form>

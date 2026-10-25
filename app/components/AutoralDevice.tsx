@@ -6,6 +6,8 @@ import {
   IconWifi,
   IconWhatsApp,
 } from "./Icons";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 // Exact green checkmark circle from Figma WebCheckItem
 function IconCheck({ className = "w-[22px] h-[22px]" }: { className?: string }) {
@@ -23,12 +25,22 @@ function IconCheck({ className = "w-[22px] h-[22px]" }: { className?: string }) 
   );
 }
 
+const BN_DIGITS = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+function toBnNum(num: number): string {
+  return String(num)
+    .split("")
+    .map((d) => BN_DIGITS[parseInt(d, 10)] ?? d)
+    .join("");
+}
+
 export default function AutoralDevice() {
+  const { isBN } = useLanguage();
+  const lKey = isBN ? "bn" : "en";
+  const t = translations.device;
+
   const [selectedModel, setSelectedModel] = useState<"MH-4" | "MH-8">("MH-8");
 
   // Dynamic interactive channels:
-  // MH-8 has 8 channels (all 8 active by default)
-  // MH-4 has 4 channels (all 4 active by default)
   const [activeMH8, setActiveMH8] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8]);
   const [activeMH4, setActiveMH4] = useState<number[]>([1, 2, 3, 4]);
 
@@ -49,10 +61,11 @@ export default function AutoralDevice() {
       id="device"
       aria-label="Autoral device"
       className="py-16 sm:py-20 lg:py-28 bg-[#f5f8fc] dark:bg-[#0a0f17] w-full transition-colors duration-200"
+      data-node-id="4440:18758"
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
-          {/* Left Device Illustration Box (Figma Tablet: up to 680px width, Desktop: 500px width) */}
+          {/* Left Device Illustration Box */}
           <div className="w-full max-w-[500px] md:max-w-[680px] lg:max-w-[500px] bg-[#0e1726] dark:bg-[#0c1523] border border-transparent dark:border-[#2a3546] rounded-[32px] px-6 sm:px-12 pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-7 items-center shrink-0 shadow-[0px_20px_50px_rgba(10,42,92,0.18)]">
             {/* White Hardware Enclosure Card */}
             <div className="w-full bg-white dark:bg-[#151d29] border border-transparent dark:border-[#2a3546] rounded-[24px] p-6 sm:p-7 shadow-[0px_8px_24px_rgba(10,42,92,0.14)] flex flex-col gap-6 transition-colors">
@@ -63,7 +76,7 @@ export default function AutoralDevice() {
                     <IconRouter className="w-5 h-5 text-white" />
                   </div>
                   <span className="text-[12px] font-semibold leading-[16px] text-[#5e6e84] dark:text-[#8b9aae] tracking-[0.96px] uppercase whitespace-nowrap">
-                    AUTORAL DEVICE · {selectedModel}
+                    {t.badgeSub[lKey]} {selectedModel}
                   </span>
                 </div>
                 <div className="text-[#0066db] dark:text-[#84beff]">
@@ -93,14 +106,14 @@ export default function AutoralDevice() {
                         }`}
                       />
                       <span className="text-[12px] font-normal leading-[16px] text-[#5e6e84] dark:text-[#8b9aae]">
-                        CH{chNumber}
+                        {isBN ? toBnNum(chNumber) : `CH${chNumber}`}
                       </span>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Screw Terminal Blocks (matches totalChannels for MH-4 & MH-8) */}
+              {/* Screw Terminal Blocks */}
               <div className="flex items-start justify-between w-full">
                 {Array.from({ length: totalChannels }).map((_, idx) => (
                   <div
@@ -113,9 +126,13 @@ export default function AutoralDevice() {
               {/* Capacity Meter */}
               <div className="flex flex-col gap-2 w-full pt-1">
                 <div className="flex items-center justify-between text-[14px] font-medium leading-[20px]">
-                  <span className="text-[#4a5a70] dark:text-[#b4c1d1]">Channels used</span>
+                  <span className="text-[#4a5a70] dark:text-[#b4c1d1]">{t.meterLabel[lKey]}</span>
                   <span className="text-[#0e1726] dark:text-[#edf2f8] font-semibold">
-                    {activeCount} of {totalChannels}
+                    {isBN ? (
+                      `${toBnNum(totalChannels)}টির মধ্যে ${toBnNum(activeCount)}`
+                    ) : (
+                      `${activeCount} of ${totalChannels}`
+                    )}
                   </span>
                 </div>
                 <div className="flex gap-1 h-[6px] w-full">
@@ -136,40 +153,32 @@ export default function AutoralDevice() {
 
             {/* Caption underneath card */}
             <p className="text-[14px] font-normal leading-[20px] text-white whitespace-nowrap text-center">
-              Fits behind your existing switchboard
+              {t.caption[lKey]}
             </p>
           </div>
 
-          {/* Right Copy Column (Figma: device-copy) */}
+          {/* Right Copy Column */}
           <div className="flex-1 flex flex-col gap-8 items-start w-full">
             {/* Section Heading */}
             <div className="flex flex-col gap-4 items-start">
               <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
-                AUTORAL DEVICE
+                {t.badge[lKey]}
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] sm:leading-[52px] text-[#0e1726] dark:text-[#edf2f8] tracking-[-1px]">
-                The small box that makes your home smart
+                {t.title[lKey]}
               </h2>
               <p className="text-base sm:text-lg text-[#4a5a70] dark:text-[#b4c1d1] leading-[28px]">
-                The Autoral device sits behind the switchboard you already have.
-                Your electrician connects it in about 30 minutes, with no new
-                wiring in the walls.
+                {t.subtitle[lKey]}
               </p>
             </div>
 
-            {/* Checklist (5 items from Figma) */}
+            {/* Checklist */}
             <div className="flex flex-col gap-3.5 w-full">
-              {[
-                "Your wall switches keep working as normal",
-                "Wi-Fi 2.4 GHz with easy Bluetooth setup",
-                "Remembers every state after a power cut",
-                "Local control first, encrypted remote access",
-                "Add more devices any time as your home grows",
-              ].map((label, idx) => (
+              {t.checklist.map((item, idx) => (
                 <div key={idx} className="flex gap-3 items-start">
                   <IconCheck className="w-[22px] h-[22px] shrink-0 mt-0.5" />
                   <p className="text-base sm:text-[18px] text-[#0e1726] dark:text-[#edf2f8] font-normal leading-[28px]">
-                    {label}
+                    {item[lKey]}
                   </p>
                 </div>
               ))}
@@ -189,14 +198,14 @@ export default function AutoralDevice() {
               >
                 <div className="flex items-center justify-between w-full">
                   <span className="text-[18px] font-semibold leading-[26px] text-[#0e1726] dark:text-[#edf2f8]">
-                    Autoral MH-4
+                    {t.mh4.title[lKey]}
                   </span>
                 </div>
                 <span className="text-[15px] font-medium leading-[22px] text-[#0066db] dark:text-[#84beff]">
-                  4 channels
+                  {t.mh4.channels[lKey]}
                 </span>
                 <span className="text-[14px] font-normal leading-[20px] text-[#4a5a70] dark:text-[#b4c1d1]">
-                  For a bedroom or a small flat
+                  {t.mh4.desc[lKey]}
                 </span>
               </button>
 
@@ -212,24 +221,24 @@ export default function AutoralDevice() {
               >
                 <div className="flex items-center justify-between w-full">
                   <span className="text-[18px] font-semibold leading-[26px] text-[#0e1726] dark:text-[#edf2f8]">
-                    Autoral MH-8
+                    {t.mh8.title[lKey]}
                   </span>
                   <span className="bg-[#0066db] dark:bg-[#84beff] text-white dark:text-[#071d3d] text-[12px] font-semibold leading-[16px] px-2.5 py-1 rounded-full shadow-xs">
-                    Popular
+                    {t.mh8.popular[lKey]}
                   </span>
                 </div>
                 <span className="text-[15px] font-medium leading-[22px] text-[#0066db] dark:text-[#84beff]">
-                  8 channels
+                  {t.mh8.channels[lKey]}
                 </span>
                 <span className="text-[14px] font-normal leading-[20px] text-[#4a5a70] dark:text-[#b4c1d1]">
-                  For living rooms and busy switchboards
+                  {t.mh8.desc[lKey]}
                 </span>
               </button>
             </div>
 
-            {/* CTAs (Figma Mobile 390: full-width stacked buttons) */}
+            {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1 w-full">
-              {/* Ask for a price (Primary CTA) */}
+              {/* Ask for a price */}
               <a
                 href="#contact"
                 onClick={(e) => {
@@ -244,10 +253,10 @@ export default function AutoralDevice() {
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
-                <span>Ask for a price</span>
+                <span>{t.checkPricing[lKey]}</span>
               </a>
 
-              {/* Book installation (Installation CTA) */}
+              {/* Book installation */}
               <a
                 href="https://wa.me/8801770066585"
                 onClick={(e) => {
@@ -261,13 +270,13 @@ export default function AutoralDevice() {
                 className="btn-secondary h-12 px-6 rounded-full font-semibold text-[16px] flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto dark:bg-[#151d29] dark:border-[#2a3546] dark:text-[#edf2f8] dark:hover:bg-[#1e2836]"
               >
                 <IconWhatsApp className="w-5 h-5 text-[#25D366]" />
-                <span>Book installation</span>
+                <span>{t.bookInstallation[lKey]}</span>
               </a>
             </div>
 
             {/* Disclaimer */}
             <p className="text-[14px] font-normal leading-[20px] text-[#5e6e84] dark:text-[#8b9aae]">
-              Specifications are indicative and may change before launch.
+              {t.disclaimer[lKey]}
             </p>
           </div>
         </div>

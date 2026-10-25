@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   IconHomeFill,
@@ -6,6 +8,8 @@ import {
   IconTranslate,
   IconPower,
 } from "./Icons";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 // Exact vector icon from Figma for One-tap touch_app
 function IconOneTap({ className = "w-[28px] h-[28px]" }: { className?: string }) {
@@ -17,41 +21,17 @@ function IconOneTap({ className = "w-[28px] h-[28px]" }: { className?: string })
 }
 
 export default function AppFeatures() {
-  const features = [
-    {
-      title: "One-tap control",
-      desc: "Switch any appliance from the Home screen. The tile shows its state instantly.",
-      icon: <IconOneTap className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
-    },
-    {
-      title: "Organised by room",
-      desc: "Name rooms and appliances the way your family talks about them.",
-      icon: <IconHomeFill className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
-    },
-    {
-      title: "Control from anywhere",
-      desc: "Sign in with Google, Apple or email to reach your home from outside.",
-      icon: <IconGlobe className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
-    },
-    {
-      title: "Works offline at home",
-      desc: "No internet? Everything still works on your home Wi-Fi.",
-      icon: <IconWifi className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
-    },
-    {
-      title: (
-        <>
-          English &amp; <span className="font-bengali font-medium">বাংলা</span>
-        </>
-      ),
-      desc: "Every screen, button and message works in both languages, in light or dark mode.",
-      icon: <IconTranslate className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
-    },
-    {
-      title: "Everything off, one tap",
-      desc: "Leaving home? Turn off every light and fan in one go.",
-      icon: <IconPower className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
-    },
+  const { isBN } = useLanguage();
+  const lKey = isBN ? "bn" : "en";
+  const t = translations.features;
+
+  const icons = [
+    <IconOneTap key={0} className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
+    <IconHomeFill key={1} className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
+    <IconGlobe key={2} className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
+    <IconWifi key={3} className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
+    <IconTranslate key={4} className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
+    <IconPower key={5} className="w-[28px] h-[28px] text-[#0066db] dark:text-[#84beff]" />,
   ];
 
   return (
@@ -59,41 +39,41 @@ export default function AppFeatures() {
       id="app-features"
       aria-label="App features"
       className="bg-white dark:bg-[#0a0f17] py-16 sm:py-20 lg:py-28 w-full border-b border-[#d8e1ec] dark:border-[#2a3546] transition-colors duration-200"
+      data-node-id="4440:18747"
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-col gap-14 items-center">
         {/* Section Heading (WebSectionHead) */}
         <div className="flex flex-col gap-4 items-center text-center max-w-[760px] mx-auto">
           <p className="text-[12px] font-semibold leading-[16px] text-[#0066db] dark:text-[#84beff] tracking-[0.96px] uppercase">
-            APP FEATURES
+            {t.overline[lKey]}
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] sm:leading-[52px] text-[#0e1726] dark:text-[#edf2f8] tracking-[-1px]">
-            Simple enough for the whole family
+            {t.title[lKey]}
           </h2>
           <p className="text-base sm:text-lg text-[#4a5a70] dark:text-[#b4c1d1] leading-[28px]">
-            Designed with parents, kids and grandparents in mind. Every screen
-            works in English and Bangla.
+            {t.subtitle[lKey]}
           </p>
         </div>
 
-        {/* 6 Feature Cards Grid (3x2 Desktop & Tablet, 2x3 Small Tablet, 1x6 Mobile) */}
+        {/* 6 Feature Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
-          {features.map((item, idx) => (
+          {t.items.map((item, idx) => (
             <div
               key={idx}
               className="card-interactive bg-[#f5f8fc] dark:bg-[#151d29] rounded-[24px] p-[28px] border border-[#d8e1ec] dark:border-[#2a3546] hover:bg-white dark:hover:bg-[#1c283e] group flex flex-col justify-between min-h-[224px] cursor-default transition-colors duration-200"
             >
-              {/* Badge: 56x56, rounded-[16px], bg-[#eaf3ff] */}
+              {/* Badge */}
               <div className="w-[56px] h-[56px] rounded-[16px] bg-[#eaf3ff] dark:bg-[#0b2a55] flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 shadow-xs">
-                {item.icon}
+                {icons[idx]}
               </div>
 
-              {/* Text Block: Title 18px semibold, Body 16px regular */}
+              {/* Text Block */}
               <div className="flex flex-col gap-2">
                 <h3 className="text-[18px] font-semibold leading-[26px] text-[#0e1726] dark:text-[#edf2f8] group-hover:text-[#0066db] dark:group-hover:text-[#84beff] transition-colors duration-200">
-                  {item.title}
+                  {item.title[lKey]}
                 </h3>
                 <p className="text-[16px] font-normal leading-[26px] text-[#4a5a70] dark:text-[#b4c1d1]">
-                  {item.desc}
+                  {item.desc[lKey]}
                 </p>
               </div>
             </div>

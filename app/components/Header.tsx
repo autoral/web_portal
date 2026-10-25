@@ -49,8 +49,11 @@ const getThemeSnapshot = () => {
 
 const getServerSnapshot = () => "light";
 
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
+
 export default function Header() {
-  const [lang, setLang] = useState<"EN" | "BN">("EN");
+  const { setLang, isBN } = useLanguage();
   const theme = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getServerSnapshot);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [getAppSheetOpen, setGetAppSheetOpen] = useState(false);
@@ -94,14 +97,17 @@ export default function Header() {
     };
   }, []);
 
+  const tHeader = translations.header;
+  const lKey = isBN ? "bn" : "en";
+
   const navLinks = [
-    { label: "Features", href: "#features" },
-    { label: "Autoral device", href: "#device" },
-    { label: "How it works", href: "#how-it-works" },
-    { label: "Download", href: "#download" },
-    { label: "About", href: "#about" },
-    { label: "FAQ", href: "#faq" },
-    { label: "Contact", href: "#contact" },
+    { label: tHeader.features[lKey], href: "#features", key: "features" },
+    { label: tHeader.device[lKey], href: "#device", key: "device" },
+    { label: tHeader.howItWorks[lKey], href: "#how-it-works", key: "howItWorks" },
+    { label: tHeader.download[lKey], href: "#download", key: "download" },
+    { label: tHeader.about[lKey], href: "#about", key: "about" },
+    { label: tHeader.faq[lKey], href: "#faq", key: "faq" },
+    { label: tHeader.contact[lKey], href: "#contact", key: "contact" },
   ];
 
   return (
@@ -117,11 +123,17 @@ export default function Header() {
           </div>
           <div className="font-semibold text-[18px] text-[#0e1726] dark:text-[#edf2f8] tracking-tight group-hover:text-[#0066db] dark:group-hover:text-[#84beff] transition-colors duration-200 text-left">
             <span className="hidden sm:inline whitespace-nowrap leading-[26px]">
-              Autoral Home
+              {tHeader.brandName[lKey]}
             </span>
             <div className="sm:hidden flex flex-col leading-[18px]">
-              <span>Autoral</span>
-              <span>Home</span>
+              {isBN ? (
+                <span>{tHeader.brandName.bn}</span>
+              ) : (
+                <>
+                  <span>Autoral</span>
+                  <span>Home</span>
+                </>
+              )}
             </div>
           </div>
         </Link>
@@ -129,7 +141,7 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-[36px]">
           {navLinks
-            .filter((l) => l.label !== "FAQ")
+            .filter((l) => l.key !== "faq")
             .map((item, idx) => (
               <a
                 key={idx}
@@ -147,9 +159,9 @@ export default function Header() {
           <div className="bg-[#edf2f8] dark:bg-[#151d29] border border-[#d8e1ec] dark:border-[#2a3546] rounded-full p-[4px] flex items-center gap-[2px] shadow-xs transition-colors">
             <button
               type="button"
-              onClick={() => setLang("EN")}
+              onClick={() => setLang("en")}
               className={`px-[12px] sm:px-[14px] py-[5px] sm:py-[6px] text-[14px] sm:text-[15px] font-medium leading-[20px] sm:leading-[22px] rounded-full transition-all duration-200 cursor-pointer ${
-                lang === "EN"
+                !isBN
                   ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726] shadow-xs"
                   : "text-[#4a5a70] dark:text-[#b4c1d1] hover:text-[#0e1726] dark:hover:text-white"
               }`}
@@ -158,9 +170,9 @@ export default function Header() {
             </button>
             <button
               type="button"
-              onClick={() => setLang("BN")}
+              onClick={() => setLang("bn")}
               className={`px-[12px] sm:px-[14px] py-[5px] sm:py-[6px] text-[14px] sm:text-[15px] font-medium leading-[20px] sm:leading-[22px] font-bengali rounded-full transition-all duration-200 cursor-pointer ${
-                lang === "BN"
+                isBN
                   ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726] shadow-xs"
                   : "text-[#4a5a70] dark:text-[#b4c1d1] hover:text-[#0e1726] dark:hover:text-white"
               }`}
@@ -202,7 +214,7 @@ export default function Header() {
             href="#download"
             className="hidden lg:flex h-[48px] px-[24px] rounded-[24px] bg-[#0066db] hover:bg-[#0052b3] dark:bg-[#84beff] dark:hover:bg-[#a6d2ff] active:scale-98 text-white dark:text-[#071d3d] font-semibold text-[16px] leading-[24px] items-center justify-center transition-all duration-200 shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.6)] hover:shadow-[0px_4px_16px_rgba(0,102,219,0.35)] hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
           >
-            Get the app
+            {tHeader.getTheApp[lKey]}
           </a>
         </div>
       </div>
@@ -218,7 +230,7 @@ export default function Header() {
                 href={item.href}
                 onClick={(e) => {
                   setMobileMenuOpen(false);
-                  if (item.label === "Contact") {
+                  if (item.key === "contact") {
                     e.preventDefault();
                     setContactSheetOpen(true);
                   }
@@ -235,7 +247,7 @@ export default function Header() {
             {/* Theme Toggle in Mobile Menu */}
             <div className="w-full py-4 border-b border-[#d8e1ec] dark:border-[#2a3546] flex items-center justify-between">
               <span className="text-[18px] font-semibold leading-[26px] text-[#0e1726] dark:text-[#edf2f8]">
-                Theme
+                {isBN ? "থিম" : "Theme"}
               </span>
               <button
                 type="button"
@@ -245,12 +257,12 @@ export default function Header() {
                 {theme === "dark" ? (
                   <>
                     <IconLightMode className="size-[18px]" />
-                    <span>Light Mode</span>
+                    <span>{isBN ? "লাইট মোড" : "Light Mode"}</span>
                   </>
                 ) : (
                   <>
                     <IconDarkMode className="size-[18px]" />
-                    <span>Dark Mode</span>
+                    <span>{isBN ? "ডার্ক মোড" : "Dark Mode"}</span>
                   </>
                 )}
               </button>
@@ -267,7 +279,7 @@ export default function Header() {
               }}
               className="btn-primary w-full h-12 rounded-full font-semibold text-[16px] leading-[24px] flex items-center justify-center shadow-md active:scale-98 transition-all cursor-pointer dark:bg-[#84beff] dark:text-[#071d3d] dark:hover:bg-[#a6d2ff]"
             >
-              Get the app
+              {tHeader.getTheApp[lKey]}
             </button>
           </div>
         </div>

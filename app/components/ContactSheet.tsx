@@ -10,6 +10,8 @@ import {
   IconChevronRight,
   IconHandyman,
 } from "./Icons";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 interface ContactSheetProps {
   isOpen: boolean;
@@ -17,6 +19,9 @@ interface ContactSheetProps {
 }
 
 export default function ContactSheet({ isOpen, onClose }: ContactSheetProps) {
+  const { lang } = useLanguage();
+  const t = translations.modals.contact;
+
   // Prevent background scrolling when sheet is open
   useEffect(() => {
     if (isOpen) {
@@ -33,27 +38,27 @@ export default function ContactSheet({ isOpen, onClose }: ContactSheetProps) {
 
   const channels = [
     {
-      title: "Call us",
-      value: "01770-066585",
+      title: lang === "bn" ? "কল করুন" : "Call us",
+      value: lang === "bn" ? "০১৭৭০-০৬৬৫৮৫" : "01770-066585",
       href: "tel:01770066585",
       icon: <IconPhone className="size-[22px]" />,
     },
     {
       title: "WhatsApp",
-      value: "Chat with an expert",
+      value: lang === "bn" ? "বিশেষজ্ঞের সাথে কথা বলুন" : "Chat with an expert",
       href: "https://wa.me/8801770066585",
       icon: <IconWhatsApp className="size-[22px]" />,
       target: "_blank",
     },
     {
       title: "Messenger",
-      value: "Autoral Home on Facebook",
+      value: lang === "bn" ? "ফেসবুকে অটোরাল হোম" : "Autoral Home on Facebook",
       href: "https://m.me",
       icon: <IconMessenger className="size-[22px]" />,
       target: "_blank",
     },
     {
-      title: "Email",
+      title: lang === "bn" ? "ইমেইল" : "Email",
       value: "molla.ux@gmail.com",
       href: "mailto:molla.ux@gmail.com",
       icon: <IconMail className="size-[22px]" />,
@@ -88,10 +93,10 @@ export default function ContactSheet({ isOpen, onClose }: ContactSheetProps) {
               id="contact-sheet-title"
               className="text-[24px] font-semibold leading-[32px] tracking-[-0.2px] text-[#0e1726] dark:text-[#edf2f8]"
             >
-              Talk to an Autoral expert
+              {t.title[lang]}
             </h2>
             <p className="text-[14px] font-normal leading-[20px] text-[#4a5a70] dark:text-[#b4c1d1]">
-              Sat–Thu, 10:00 AM – 7:00 PM · We reply within 1 working day
+              {t.subtitle[lang]}
             </p>
           </div>
 

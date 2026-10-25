@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../i18n/translations";
 
 function useIsDark() {
   return useSyncExternalStore(
@@ -92,6 +94,9 @@ function IconQrCodeDetailed({ className = "size-full" }: { className?: string })
 
 export default function Download() {
   const isDark = useIsDark();
+  const { lang } = useLanguage();
+  const t = translations.download;
+
   const [phoneStep, setPhoneStep] = useState<"splash" | "language">("splash");
   const [selectedLang, setSelectedLang] = useState<"en" | "bn">("en");
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -149,21 +154,21 @@ export default function Download() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         {/* Main Blue Banner Card (Figma 4239:1198: 1200x564, rounded-[40px], bg-[#0066db]) */}
         <div className="bg-[#0066db] rounded-[40px] overflow-hidden text-white relative flex flex-col lg:flex-row items-center justify-between pl-6 sm:pl-10 lg:pl-[72px] pr-6 sm:pr-10 lg:pr-0 shadow-[0px_20px_50px_rgba(0,102,219,0.22)] lg:h-[564px]">
-          {/* Left: Copy & Actions (Figma 4239:1199: w-648, py-72) */}
+          {/* Left: Copy & Actions */}
           <div className="flex flex-col gap-6 items-start py-10 sm:py-14 lg:py-0 w-full lg:max-w-[580px] z-10">
             {/* Overline */}
             <p className="text-[12px] font-semibold leading-[16px] tracking-[0.96px] uppercase text-white">
-              DOWNLOAD
+              {t.overline[lang]}
             </p>
 
             {/* Title */}
             <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-[1.18] lg:leading-[52px] tracking-[-1px] text-white">
-              Get the Autoral Home app
+              {t.title[lang]}
             </h2>
 
             {/* Body */}
             <p className="text-[16px] sm:text-[18px] font-normal leading-[28px] text-white/95">
-              Free on Android and iPhone. Setup takes about 5 minutes.
+              {t.body[lang]}
             </p>
 
             {/* Store Badges - Official Black Pill Buttons from Figma */}
@@ -228,17 +233,17 @@ export default function Download() {
               </div>
               <div className="flex flex-col gap-1 items-start text-left text-white">
                 <span className="text-[18px] font-semibold leading-[26px] group-hover:translate-x-0.5 transition-transform duration-200">
-                  Scan to download
+                  {t.qrTitle[lang]}
                 </span>
                 <span className="text-[14px] font-normal leading-[20px] text-white/90">
-                  Opens the right store for your phone
+                  {t.qrBody[lang]}
                 </span>
               </div>
             </div>
 
             {/* Platform Requirements */}
             <p className="text-[14px] font-normal leading-[20px] text-white/85 pt-1">
-              Android 8 or later · iOS 15 or later
+              {t.req[lang]}
             </p>
           </div>
 

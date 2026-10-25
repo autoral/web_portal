@@ -31,6 +31,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { LanguageProvider } from "./context/LanguageContext";
+
 export default function RootLayout({
   children,
 }: {
@@ -45,12 +47,12 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');};var l=localStorage.getItem('lang');if(l==='BN'){document.documentElement.lang='bn';document.documentElement.setAttribute('data-lang','BN');}}catch(e){}})();`,
           }}
         />
       </head>
       <body className="min-h-screen bg-[#f5f8fc] dark:bg-[#0a0f17] text-[#0e1726] dark:text-[#edf2f8] selection:bg-[#0066db] selection:text-white transition-colors duration-200">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
