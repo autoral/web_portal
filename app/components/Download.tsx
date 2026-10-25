@@ -1,30 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useSyncExternalStore } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
 import { translations } from "../i18n/translations";
-
-function useIsDark() {
-  return useSyncExternalStore(
-    (callback) => {
-      const observer = new MutationObserver(callback);
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-      window.addEventListener("theme-change", callback);
-      window.addEventListener("storage", callback);
-      return () => {
-        observer.disconnect();
-        window.removeEventListener("theme-change", callback);
-        window.removeEventListener("storage", callback);
-      };
-    },
-    () => (typeof document !== "undefined" ? document.documentElement.classList.contains("dark") : false),
-    () => false
-  );
-}
 
 // High-fidelity QR Code Icon matching Figma 76x76 size
 function IconQrCodeDetailed({ className = "size-full" }: { className?: string }) {
@@ -93,7 +72,6 @@ function IconQrCodeDetailed({ className = "size-full" }: { className?: string })
 }
 
 export default function Download() {
-  const isDark = useIsDark();
   const { lang } = useLanguage();
   const t = translations.download;
 
@@ -102,12 +80,11 @@ export default function Download() {
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // In dark mode, strictly show splash screen as requested in the design reference.
-  // In light mode, cycle between splash (with loading) and language selector.
-  const activeStep = isDark ? "splash" : phoneStep;
+  // Cycle between Flow 01 splash screen (with loading) and language selector screen
+  const activeStep = phoneStep;
 
   useEffect(() => {
-    if (isPaused || isDark) return;
+    if (isPaused) return;
 
     let timer: NodeJS.Timeout;
 
@@ -122,7 +99,7 @@ export default function Download() {
     }
 
     return () => clearTimeout(timer);
-  }, [phoneStep, isPaused, isDark]);
+  }, [phoneStep, isPaused]);
 
   // Restart from splash when scrolled into view
   useEffect(() => {
@@ -326,10 +303,10 @@ export default function Download() {
                       অটোরাল হোম অটোমেশন
                     </p>
 
-                    {/* Animated Loading Spinner (Hidden in dark mode to match user reference image) */}
-                    <div className="mt-8 flex flex-col items-center gap-2.5 dark:hidden">
-                      <div className="size-6 border-[2.5px] border-[#0066db]/20 border-t-[#0066db] rounded-full animate-spin" />
-                      <span className="text-[11px] font-medium text-[#4a5a70] tracking-wide">
+                    {/* Animated Loading Spinner */}
+                    <div className="mt-8 flex flex-col items-center gap-2.5">
+                      <div className="size-6 border-[2.5px] border-[#0066db]/20 dark:border-white/25 border-t-[#0066db] dark:border-t-white rounded-full animate-spin" />
+                      <span className="text-[11px] font-medium text-[#4a5a70] dark:text-[#8b9aae] tracking-wide">
                         Loading...
                       </span>
                     </div>
