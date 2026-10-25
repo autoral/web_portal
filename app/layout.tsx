@@ -46,8 +46,10 @@ export default function RootLayout({
     >
       <head>
         <script
+          id="theme-lang-init"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');};var l=localStorage.getItem('lang');if(l==='BN'){document.documentElement.lang='bn';document.documentElement.setAttribute('data-lang','BN');}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');};var l=(localStorage.getItem('lang')||'').toLowerCase();if(l==='bn'){document.documentElement.lang='bn';document.documentElement.setAttribute('data-lang','BN');}}catch(e){}})();`,
           }}
         />
       </head>
