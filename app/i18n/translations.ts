@@ -55,7 +55,10 @@ export const translations = {
       totalAppliances: { en: "appliances", bn: "যন্ত্র" },
       nav: {
         home: { en: "Home", bn: "হোম" },
-        devices: { en: "Devices", bn: "যন্ত্র" },
+        appliances: { en: "Appliances", bn: "যন্ত্রপাতি" },
+        devices: { en: "Devices", bn: "যন্ত্রপাতি" },
+        schedules: { en: "Schedules", bn: "সময়সূচি" },
+        account: { en: "Account", bn: "অ্যাকাউন্ট" },
         settings: { en: "Settings", bn: "সেটিংস" },
       },
       appliances: {

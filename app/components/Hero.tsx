@@ -223,11 +223,90 @@ export default function Hero() {
 
   const [appliances, setAppliances] = useState<Appliance[]>(INITIAL_APPLIANCES);
   const [selectedRoom, setSelectedRoom] = useState<string>("All");
-  const [activeTab, setActiveTab] = useState<"home" | "appliances" | "settings">("home");
+  const [activeTab, setActiveTab] = useState<"home" | "appliances" | "schedules" | "account">("home");
   const [islandToast, setIslandToast] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
-  const [applianceCategoryFilter, setApplianceCategoryFilter] = useState<string>("All");
+  const [appliancesSegment, setAppliancesSegment] = useState<"appliances" | "devices">("appliances");
+  const [applianceFilter, setApplianceFilter] = useState<"all" | "on" | "lighting" | "cooling" | "media" | "climate">("all");
+  const [appliancesSearchQuery, setAppliancesSearchQuery] = useState<string>("");
+  const [showSearchInput, setShowSearchInput] = useState<boolean>(false);
+
+  const [scheduleFilter, setScheduleFilter] = useState<"next" | "running" | "failed" | "paused">("next");
+  const [scheduleSearchQuery, setScheduleSearchQuery] = useState<string>("");
+  const [showScheduleSearch, setShowScheduleSearch] = useState<boolean>(false);
+  const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
+
+  interface ScheduleItem {
+    id: string;
+    title: string;
+    applianceType: ApplianceType;
+    meta: string;
+    status: string;
+    category: "next" | "running" | "failed" | "paused";
+    active: boolean;
+  }
+
+  const [schedulesList, setSchedulesList] = useState<ScheduleItem[]>([
+    {
+      id: "ceiling-fan-sched",
+      title: "Ceiling fan",
+      applianceType: "cooling",
+      meta: "Every day · On 7:00 AM · Off 8:00 AM",
+      status: "Next: today 7:00 AM, turn on",
+      category: "next",
+      active: true,
+    },
+    {
+      id: "water-pump-sched",
+      title: "Water pump",
+      applianceType: "water",
+      meta: "Sat · On 8:00 AM · Off 2:00 PM",
+      status: "Next: Saturday 8:00 AM, turn on",
+      category: "next",
+      active: true,
+    },
+    {
+      id: "living-light-sched",
+      title: "Living room Light",
+      applianceType: "lighting",
+      meta: "Every day · On 6:30 PM · Off 11:30 PM",
+      status: "Running now: scheduled until 11:30 PM",
+      category: "running",
+      active: true,
+    },
+    {
+      id: "kids-ac-sched",
+      title: "Kids room AC",
+      applianceType: "climate",
+      meta: "Mon - Fri · On 2:00 PM · Off 5:00 PM",
+      status: "Paused by user",
+      category: "paused",
+      active: false,
+    },
+  ]);
+
+  const toggleScheduleItem = (id: string) => {
+    setSchedulesList((prev) =>
+      prev.map((s) => {
+        if (s.id === id) {
+          const nextState = !s.active;
+          triggerIslandToast(
+            nextState
+              ? (lang === "bn" ? `${s.title} শিডিউল চালু করা হয়েছে` : `${s.title} schedule enabled`)
+              : (lang === "bn" ? `${s.title} শিডিউল বন্ধ করা হয়েছে` : `${s.title} schedule disabled`)
+          );
+          return {
+            ...s,
+            active: nextState,
+            category: nextState ? (s.category === "paused" ? "next" : s.category) : "paused",
+            status: nextState ? "Next: upcoming automated run" : "Paused by user",
+          };
+        }
+        return s;
+      })
+    );
+  };
 
   const triggerIslandToast = (msg: string) => {
     setIslandToast(msg);
@@ -722,164 +801,935 @@ export default function Hero() {
                   </>
                 )}
 
-                {/* VIEW 2: APPLIANCES TAB */}
+                {/* VIEW 2: APPLIANCES TAB (Figma Home-Automation-Final-4.2 node-id 4173:13341 / 4173:13368) */}
                 {activeTab === "appliances" && (
-                  <div className="space-y-2.5">
-                    {/* Header */}
-                    <div className="px-1">
-                      <div className="text-[18px] font-bold text-[#0e1726] dark:text-white leading-tight">
-                        All Appliances
+                  <div className="space-y-3">
+                    {/* Top Bar with Title and Circular Action Buttons */}
+                    <div className="px-1 flex items-center justify-between">
+                      <div>
+                        <div className="text-[18px] font-bold text-[#0e1726] dark:text-white leading-tight">
+                          {lang === "bn" ? "যন্ত্রপাতি" : "Appliances"}
+                        </div>
+                        <div className="text-[11px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5">
+                          {activeCount} {lang === "bn" ? "টি চালু · মোট লোড: ~" : "active · Load: ~"}{activeCount * 45 + 15}W
+                        </div>
                       </div>
-                      <div className="text-[11px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5">
-                        {activeCount} active · Load: ~{activeCount * 45 + 15}W
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setShowSearchInput(!showSearchInput)}
+                          aria-label="Search appliances"
+                          className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all cursor-pointer shadow-xs ${
+                            showSearchInput
+                              ? "bg-[#0066db] text-white border-[#0066db]"
+                              : "bg-white dark:bg-[#131d2a] border-[#d8e1ec] dark:border-[#233144] text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white"
+                          }`}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowAddModal(true)}
+                          aria-label="Add device"
+                          className="w-8 h-8 rounded-full bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] flex items-center justify-center text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white transition-all shadow-xs cursor-pointer text-lg leading-none font-light"
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
 
-                    {/* Category Filter Chips */}
-                    <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                      {(["All", "lighting", "cooling", "climate", "media", "water"] as const).map((cat) => {
-                        const isSelected = applianceCategoryFilter === cat;
-                        const label = cat === "All" ? "All" : cat.charAt(0).toUpperCase() + cat.slice(1);
-                        return (
+                    {/* Search Bar Input (toggled) */}
+                    {showSearchInput && (
+                      <div className="px-1 animate-in fade-in duration-200">
+                        <div className="relative flex items-center">
+                          <input
+                            type="text"
+                            value={appliancesSearchQuery}
+                            onChange={(e) => setAppliancesSearchQuery(e.target.value)}
+                            placeholder={lang === "bn" ? "যন্ত্র বা ঘরের নাম দিয়ে খুঁজুন..." : "Filter appliances by name..."}
+                            className="w-full h-8 pl-8 pr-7 rounded-full bg-white dark:bg-[#131d2a] border border-[#0066db] text-[11.5px] text-[#0e1726] dark:text-white placeholder-[#8b9aae] focus:outline-none shadow-xs"
+                            autoFocus
+                          />
+                          <svg className="w-3.5 h-3.5 text-[#0066db] absolute left-2.5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                          </svg>
+                          {appliancesSearchQuery && (
+                            <button
+                              type="button"
+                              onClick={() => setAppliancesSearchQuery("")}
+                              className="absolute right-2 text-neutral-400 hover:text-neutral-600 text-xs font-bold"
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Segmented Switch: [ ✓ Appliances | Devices ] (Figma 5142:20065) */}
+                    <div className="bg-white/80 dark:bg-[#131d2a] p-1 rounded-full border border-[#d8e1ec] dark:border-[#233144] flex items-center shadow-xs">
+                      <button
+                        type="button"
+                        onClick={() => setAppliancesSegment("appliances")}
+                        className={`flex-1 h-7.5 rounded-full flex items-center justify-center gap-1.5 text-[11.5px] font-semibold transition-all cursor-pointer ${
+                          appliancesSegment === "appliances"
+                            ? "bg-[#eaf3ff] dark:bg-[#1b2f4c] text-[#0066db] dark:text-[#84beff] shadow-xs"
+                            : "text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white"
+                        }`}
+                      >
+                        {appliancesSegment === "appliances" && (
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        )}
+                        <span>{lang === "bn" ? "যন্ত্রপাতি" : "Appliances"}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAppliancesSegment("devices")}
+                        className={`flex-1 h-7.5 rounded-full flex items-center justify-center gap-1.5 text-[11.5px] font-semibold transition-all cursor-pointer ${
+                          appliancesSegment === "devices"
+                            ? "bg-[#eaf3ff] dark:bg-[#1b2f4c] text-[#0066db] dark:text-[#84beff] shadow-xs"
+                            : "text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white"
+                        }`}
+                      >
+                        {appliancesSegment === "devices" && (
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        )}
+                        <span>{lang === "bn" ? "মডিউল / হাব" : "Devices"}</span>
+                      </button>
+                    </div>
+
+                    {/* SECTION 1: APPLIANCES VIEW */}
+                    {appliancesSegment === "appliances" && (
+                      <div className="space-y-2.5">
+                        {/* Subheader Row: All appliances · 10 | Manage rooms */}
+                        <div className="px-1 flex items-center justify-between text-[11.5px]">
+                          <span className="text-[#4a5a70] dark:text-[#8b9aae] font-medium">
+                            {lang === "bn" ? `সব যন্ত্রপাতি · ${appliances.length}` : `All appliances · ${appliances.length}`}
+                          </span>
                           <button
-                            key={cat}
                             type="button"
-                            onClick={() => setApplianceCategoryFilter(cat)}
-                            className={`h-6.5 px-2.5 rounded-full text-[10.5px] font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                              isSelected
-                                ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726] shadow-xs"
+                            onClick={() => {
+                              setActiveTab("home");
+                              triggerIslandToast(lang === "bn" ? "রুম ভিউতে যাওয়া হয়েছে" : "Switched to room management");
+                            }}
+                            className="font-semibold text-[#0066db] dark:text-[#84beff] hover:underline cursor-pointer"
+                          >
+                            {lang === "bn" ? "রুম ম্যানেজ" : "Manage rooms"}
+                          </button>
+                        </div>
+
+                        {/* Filter Chips Horizontal Carousel (Figma 4184:11782) */}
+                        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                          {/* All Chip */}
+                          <button
+                            type="button"
+                            onClick={() => setApplianceFilter("all")}
+                            className={`h-7 px-3 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer shadow-xs ${
+                              applianceFilter === "all"
+                                ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726]"
                                 : "bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433]"
                             }`}
                           >
-                            {label}
+                            {lang === "bn" ? `সব ${appliances.length}` : `All ${appliances.length}`}
+                          </button>
+
+                          {/* On now Chip */}
+                          <button
+                            type="button"
+                            onClick={() => setApplianceFilter("on")}
+                            className={`h-7 px-3 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer shadow-xs flex items-center gap-1.5 ${
+                              applianceFilter === "on"
+                                ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726]"
+                                : "bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433]"
+                            }`}
+                          >
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                              <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+                              <line x1="12" y1="2" x2="12" y2="12" />
+                            </svg>
+                            <span>{lang === "bn" ? `চালু ${activeCount}` : `On now ${activeCount}`}</span>
+                          </button>
+
+                          {/* Lights Chip */}
+                          <button
+                            type="button"
+                            onClick={() => setApplianceFilter("lighting")}
+                            className={`h-7 px-3 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer shadow-xs flex items-center gap-1.5 ${
+                              applianceFilter === "lighting"
+                                ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726]"
+                                : "bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433]"
+                            }`}
+                          >
+                            <IconLightbulb className="w-3.5 h-3.5" />
+                            <span>{lang === "bn" ? `লাইট ${appliances.filter((a) => a.type === "lighting").length}` : `Lights ${appliances.filter((a) => a.type === "lighting").length}`}</span>
+                          </button>
+
+                          {/* Cooling Chip */}
+                          <button
+                            type="button"
+                            onClick={() => setApplianceFilter("cooling")}
+                            className={`h-7 px-3 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer shadow-xs flex items-center gap-1.5 ${
+                              applianceFilter === "cooling"
+                                ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726]"
+                                : "bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433]"
+                            }`}
+                          >
+                            <IconFan className="w-3.5 h-3.5" />
+                            <span>{lang === "bn" ? `ফ্যান ${appliances.filter((a) => a.type === "cooling").length}` : `Cooling ${appliances.filter((a) => a.type === "cooling").length}`}</span>
+                          </button>
+
+                          {/* Media Chip */}
+                          <button
+                            type="button"
+                            onClick={() => setApplianceFilter("media")}
+                            className={`h-7 px-3 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer shadow-xs flex items-center gap-1.5 ${
+                              applianceFilter === "media"
+                                ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726]"
+                                : "bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433]"
+                            }`}
+                          >
+                            <IconTv className="w-3.5 h-3.5" />
+                            <span>{lang === "bn" ? `টিভি ${appliances.filter((a) => a.type === "media").length}` : `Media ${appliances.filter((a) => a.type === "media").length}`}</span>
+                          </button>
+
+                          {/* Climate Chip */}
+                          <button
+                            type="button"
+                            onClick={() => setApplianceFilter("climate")}
+                            className={`h-7 px-3 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer shadow-xs flex items-center gap-1.5 ${
+                              applianceFilter === "climate"
+                                ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726]"
+                                : "bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433]"
+                            }`}
+                          >
+                            <span>❄️</span>
+                            <span>{lang === "bn" ? `এসি ${appliances.filter((a) => a.type === "climate").length}` : `Climate ${appliances.filter((a) => a.type === "climate").length}`}</span>
+                          </button>
+                        </div>
+
+                        {/* List of Appliances (Figma 4173:13354 / 4173:13381) */}
+                        <div className="space-y-1.5">
+                          {appliances
+                            .filter((a) => {
+                              if (applianceFilter === "on" && !a.on) return false;
+                              if (applianceFilter === "lighting" && a.type !== "lighting") return false;
+                              if (applianceFilter === "cooling" && a.type !== "cooling") return false;
+                              if (applianceFilter === "media" && a.type !== "media") return false;
+                              if (applianceFilter === "climate" && a.type !== "climate") return false;
+                              if (appliancesSearchQuery.trim()) {
+                                const q = appliancesSearchQuery.toLowerCase();
+                                const name = getApplianceName(a).toLowerCase();
+                                const room = a.room.toLowerCase();
+                                return name.includes(q) || room.includes(q);
+                              }
+                              return true;
+                            })
+                            .map((app, index) => {
+                              // Dynamic category icon background matching Figma design tokens
+                              let iconBg = "bg-[#f1f5f9] dark:bg-[#1c293a] text-neutral-400 dark:text-[#8b9aae]";
+                              if (app.on) {
+                                if (app.type === "lighting") {
+                                  iconBg = "bg-[#ffedbf] dark:bg-[#52330a] text-[#4a310d] dark:text-[#fde68a]";
+                                } else if (app.type === "cooling") {
+                                  iconBg = "bg-[#d4f3f7] dark:bg-[#06404a] text-[#06404a] dark:text-[#a5f3fc]";
+                                } else if (app.type === "media") {
+                                  iconBg = "bg-[#fbddeb] dark:bg-[#5a1236] text-[#5a1236] dark:text-[#fbcfe8]";
+                                } else if (app.type === "climate") {
+                                  iconBg = "bg-[#e4e2ff] dark:bg-[#2a2170] text-[#2a2170] dark:text-[#ddd6fe]";
+                                } else {
+                                  iconBg = "bg-[#d9eaff] dark:bg-[#0c3566] text-[#0c3566] dark:text-[#bfdbfe]";
+                                }
+                              }
+
+                              return (
+                                <div
+                                  key={app.id}
+                                  onClick={() => toggleAppliance(app.id)}
+                                  className={`p-2.5 rounded-[16px] border transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                                    app.on
+                                      ? "bg-white dark:bg-[#131d2a] border-[#0066db]/35 dark:border-[#84beff]/35 shadow-xs"
+                                      : "bg-white/80 dark:bg-[#131d2a]/80 border-[#d8e1ec] dark:border-[#233144] hover:bg-white dark:hover:bg-[#131d2a]"
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-3 min-w-0">
+                                    <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${iconBg}`}>
+                                      <ApplianceIcon type={app.type} className="w-4.5 h-4.5" />
+                                    </div>
+                                    <div className="min-w-0">
+                                      <div className="text-[13px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                        {getApplianceName(app)}
+                                      </div>
+                                      <div className="text-[10.5px] text-[#4a5a70] dark:text-[#8b9aae] flex items-center gap-1.5 mt-0.5">
+                                        <span>{getRoomName(app.room)}</span>
+                                        <span>·</span>
+                                        <span className="font-mono text-[9.5px] font-semibold text-[#0066db] dark:text-[#84beff]">
+                                          CH-{index + 1}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <ToggleSwitch
+                                    checked={app.on}
+                                    onChange={() => toggleAppliance(app.id)}
+                                    size="small"
+                                  />
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* SECTION 2: DEVICES / HUBS VIEW (Figma Segment 2) */}
+                    {appliancesSegment === "devices" && (
+                      <div className="space-y-2.5">
+                        <div className="px-1 flex items-center justify-between text-[11.5px]">
+                          <span className="text-[#4a5a70] dark:text-[#8b9aae] font-medium">
+                            {lang === "bn" ? "সংযুক্ত হার্ডওয়্যার মডিউল" : "Connected Edge Modules"}
+                          </span>
+                          <span className="text-[10.5px] text-[#187a43] dark:text-[#5cc98a] font-semibold bg-[#e3f5ea] dark:bg-[#103024] px-2 py-0.5 rounded-full">
+                            2 {lang === "bn" ? "অনলাইন" : "online"}
+                          </span>
+                        </div>
+
+                        {/* Hub 1: Autoral MH-8 */}
+                        <div className="bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] rounded-[18px] p-3 shadow-xs space-y-2.5">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-9 h-9 rounded-full bg-[#eaf3ff] dark:bg-[#0b2a55] flex items-center justify-center text-[#0066db] dark:text-[#84beff]">
+                                <IconRouter className="w-4.5 h-4.5" />
+                              </div>
+                              <div>
+                                <div className="text-[13px] font-semibold text-[#0e1726] dark:text-white flex items-center gap-1.5">
+                                  <span>Autoral MH-8</span>
+                                  <span className="text-[9px] font-medium px-1.5 py-0.2 rounded-full bg-[#e3f5ea] dark:bg-[#103024] text-[#187a43] dark:text-[#5cc98a]">
+                                    Primary Hub
+                                  </span>
+                                </div>
+                                <div className="text-[10px] text-[#4a5a70] dark:text-[#8b9aae]">
+                                  6 of 8 channels in use · 192.168.1.105
+                                </div>
+                              </div>
+                            </div>
+                            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#187a43] dark:text-[#5cc98a] bg-[#e3f5ea] dark:bg-[#103024] px-2 py-0.5 rounded-full">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#187a43] dark:bg-[#5cc98a] animate-pulse" />
+                              Online
+                            </span>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-1.5 pt-1 border-t border-neutral-100 dark:border-[#233144] text-[10px] text-[#4a5a70] dark:text-[#8b9aae]">
+                            <div className="flex justify-between">
+                              <span>Control:</span>
+                              <span className="font-medium text-[#0e1726] dark:text-white">Direct LAN HTTP</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>Signal:</span>
+                              <span className="font-medium text-[#0e1726] dark:text-white">-48 dBm</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Hub 2: Autoral MH-4 */}
+                        <div className="bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] rounded-[18px] p-3 shadow-xs space-y-2.5">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-9 h-9 rounded-full bg-[#eaf3ff] dark:bg-[#0b2a55] flex items-center justify-center text-[#0066db] dark:text-[#84beff]">
+                                <IconRouter className="w-4.5 h-4.5" />
+                              </div>
+                              <div>
+                                <div className="text-[13px] font-semibold text-[#0e1726] dark:text-white flex items-center gap-1.5">
+                                  <span>Autoral MH-4</span>
+                                  <span className="text-[9px] font-medium px-1.5 py-0.2 rounded-full bg-[#eaf3ff] dark:bg-[#0b2a55] text-[#0066db] dark:text-[#84beff]">
+                                    Sub-module
+                                  </span>
+                                </div>
+                                <div className="text-[10px] text-[#4a5a70] dark:text-[#8b9aae]">
+                                  4 of 4 channels in use · 192.168.1.106
+                                </div>
+                              </div>
+                            </div>
+                            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#187a43] dark:text-[#5cc98a] bg-[#e3f5ea] dark:bg-[#103024] px-2 py-0.5 rounded-full">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#187a43] dark:bg-[#5cc98a] animate-pulse" />
+                              Online
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Add Device Button */}
+                        <button
+                          type="button"
+                          onClick={() => setShowAddModal(true)}
+                          className="w-full h-8 rounded-full border border-dashed border-[#0066db]/50 hover:border-[#0066db] bg-[#eaf3ff]/50 dark:bg-[#0b2a55]/30 text-[#0066db] dark:text-[#84beff] text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:bg-[#eaf3ff]"
+                        >
+                          <span>+</span>
+                          <span>{lang === "bn" ? "নতুন হাব / মডিউল যুক্ত করুন" : "Add New Hub / Module"}</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* VIEW 3: SCHEDULES TAB (Figma Home-Automation-Final-4.2 node-id 5039:16216) */}
+                {activeTab === "schedules" && (
+                  <div className="space-y-3">
+                    {/* Top App Bar with Back Button, Title and Action Buttons (Figma 5039:16235) */}
+                    <div className="px-1 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setActiveTab("home")}
+                          aria-label="Back to Home"
+                          className="w-8 h-8 rounded-full bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] flex items-center justify-center text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433] transition-all shadow-xs cursor-pointer"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12 19 5 12 12 5" />
+                          </svg>
+                        </button>
+                        <h2 className="text-[18px] font-bold text-[#0e1726] dark:text-white leading-tight">
+                          {lang === "bn" ? "সময়সূচি" : "Schedules"}
+                        </h2>
+                      </div>
+
+                      <div className="flex items-center gap-1.5">
+                        {/* History Button (Clock with circular arrow) */}
+                        <button
+                          type="button"
+                          onClick={() => triggerIslandToast(lang === "bn" ? "ইতিহাস: সমস্ত লোকাল শিডিউল সফলভাবে কার্যকর হয়েছে" : "History: 14 automated routines executed locally")}
+                          aria-label="Schedule history"
+                          className="w-8 h-8 rounded-full bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] flex items-center justify-center text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white transition-all shadow-xs cursor-pointer"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <polyline points="3 3 3 8 8 8" />
+                            <polyline points="12 7 12 12 15 15" />
+                          </svg>
+                        </button>
+
+                        {/* Search Button */}
+                        <button
+                          type="button"
+                          onClick={() => setShowScheduleSearch(!showScheduleSearch)}
+                          aria-label="Search schedules"
+                          className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all cursor-pointer shadow-xs ${
+                            showScheduleSearch
+                              ? "bg-[#0066db] text-white border-[#0066db]"
+                              : "bg-white dark:bg-[#131d2a] border-[#d8e1ec] dark:border-[#233144] text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white"
+                          }`}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                          </svg>
+                        </button>
+
+                        {/* Add Button */}
+                        <button
+                          type="button"
+                          onClick={() => triggerIslandToast(lang === "bn" ? "নতুন সময়সূচি যুক্ত করার অপশন" : "Add Schedule: Select appliance")}
+                          aria-label="Add schedule"
+                          className="w-8 h-8 rounded-full bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] flex items-center justify-center text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white transition-all shadow-xs cursor-pointer text-lg leading-none font-light"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Inline Search (toggled) */}
+                    {showScheduleSearch && (
+                      <div className="px-1 animate-in fade-in duration-200">
+                        <div className="relative flex items-center">
+                          <input
+                            type="text"
+                            value={scheduleSearchQuery}
+                            onChange={(e) => setScheduleSearchQuery(e.target.value)}
+                            placeholder={lang === "bn" ? "সময়সূচি খুঁজুন..." : "Search schedules..."}
+                            className="w-full h-8 pl-8 pr-7 rounded-full bg-white dark:bg-[#131d2a] border border-[#0066db] text-[11.5px] text-[#0e1726] dark:text-white placeholder-[#8b9aae] focus:outline-none shadow-xs"
+                            autoFocus
+                          />
+                          <svg className="w-3.5 h-3.5 text-[#0066db] absolute left-2.5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                          </svg>
+                          {scheduleSearchQuery && (
+                            <button
+                              type="button"
+                              onClick={() => setScheduleSearchQuery("")}
+                              className="absolute right-2 text-neutral-400 hover:text-neutral-600 text-xs font-bold"
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Status Filter Chips (Figma 5121:19661 status-filter) */}
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      {(["next", "running", "failed", "paused"] as const).map((filterKey) => {
+                        const isSelected = scheduleFilter === filterKey;
+                        const labels = {
+                          next: lang === "bn" ? "পরবর্তী" : "Next",
+                          running: lang === "bn" ? "চলমান" : "Running",
+                          failed: lang === "bn" ? "ব্যর্থ" : "Failed",
+                          paused: lang === "bn" ? "স্থগিত" : "Paused",
+                        };
+                        return (
+                          <button
+                            key={filterKey}
+                            type="button"
+                            onClick={() => setScheduleFilter(filterKey)}
+                            className={`h-7 px-3.5 rounded-full text-[11.5px] font-semibold whitespace-nowrap transition-all cursor-pointer shadow-xs ${
+                              isSelected
+                                ? "bg-[#0e1726] text-white dark:bg-white dark:text-[#0e1726]"
+                                : "bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433]"
+                            }`}
+                          >
+                            {labels[filterKey]}
                           </button>
                         );
                       })}
                     </div>
 
-                    {/* Channels List */}
-                    <div className="space-y-1.5">
-                      {appliances
-                        .filter((a) => applianceCategoryFilter === "All" || a.type === applianceCategoryFilter)
-                        .map((app, index) => (
-                          <div
-                            key={app.id}
-                            onClick={() => toggleAppliance(app.id)}
-                            className={`p-2.5 rounded-[14px] border transition-all duration-200 flex items-center justify-between cursor-pointer ${
-                              app.on
-                                ? "bg-white dark:bg-[#131d2a] border-[#0066db]/40 dark:border-[#84beff]/40 shadow-xs"
-                                : "bg-white/60 dark:bg-[#131d2a]/60 border-neutral-200/80 dark:border-[#233144] hover:bg-white dark:hover:bg-[#131d2a]"
-                            }`}
-                          >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                                app.on
-                                  ? "bg-[#eaf3ff] dark:bg-[#0b2a55] text-[#0066db] dark:text-[#84beff]"
-                                  : "bg-neutral-100 dark:bg-[#1c293a] text-neutral-400 dark:text-[#8b9aae]"
-                              }`}>
-                                <ApplianceIcon type={app.type} className="w-4 h-4" />
+                    {/* Schedule Rows List (Figma 5102:19124 list · Upcoming) */}
+                    <div className="space-y-3">
+                      {schedulesList
+                        .filter((sched) => {
+                          if (scheduleFilter !== "failed" && sched.category !== scheduleFilter && scheduleFilter !== "next") {
+                            return false;
+                          }
+                          if (scheduleFilter === "failed") return false; // Handled below
+                          if (scheduleSearchQuery.trim()) {
+                            const q = scheduleSearchQuery.toLowerCase();
+                            return (
+                              sched.title.toLowerCase().includes(q) ||
+                              sched.meta.toLowerCase().includes(q) ||
+                              sched.status.toLowerCase().includes(q)
+                            );
+                          }
+                          return true;
+                        })
+                        .map((sched) => {
+                          // Icon container styling matching Figma variable tokens
+                          let iconBg = "bg-[#d4f3f7] dark:bg-[#06404a] text-[#06404a] dark:text-[#a5f3fc]";
+                          if (sched.applianceType === "water") {
+                            iconBg = "bg-[#d9eaff] dark:bg-[#0c3566] text-[#0c3566] dark:text-[#bfdbfe]";
+                          } else if (sched.applianceType === "lighting") {
+                            iconBg = "bg-[#ffedbf] dark:bg-[#52330a] text-[#4a310d] dark:text-[#fde68a]";
+                          } else if (sched.applianceType === "climate") {
+                            iconBg = "bg-[#e4e2ff] dark:bg-[#2a2170] text-[#2a2170] dark:text-[#ddd6fe]";
+                          }
+
+                          return (
+                            <div
+                              key={sched.id}
+                              className="bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] rounded-[24px] p-4 shadow-xs space-y-3 transition-all hover:shadow-md"
+                            >
+                              {/* Top Row: Icon + Title & Meta + Toggle (Figma 5038:16226) */}
+                              <div className="flex items-start justify-between gap-3">
+                                <div className="flex items-center gap-3 min-w-0">
+                                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${iconBg}`}>
+                                    <ApplianceIcon type={sched.applianceType} className="w-5 h-5" />
+                                  </div>
+                                  <div className="min-w-0">
+                                    <div className="text-[15px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                      {sched.title}
+                                    </div>
+                                    <div className="text-[12.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 leading-snug">
+                                      {sched.meta}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="shrink-0 pt-0.5">
+                                  <ToggleSwitch
+                                    checked={sched.active}
+                                    onChange={() => toggleScheduleItem(sched.id)}
+                                    size="small"
+                                  />
+                                </div>
                               </div>
-                              <div className="min-w-0">
-                                <div className="text-[12px] font-semibold text-[#0e1726] dark:text-white truncate">
-                                  {app.name}
-                                </div>
-                                <div className="text-[10px] text-[#4a5a70] dark:text-[#8b9aae] flex items-center gap-1.5">
-                                  <span>{app.room}</span>
-                                  <span>·</span>
-                                  <span className="font-mono text-[9px] text-[#0052b3] dark:text-[#84beff]">CH-{index + 1}</span>
-                                </div>
+
+                              {/* Status Line: Clock Icon + Status Text (Figma 5038:16235) */}
+                              <div className="flex items-center gap-1.5 pt-2.5 border-t border-neutral-100 dark:border-[#233144] text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae]">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                                  <circle cx="12" cy="12" r="9" />
+                                  <polyline points="12 7 12 12 15 14.5" />
+                                </svg>
+                                <span className="truncate">{sched.status}</span>
                               </div>
                             </div>
-                            <ToggleSwitch
-                              checked={app.on}
-                              onChange={() => toggleAppliance(app.id)}
-                              size="small"
-                            />
+                          );
+                        })}
+
+                      {/* Empty State for Failed or zero results */}
+                      {scheduleFilter === "failed" && (
+                        <div className="p-6 text-center rounded-[20px] bg-white/60 dark:bg-[#131d2a]/60 border border-neutral-200/80 dark:border-[#233144] space-y-2">
+                          <div className="w-10 h-10 mx-auto rounded-full bg-[#e3f5ea] dark:bg-[#103024] flex items-center justify-center text-[#187a43] dark:text-[#5cc98a]">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
                           </div>
-                        ))}
+                          <div className="text-[13px] font-semibold text-[#0e1726] dark:text-white">
+                            {lang === "bn" ? "কোনো ত্রুটি নেই" : "No Failed Schedules"}
+                          </div>
+                          <p className="text-[11px] text-[#4a5a70] dark:text-[#8b9aae] max-w-xs mx-auto leading-relaxed">
+                            {lang === "bn" ? "সব অটোমেশন রুটিন স্থানীয় হাবে স্বাভাবিকভাবে চলছে।" : "All automated timer schedules executed successfully on local hub."}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
 
-                {/* VIEW 3: SETTINGS TAB */}
-                {activeTab === "settings" && (
-                  <div className="space-y-2.5">
-                    {/* Header */}
-                    <div className="px-1">
-                      <div className="text-[18px] font-bold text-[#0e1726] dark:text-white leading-tight">
-                        Settings &amp; Network
-                      </div>
-                      <div className="text-[11px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5">
-                        Local-First Automation Hub
-                      </div>
-                    </div>
-
-                    {/* Local Network Info */}
-                    <div className="bg-white/80 dark:bg-[#131d2a] border border-white/90 dark:border-[#233144] rounded-[16px] p-3 shadow-xs space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[12px] font-semibold text-[#0e1726] dark:text-white">Local Wi-Fi Network</span>
-                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#187a43] dark:text-[#5cc98a] bg-[#e3f5ea] dark:bg-[#103024] px-2 py-0.5 rounded-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#187a43] dark:bg-[#5cc98a]" />
-                          Online (12ms)
-                        </span>
-                      </div>
-                      <div className="text-[11px] text-[#4a5a70] dark:text-[#8b9aae] space-y-1">
-                        <div className="flex justify-between">
-                          <span>Hub Model</span>
-                          <span className="font-medium text-[#0e1726] dark:text-white">Autoral MH-8 (ESP32)</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Local IP Address</span>
-                          <span className="font-mono text-[#0052b3] dark:text-[#84beff]">192.168.1.105</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Control Protocol</span>
-                          <span className="font-medium text-[#0e1726] dark:text-white">Direct HTTP (LAN)</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Mode & Privacy */}
-                    <div className="bg-white/80 dark:bg-[#131d2a] border border-white/90 dark:border-[#233144] rounded-[16px] p-3 shadow-xs space-y-2">
-                      <div className="text-[12px] font-semibold text-[#0e1726] dark:text-white">Operation &amp; Privacy</div>
-                      <div className="flex items-center justify-between py-1 border-b border-neutral-100 dark:border-[#233144]">
-                        <div>
-                          <div className="text-[11.5px] font-medium text-[#0e1726] dark:text-white">Guest Mode</div>
-                          <div className="text-[9.5px] text-[#4a5a70] dark:text-[#8b9aae]">Local control without sign-in</div>
-                        </div>
-                        <span className="text-[10.5px] font-semibold text-[#0066db] dark:text-[#84beff] bg-[#eaf3ff] dark:bg-[#0b2a55] px-2 py-0.5 rounded-full">
-                          Active
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-1">
-                        <div>
-                          <div className="text-[11.5px] font-medium text-[#0e1726] dark:text-white">Language</div>
-                          <div className="text-[9.5px] text-[#4a5a70] dark:text-[#8b9aae]">App interface language</div>
-                        </div>
+                {/* VIEW 4: ACCOUNT TAB (Figma Home-Automation-Final-4.2 node-id 4173:14000 10.01 Account / Signed out) */}
+                {activeTab === "account" && (
+                  <div className="space-y-4">
+                    {/* Top App Bar with Back Button & Title */}
+                    <div className="px-1 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
                         <button
                           type="button"
-                          onClick={() => setLang(lang === "en" ? "bn" : "en")}
-                          className="h-6 px-2.5 rounded-full bg-neutral-100 dark:bg-[#192433] hover:bg-neutral-200 dark:hover:bg-[#233144] text-[11px] font-semibold text-[#0e1726] dark:text-white transition-all cursor-pointer"
+                          onClick={() => setActiveTab("home")}
+                          aria-label="Back to Home"
+                          className="w-8 h-8 rounded-full bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] flex items-center justify-center text-[#0e1726] dark:text-white hover:bg-neutral-50 dark:hover:bg-[#192433] transition-all shadow-xs cursor-pointer"
                         >
-                          {lang === "en" ? "English" : "বাংলা"}
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12" />
+                            <polyline points="12 19 5 12 12 5" />
+                          </svg>
                         </button>
+                        <h2 className="text-[18px] font-bold text-[#0e1726] dark:text-white leading-tight">
+                          {lang === "bn" ? "আমার অ্যাকাউন্ট" : "My account"}
+                        </h2>
                       </div>
                     </div>
 
-                    {/* Cloud Remote Access (Lazy Auth) */}
-                    <div className="bg-[#eaf3ff] dark:bg-[#0b2a55]/60 border border-[#d8e8ff] dark:border-[#1a447c] rounded-[16px] p-3 text-center space-y-1.5">
-                      <div className="text-[12px] font-semibold text-[#0052b3] dark:text-[#84beff]">Remote Cloud Access</div>
-                      <p className="text-[10px] text-[#4a5a70] dark:text-[#b4c1d1] leading-relaxed">
-                        Local Wi-Fi control works always. Sign in only if you need outside-home control.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => triggerIslandToast("Guest Mode: Sign-in optional")}
-                        className="w-full h-7 rounded-full bg-[#0066db] dark:bg-[#84beff] text-white dark:text-[#071d3d] text-[11px] font-semibold hover:bg-[#0052b3] dark:hover:bg-[#a6d2ff] active:scale-98 transition-all cursor-pointer shadow-xs"
-                      >
-                        Sign in for Remote Access
-                      </button>
+                    {/* SECTION 1: ACCOUNT (Figma 4173:14005) */}
+                    <div className="space-y-1.5">
+                      <div className="px-1 text-[12.5px] font-medium text-[#4a5a70] dark:text-[#8b9aae]">
+                        {lang === "bn" ? "অ্যাকাউন্ট" : "Account"}
+                      </div>
+                      <div className="rounded-[24px] bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] shadow-xs divide-y divide-neutral-100 dark:divide-[#233144] overflow-hidden">
+                        {/* Row 1: Sign in for remote access */}
+                        <div
+                          onClick={() => triggerIslandToast(lang === "bn" ? "রিমোট অ্যাক্সেস: ক্লাউড কানেকশন প্রয়োজন" : "Sign in: Connect cloud account")}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                                <circle cx="12" cy="12" r="9" />
+                                <circle cx="12" cy="9.5" r="2.8" />
+                                <path d="M7 18c.8-2.5 2.7-3.5 5-3.5s4.2 1 5 3.5" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "রিমোট অ্যাক্সেসের জন্য সাইন ইন করুন" : "Sign in for remote access"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                {lang === "bn" ? "যেকোনো স্থান থেকে বাসা নিয়ন্ত্রণ করুন" : "Control your home from anywhere"}
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+
+                        {/* Row 2: Remote access */}
+                        <div
+                          onClick={() => triggerIslandToast(lang === "bn" ? "রিমোট অ্যাক্সেস বন্ধ · লোকাল ওয়াই-ফাই সক্রিয়" : "Remote access: Off (Local Wi-Fi only)")}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "রিমোট এক্সেস" : "Remote access"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                {lang === "bn" ? "বন্ধ" : "Off"}
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* SECTION 2: HOME (Figma 4173:14010) */}
+                    <div className="space-y-1.5">
+                      <div className="px-1 text-[12.5px] font-medium text-[#4a5a70] dark:text-[#8b9aae]">
+                        {lang === "bn" ? "বাসা" : "Home"}
+                      </div>
+                      <div className="rounded-[24px] bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] shadow-xs divide-y divide-neutral-100 dark:divide-[#233144] overflow-hidden">
+                        {/* Row 1: Home name */}
+                        <div
+                          onClick={() => triggerIslandToast("Home: Molla Home (Stored in local SQLite)")}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M10.8 2.8a2 2 0 0 1 2.4 0l6.3 4.8c.7.5 1 1.3 1 2.1v9.8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V9.7c0-.8.4-1.6 1-2.1l6.3-4.8z" />
+                                <path d="M9.5 13.6c.7 1.2 3.3 1.2 4 0" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "বাসার নাম" : "Home name"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                Molla Home
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+
+                        {/* Row 2: Rooms */}
+                        <div
+                          onClick={() => {
+                            setActiveTab("home");
+                            triggerIslandToast(lang === "bn" ? "রুম ভিউতে যাওয়া হয়েছে" : "Opened Rooms view");
+                          }}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3" />
+                                <path d="M2 11v5a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H6v-2a2 2 0 0 0-4 0z" />
+                                <path d="M4 18v2" />
+                                <path d="M20 18v2" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "রুম সমূহ" : "Rooms"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                {lang === "bn" ? "৫টি রুম" : "5 rooms"}
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+
+                        {/* Row 3: Devices */}
+                        <div
+                          onClick={() => {
+                            setActiveTab("appliances");
+                            triggerIslandToast(lang === "bn" ? "ডিভাইস ভিউতে যাওয়া হয়েছে" : "Opened Devices view");
+                          }}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <IconRouter className="w-4.5 h-4.5" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "ডিভাইস" : "Devices"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                {lang === "bn" ? "২টি ডিভাইস অনলাইন" : "2 devices"}
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* SECTION 3: SETTINGS (Figma 4173:14016) */}
+                    <div className="space-y-1.5 pb-6">
+                      <div className="px-1 text-[12.5px] font-medium text-[#4a5a70] dark:text-[#8b9aae]">
+                        {lang === "bn" ? "সেটিংস" : "Settings"}
+                      </div>
+                      <div className="rounded-[24px] bg-white dark:bg-[#131d2a] border border-[#d8e1ec] dark:border-[#233144] shadow-xs divide-y divide-neutral-100 dark:divide-[#233144] overflow-hidden">
+                        {/* Row 1: Appearance */}
+                        <div
+                          onClick={() => triggerIslandToast("Theme: System mode active")}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" opacity="0.3" />
+                                <line x1="12" y1="3" x2="12" y2="21" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "অ্যাপিয়ারেন্স" : "Appearance"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                System
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+
+                        {/* Row 2: Language */}
+                        <div
+                          onClick={() => setLang(lang === "en" ? "bn" : "en")}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="9" />
+                                <line x1="2" y1="12" x2="22" y2="12" />
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "ভাষা" : "Language"}
+                              </div>
+                              <div className="text-[11.5px] text-[#0066db] dark:text-[#84beff] font-medium mt-0.5 truncate">
+                                {lang === "bn" ? "বাংলা" : "English"}
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+
+                        {/* Row 3: Automatic update */}
+                        <div className="p-3 flex items-center justify-between">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "স্বয়ংক্রিয় আপডেট" : "Automatic update"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                {lang === "bn" ? "ডিভাইস ও অ্যাপ আপডেট" : "Device and app updates"}
+                              </div>
+                            </div>
+                          </div>
+                          <ToggleSwitch
+                            checked={autoUpdate}
+                            onChange={(val) => {
+                              setAutoUpdate(val);
+                              triggerIslandToast(val ? "Automatic update enabled" : "Automatic update paused");
+                            }}
+                            size="small"
+                          />
+                        </div>
+
+                        {/* Row 4: Activity log */}
+                        <div
+                          onClick={() => triggerIslandToast("Activity Log: All 24 events successful")}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                <polyline points="3 3 3 8 8 8" />
+                                <polyline points="12 7 12 12 15 15" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "অ্যাক্টিভিটি লগ" : "Activity log"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                {lang === "bn" ? "কী চলেছে এবং কী ব্যর্থ হয়েছে" : "What ran and what failed"}
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+
+                        {/* Row 5: Help & support */}
+                        <div
+                          onClick={() => triggerIslandToast("Support: Call 01770-066585 or WhatsApp")}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" strokeWidth="3" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "সহায়তা ও সাপোর্ট" : "Help & support"}
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+
+                        {/* Row 6: About & legal */}
+                        <div
+                          onClick={() => triggerIslandToast("Autoral Home v1.0.0 (Local-First Edge OS)")}
+                          className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#182333] transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-9 h-9 rounded-full bg-[#edf2f8] dark:bg-[#1c293a] text-[#4a5a70] dark:text-[#8b9aae] flex items-center justify-center shrink-0">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" strokeWidth="2" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" strokeWidth="3" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-[13.5px] font-semibold text-[#0e1726] dark:text-white truncate">
+                                {lang === "bn" ? "তথ্য ও আইনি শর্তাবলী" : "About & legal"}
+                              </div>
+                              <div className="text-[11.5px] text-[#4a5a70] dark:text-[#8b9aae] mt-0.5 truncate">
+                                Version 1.0.0
+                              </div>
+                            </div>
+                          </div>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#8b9aae] shrink-0">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -978,55 +1828,174 @@ export default function Hero() {
                 </div>
               )}
 
-              {/* 5. Fixed Glass Bottom Nav Pill */}
-              <div className="absolute bottom-2.5 inset-x-2.5 z-30 pointer-events-auto">
-                <div className="bg-white/85 dark:bg-[#101924]/95 backdrop-blur-xl border border-white/90 dark:border-[#233144] rounded-[28px] p-1 shadow-[0px_6px_20px_rgba(10,42,92,0.12)] dark:shadow-[0px_8px_24px_rgba(0,0,0,0.5)] flex items-center justify-between">
+              {/* 5. Fixed Glass Bottom Nav Pill (Figma Home-Automation-Final-4.2 node-id 4173:10964) */}
+              <div className="absolute bottom-2 inset-x-2 z-30 pointer-events-auto">
+                <div className="bg-white/80 dark:bg-[#141b24]/85 backdrop-blur-[24px] border border-white/80 dark:border-white/10 rounded-full py-1 px-1 shadow-[0px_6px_20px_rgba(20,27,52,0.14),inset_0px_1px_0px_rgba(255,255,255,0.7)] dark:shadow-[0px_8px_24px_rgba(0,0,0,0.5),inset_0px_1px_0px_rgba(255,255,255,0.12)] flex items-center justify-between">
+                  {/* Tab 1: Home */}
                   <button
                     type="button"
                     onClick={() => setActiveTab("home")}
-                    className={`flex-1 h-8.5 rounded-[24px] flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer ${
-                      activeTab === "home"
-                        ? "bg-[#eaf3ff] dark:bg-[#24374a] text-[#0066db] dark:text-[#84beff]"
-                        : "text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white"
-                    }`}
+                    aria-label="Home Tab"
+                    className="flex-1 flex flex-col items-center justify-center py-0.5 group cursor-pointer transition-all"
                   >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill={activeTab === "home" ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    </svg>
-                    <span className="text-[9.5px] font-semibold leading-none">{t.phone.nav.home[lang]}</span>
+                    <div className={`w-[52px] sm:w-[58px] h-[28px] rounded-full flex items-center justify-center transition-all duration-200 ${
+                      activeTab === "home"
+                        ? "bg-[#eaf3ff] dark:bg-[#1b2f4c] text-[#0066db] dark:text-[#5299f7]"
+                        : "bg-transparent text-[#4a5a70] dark:text-[#8b9aae] group-hover:text-[#0e1726] dark:group-hover:text-white"
+                    }`}>
+                      {activeTab === "home" ? (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M10.8 2.8a2 2 0 0 1 2.4 0l6.3 4.8c.7.5 1 1.3 1 2.1v9.8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V9.7c0-.8.4-1.6 1-2.1l6.3-4.8z" />
+                          <path
+                            d="M9.5 13.6c.7 1.2 3.3 1.2 4 0"
+                            fill="none"
+                            stroke="white"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      ) : (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path
+                            d="M10.8 2.8a2 2 0 0 1 2.4 0l6.3 4.8c.7.5 1 1.3 1 2.1v9.8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V9.7c0-.8.4-1.6 1-2.1l6.3-4.8z"
+                            strokeWidth="1.8"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M9.5 13.6c.7 1.2 3.3 1.2 4 0"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <span className={`text-[10px] font-semibold leading-[12px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                      activeTab === "home"
+                        ? "text-[#0066db] dark:text-[#5299f7]"
+                        : "text-[#4a5a70] dark:text-[#8b9aae] group-hover:text-[#0e1726] dark:group-hover:text-white"
+                    }`}>
+                      {t.phone.nav.home[lang]}
+                    </span>
                   </button>
 
+                  {/* Tab 2: Appliances */}
                   <button
                     type="button"
                     onClick={() => setActiveTab("appliances")}
-                    className={`flex-1 h-8.5 rounded-[24px] flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer ${
-                      activeTab === "appliances"
-                        ? "bg-[#eaf3ff] dark:bg-[#24374a] text-[#0066db] dark:text-[#84beff]"
-                        : "text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white"
-                    }`}
+                    aria-label="Appliances Tab"
+                    className="flex-1 flex flex-col items-center justify-center py-0.5 group cursor-pointer transition-all"
                   >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill={activeTab === "appliances" ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                      <rect x="2" y="3" width="20" height="14" rx="2" />
-                      <line x1="8" y1="21" x2="16" y2="21" />
-                      <line x1="12" y1="17" x2="12" y2="21" />
-                    </svg>
-                    <span className="text-[9.5px] font-medium leading-none">{t.phone.nav.devices[lang]}</span>
+                    <div className={`w-[52px] sm:w-[58px] h-[28px] rounded-full flex items-center justify-center transition-all duration-200 ${
+                      activeTab === "appliances"
+                        ? "bg-[#eaf3ff] dark:bg-[#1b2f4c] text-[#0066db] dark:text-[#5299f7]"
+                        : "bg-transparent text-[#4a5a70] dark:text-[#8b9aae] group-hover:text-[#0e1726] dark:group-hover:text-white"
+                    }`}>
+                      {activeTab === "appliances" ? (
+                        <svg width="22" height="22" viewBox="0 0 24 24">
+                          <rect x="4" y="2.5" width="11" height="17" rx="2.5" fill="currentColor" />
+                          <circle cx="9.5" cy="16.5" r="0.75" fill="white" />
+                          <rect x="11.5" y="11.5" width="8.5" height="8" rx="2" fill="white" className="dark:fill-[#1b2f4c]" />
+                          <rect x="12" y="12" width="7.5" height="7" rx="1.6" fill="currentColor" />
+                          <path
+                            d="M14 12V9.5a1.75 1.75 0 0 1 3.5 0V12"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                          />
+                          <circle cx="15.75" cy="15.5" r="0.7" fill="white" />
+                        </svg>
+                      ) : (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M15 7.5V4.5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5" />
+                          <circle cx="9.5" cy="16.5" r="0.5" fill="currentColor" />
+                          <path d="M14 12V9.5a1.75 1.75 0 0 1 3.5 0V12" />
+                          <rect x="12" y="12" width="7.5" height="7" rx="1.6" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className={`text-[10px] font-semibold leading-[12px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                      activeTab === "appliances"
+                        ? "text-[#0066db] dark:text-[#5299f7]"
+                        : "text-[#4a5a70] dark:text-[#8b9aae] group-hover:text-[#0e1726] dark:group-hover:text-white"
+                    }`}>
+                      {t.phone.nav.appliances[lang]}
+                    </span>
                   </button>
 
+                  {/* Tab 3: Schedules */}
                   <button
                     type="button"
-                    onClick={() => setActiveTab("settings")}
-                    className={`flex-1 h-8.5 rounded-[24px] flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer ${
-                      activeTab === "settings"
-                        ? "bg-[#eaf3ff] dark:bg-[#24374a] text-[#0066db] dark:text-[#84beff]"
-                        : "text-[#4a5a70] dark:text-[#8b9aae] hover:text-[#0e1726] dark:hover:text-white"
-                    }`}
+                    onClick={() => setActiveTab("schedules")}
+                    aria-label="Schedules Tab"
+                    className="flex-1 flex flex-col items-center justify-center py-0.5 group cursor-pointer transition-all"
                   >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="3" />
-                      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                    </svg>
-                    <span className="text-[9.5px] font-medium leading-none">{t.phone.nav.settings[lang]}</span>
+                    <div className={`w-[52px] sm:w-[58px] h-[28px] rounded-full flex items-center justify-center transition-all duration-200 ${
+                      activeTab === "schedules"
+                        ? "bg-[#eaf3ff] dark:bg-[#1b2f4c] text-[#0066db] dark:text-[#5299f7]"
+                        : "bg-transparent text-[#4a5a70] dark:text-[#8b9aae] group-hover:text-[#0e1726] dark:group-hover:text-white"
+                    }`}>
+                      {activeTab === "schedules" ? (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                          <circle cx="12" cy="12" r="9.5" />
+                          <line x1="12" y1="12" x2="12" y2="6.5" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                          <line x1="12" y1="12" x2="15.2" y2="14.8" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                      ) : (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                          <circle cx="12" cy="12" r="9" />
+                          <polyline points="12 7 12 12 15 14.5" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className={`text-[10px] font-semibold leading-[12px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                      activeTab === "schedules"
+                        ? "text-[#0066db] dark:text-[#5299f7]"
+                        : "text-[#4a5a70] dark:text-[#8b9aae] group-hover:text-[#0e1726] dark:group-hover:text-white"
+                    }`}>
+                      {t.phone.nav.schedules[lang]}
+                    </span>
+                  </button>
+
+                  {/* Tab 4: Account */}
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("account")}
+                    aria-label="Account Tab"
+                    className="flex-1 flex flex-col items-center justify-center py-0.5 group cursor-pointer transition-all"
+                  >
+                    <div className={`w-[52px] sm:w-[58px] h-[28px] rounded-full flex items-center justify-center transition-all duration-200 ${
+                      activeTab === "account"
+                        ? "bg-[#eaf3ff] dark:bg-[#1b2f4c] text-[#0066db] dark:text-[#5299f7]"
+                        : "bg-transparent text-[#4a5a70] dark:text-[#8b9aae] group-hover:text-[#0e1726] dark:group-hover:text-white"
+                    }`}>
+                      {activeTab === "account" ? (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                          <circle cx="12" cy="12" r="9.5" />
+                          <circle cx="12" cy="9.5" r="2.8" fill="white" />
+                          <path
+                            d="M7 18.2c.8-2.6 2.8-3.7 5-3.7s4.2 1.1 5 3.7"
+                            stroke="white"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            fill="none"
+                          />
+                        </svg>
+                      ) : (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                          <circle cx="12" cy="12" r="9" />
+                          <circle cx="12" cy="9.5" r="2.8" />
+                          <path d="M7 18c.8-2.5 2.7-3.5 5-3.5s4.2 1 5 3.5" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className={`text-[10px] font-semibold leading-[12px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                      activeTab === "account"
+                        ? "text-[#0066db] dark:text-[#5299f7]"
+                        : "text-[#4a5a70] dark:text-[#8b9aae] group-hover:text-[#0e1726] dark:group-hover:text-white"
+                    }`}>
+                      {t.phone.nav.account[lang]}
+                    </span>
                   </button>
                 </div>
               </div>
